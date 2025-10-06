@@ -3,17 +3,14 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Cyberpunk Neon Rain — Signboard 3‑Point</title>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap" rel="stylesheet">
-<link rel="icon" type="image/svg+xml" href="DIMPfavicon.svg">
+<title>DIMProductions</title>
+<!-- Google Fonts --><link href="https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink:#00eaff;
     --ink2:#ff45ff;
     --bgA:#021019; --bgB:#0a0f1a;
-    --font-ja:'Hachi Maru Pop', 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', system-ui, sans-serif;
+    --font-ja:'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', system-ui, sans-serif;
     --font-en:'Rubik Glitch', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   }
   html,body{height:100%}
@@ -66,6 +63,15 @@
        font-weight:900;font-size:clamp(24px, 4.4vw, 60px); color:#dff;
        text-shadow:0 0 16px var(--ink), 0 0 36px var(--ink); animation:flicker 6s infinite steps(40)}
   .alt .txt{color:#fde; text-shadow:0 0 16px var(--ink2), 0 0 36px var(--ink2); animation-duration:7s}
+  .txt a.link{color:inherit;text-decoration:none;cursor:pointer}
+  .txt a.link:hover{text-decoration:underline;text-decoration-thickness:.08em;text-underline-offset:.14em}
+
+  /* Logo block (SVG or IMG) */
+  .logo{position:absolute;inset:8px;display:grid;place-items:center;padding:6px}
+  .logo a.link{display:contents}
+  .logo img, .logo svg{max-width:100%;max-height:100%;filter:drop-shadow(0 0 16px var(--ink)) drop-shadow(0 0 36px var(--ink));}
+  .sign.alt .logo img, .sign.alt .logo svg{filter:drop-shadow(0 0 16px var(--ink2)) drop-shadow(0 0 36px var(--ink2));}
+
   /* Language-specific fonts */
   .txt:lang(ja){ font-family: var(--font-ja); letter-spacing:.12em; }
   .txt:lang(en){ font-family: var(--font-en); letter-spacing:.22em; }
@@ -82,7 +88,12 @@
         <div class="sign h">
           <div class="edge"></div>
           <div class="extrude"></div>
-          <div class="txt" lang="ja">準備中</div>
+          <div class="logo" data-kind="pv18">
+            <a class="link" href="https://dim.productions/pianovirtuoso18/index.html" target="_blank" rel="noopener">
+              <!-- Prefer external file: pv18logo.svg. If you want inline, paste the <svg> directly here. -->
+              <img src="pv18logo.svg" alt="Piano Virtuoso 18 logo" />
+            </a>
+          </div>
         </div>
       </div>
       <div class="signWrap right">
