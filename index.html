@@ -1,19 +1,129 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>DIMProductions</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text&display=swap" rel="stylesheet">
-  <link href="galaxy.css" rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="DIMPfavicon.svg">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cyberpunk Neon Rain — Signboard 3‑Point</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#00eaff;
+    --ink2:#ff45ff;
+    --bgA:#021019; --bgB:#0a0f1a;
+    --font-ja:'Hachi Maru Pop', 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', system-ui, sans-serif;
+    --font-en:'Rubik Glitch', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  }
+  html,body{height:100%}
+  body{
+    margin:0;overflow:hidden;color:#cde;
+    background:radial-gradient(1200px 70% at 50% 120%, var(--bgA) 0%, #02070e 45%, #000 100%),
+               linear-gradient(180deg, #02070e 0%, var(--bgB) 100%);
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+  }
+  .scene{position:fixed;inset:0;overflow:hidden;perspective:1200px;perspective-origin:50% 80%;}
+  .stage{position:absolute;inset:0;transform-style:preserve-3d}
+
+  /* ===== Rain Canvas ===== */
+  canvas#fx{position:absolute;inset:0;mix-blend-mode:screen;pointer-events:none}
+
+  /* ===== Ambient glow blobs ===== */
+  .city{position:absolute;inset:-10% -10% 0 -10%;background:
+      radial-gradient(800px 420px at 10% 38%, rgba(0,255,255,.12), transparent 60%),
+      radial-gradient(900px 520px at 88% 26%, rgba(255,0,200,.12), transparent 60%),
+      linear-gradient(180deg, rgba(255,255,255,.04) 0%, rgba(255,255,255,0) 60%);
+    filter:saturate(115%);
+  }
+  .scanlines::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg, rgba(255,255,255,.03) 0 2px, transparent 2px 4px);mix-blend-mode:overlay;pointer-events:none}
+
+  /* ===== 3‑point perspective signboards ===== */
+  .signWrap{position:absolute;transform-style:preserve-3d}
+  /* Keep them away from edges */
+  .signWrap.left{left:10vw; top:60vh; transform:rotateX(22deg) rotateY(26deg) rotateZ(-6deg) translateZ(120px)}
+  .signWrap.right{right:12vw; top:30vh; transform:rotateX(20deg) rotateY(-28deg) rotateZ(7deg) translateZ(160px)}
+
+  .sign{--w: clamp(120px, 15vw, 260px); --h: clamp(280px, 52vh, 620px); position:relative; width:var(--w); height:var(--h);
+    border-radius:14px; background:
+      linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.01) 60%, rgba(0,0,0,.35)),
+      radial-gradient(120% 100% at 50% -10%, rgba(255,255,255,.08), rgba(0,0,0,.0));
+    border:1px solid rgba(40,80,120,.6);
+    box-shadow:0 0 30px rgba(0,0,0,.55) inset, 0 0 80px rgba(0,234,255,.25), 0 40px 120px rgba(0,0,0,.7);
+    overflow:visible; transform-style:preserve-3d;
+  }
+  .sign.h{--w: clamp(320px, 46vw, 760px); --h: clamp(80px, 16vh, 160px);}
+  /* fake thickness */
+  .sign::before{content:"";position:absolute;inset:0;border-radius:14px;box-shadow:0 0 22px var(--glow) inset, 0 0 60px var(--glow);
+    --glow: var(--ink);
+    filter:blur(.2px); mix-blend-mode:screen; opacity:.9;}
+  .sign.alt::before{--glow: var(--ink2)}
+  .edge{position:absolute;inset:-2px;border-radius:16px;border:2px solid rgba(255,255,255,.12);mix-blend-mode:overlay}
+  .extrude{position:absolute;inset:0;background:linear-gradient(90deg, rgba(0,0,0,.5), rgba(0,0,0,.1));filter:brightness(.9);transform:translateZ(-22px);border-radius:14px;opacity:.8}
+
+  .txt{position:absolute;inset:10px;display:flex;align-items:center;justify-content:center;padding:12px;
+       writing-mode:horizontal-tb;white-space:nowrap;letter-spacing:.18em;
+       font-weight:900;font-size:clamp(24px, 4.4vw, 60px); color:#dff;
+       text-shadow:0 0 16px var(--ink), 0 0 36px var(--ink); animation:flicker 6s infinite steps(40)}
+  .alt .txt{color:#fde; text-shadow:0 0 16px var(--ink2), 0 0 36px var(--ink2); animation-duration:7s}
+  /* Language-specific fonts */
+  .txt:lang(ja){ font-family: var(--font-ja); letter-spacing:.12em; }
+  .txt:lang(en){ font-family: var(--font-en); letter-spacing:.22em; }
+
+  @keyframes flicker{0%,97%,100%{opacity:1} 98%{opacity:.35} 99%{opacity:.7}}
+
+</style>
 </head>
 <body>
-  <canvas id="canvas"></canvas>
-  <div class="center-text">
-    DIMProductions<br>Coming Soon...
+  <div class="scene scanlines">
+    <div class="city"></div>
+    <div class="stage">
+      <div class="signWrap left">
+        <div class="sign h">
+          <div class="edge"></div>
+          <div class="extrude"></div>
+          <div class="txt" lang="ja">準備中</div>
+        </div>
+      </div>
+      <div class="signWrap right">
+        <div class="sign h alt">
+          <div class="edge"></div>
+          <div class="extrude"></div>
+          <div class="txt" lang="en">DIMProductions</div>
+        </div>
+      </div>
+    </div>
+    <canvas id="fx"></canvas>
   </div>
-<script src="galaxy+planet.js"></script>
-</body>
+<script>
+(()=>{
+  // Rain-only FX (no audio, no UI)
+  const c = document.getElementById('fx');
+  const x = c.getContext('2d');
+  const DPR = devicePixelRatio||1;
+  function fit(){ c.width=innerWidth*DPR; c.height=innerHeight*DPR; c.style.width=innerWidth+'px'; c.style.height=innerHeight+'px'; }
+  fit(); addEventListener('resize',fit);
 
+  const drops=[]; const N=240;
+  for(let i=0;i<N;i++) drops.push({x:Math.random()*c.width,y:Math.random()*c.height,vy:5+Math.random()*9,len:10+Math.random()*22});
+
+  function loop(){
+    const W=c.width,H=c.height;
+    x.clearRect(0,0,W,H);
+    x.globalCompositeOperation='lighter';
+    x.strokeStyle='rgba(0,220,255,0.25)';
+    x.lineWidth=1.2*DPR;
+    x.beginPath();
+    for(const d of drops){
+      x.moveTo(d.x,d.y);
+      x.lineTo(d.x-2*DPR,d.y+d.len*DPR);
+      d.y+=d.vy*DPR; d.x-=0.8*DPR;
+      if(d.y>H+40*DPR){ d.y=-20*DPR; d.x=Math.random()*W; }
+    }
+    x.stroke();
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+</script>
+</body>
 </html>
