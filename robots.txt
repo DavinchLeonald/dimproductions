@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dim.productions/sitemap.xml
+Sitemap: https://dim.productions/pianovirtuoso18/sitemap.xml
