@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="DIMProductions — Cyberpunk piano & game SFX studio in Tokyo. Featured work: Piano Virtuoso 18." />
+<meta name="description" content="DIMProductions — Plugin & game SFX studio in Tokyo. Featured work: Piano Virtuoso 18." />
 <link rel="canonical" href="https://dim.productions/" />
+<link rel="alternate" media="only screen and (max-width: 720px)" href="https://dim.productions/m/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="DIMProductions" />
 <meta property="og:title" content="DIMProductions" />
@@ -17,7 +18,8 @@
 <style>
 @font-face{font-family:'Jacquard12PV18';src:url('assets/fonts/Jacquard12-pv18.woff2') format('woff2');font-display:swap;}
 @font-face{font-family:'PressStart2P';src:url('assets/fonts/PressStart2P.woff2') format('woff2');font-display:swap;}
-
+@font-face{ font-family:'DIMProductions';src: url('assets/fonts/DIMProductions.woff2') format('woff2');font-weight: normal;font-style:normal; }
+  
   :root{
     --ink:#00eaff;
     --bgA:#021019; --bgB:#0a0f1a;
@@ -119,17 +121,7 @@
 
   /* Language-specific fonts */
   
-  
-/* DIMProductionsに対しては上書き */
-
-@font-face {
-  font-family: 'DIMProductions';
-  src: url('assets/fonts/DIMProductions.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-}
-
-.dim-font {
+  .dim-font {
   font-family: 'DIMProductions', sans-serif !important;
   font-size:4.5em; /* 調整可 */
   font-weight: 400 !important; /* 合成ボールド抑止で字間の乱れ防止 */
@@ -173,6 +165,23 @@
   "description": "Plugin & game SFX studio in Tokyo. Featured work: Piano Virtuoso 18.",
   "foundingLocation": "Tokyo, Japan"
 }
+</script>
+<script>
+// Mobile redirect (bypass with ?view=desktop or localStorage flag)
+(function(){
+  try{
+    var url=new URL(window.location.href);
+    var wantDesktop = url.searchParams.has('view') && url.searchParams.get('view')==='desktop' || localStorage.getItem('viewDesktop')==='1';
+    if(wantDesktop){ localStorage.setItem('viewDesktop','1'); return; }
+    var isMobileUA = /Android|iPhone|iPad|iPod|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    var isNarrow = Math.min(screen.width, window.innerWidth||screen.width) <= 720;
+    var onMobilePath = location.pathname.indexOf('/m/')===0;
+    if((isMobileUA || isNarrow) && !onMobilePath){
+      var to = 'https://dim.productions/m/' + (location.search||'');
+      location.replace(to);
+    }
+  }catch(e){}
+})();
 </script>
 </head>
 <body>
