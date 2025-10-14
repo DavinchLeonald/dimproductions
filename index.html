@@ -3,20 +3,25 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="DIMProductions — Cyberpunk piano & game SFX studio in Tokyo. Featured work: Piano Virtuoso 18." />
+<link rel="canonical" href="https://dim.productions/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="DIMProductions" />
+<meta property="og:title" content="DIMProductions" />
+<meta property="og:description" content="Plugin & game SFX studio in Tokyo. Featured work: Piano Virtuoso 18." />
+<meta property="og:url" content="https://dim.productions/" />
+<meta property="og:image" content="https://dim.productions/og-image.jpg" />
+<meta property="og:locale" content="ja_JP" />
+<meta name="twitter:card" content="summary_large_image" />
 <title>DIMProductions</title>
-<!-- Google Fonts: non‑blocking load -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Jacquard+12&family=Rubik+Glitch&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jacquard+12&family=Rubik+Glitch&display=swap"></noscript>
 <style>
+@font-face{font-family:'Jacquard12PV18';src:url('assets/fonts/Jacquard12-pv18.woff2') format('woff2');font-display:swap;}
+@font-face{font-family:'PressStart2P';src:url('assets/fonts/PressStart2P.woff2') format('woff2');font-display:swap;}
+
   :root{
     --ink:#00eaff;
-    --ink2:#ff45ff;
     --bgA:#021019; --bgB:#0a0f1a;
-    --font-ja:'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', system-ui, sans-serif;
-    --font-en:'Rubik Glitch', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-    --font-pv:'Jacquard 12', cursive, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    --font-ja:'Noto Sans JP','Hiragino Kaku Gothic ProN','Yu Gothic',system-ui,sans-serif;
   }
   html,body{height:100%}
   body{
@@ -34,7 +39,7 @@
   /* ===== Ambient glow blobs ===== */
   .city{position:absolute;inset:-10% -10% 0 -10%;background:
       radial-gradient(800px 420px at 10% 38%, rgba(0,255,255,.12), transparent 60%),
-      radial-gradient(900px 520px at 88% 26%, rgba(255,0,200,.12), transparent 60%),
+      radial-gradient(900px 520px at 88% 26%, rgba(160,200,255,.10), transparent 60%),
       linear-gradient(180deg, rgba(255,255,255,.04) 0%, rgba(255,255,255,0) 60%);
     filter:saturate(115%);
   }
@@ -54,34 +59,23 @@
     box-shadow:0 0 30px rgba(0,0,0,.55) inset, 0 0 80px rgba(0,234,255,.25), 0 40px 120px rgba(0,0,0,.7);
     overflow:visible; transform-style:preserve-3d;
   }
-  .sign.h{--w: clamp(320px, 46vw, 760px); --h: clamp(80px, 16vh, 160px);}
+  .sign.h{--w: clamp(320px, 46vw, 760px); --h: clamp(80px, 16vh, 160px);} 
+  .sign.h .txt{position:absolute; inset:0; display:grid; place-items:center; padding:28px; text-align:center;}
   /* fake thickness */
   .sign::before{content:"";position:absolute;inset:0;border-radius:14px;box-shadow:0 0 22px var(--glow) inset, 0 0 60px var(--glow);
     --glow: var(--ink);
     filter:blur(.2px); mix-blend-mode:screen; opacity:.9;}
-  .sign.alt::before{--glow: var(--ink2)}
+.sign.silver::before{ --glow:#cfd8e6; } /* 冷たい銀のグロー */
   .edge{position:absolute;inset:-2px;border-radius:16px;border:2px solid rgba(255,255,255,.12);mix-blend-mode:overlay}
   .extrude{position:absolute;inset:0;background:linear-gradient(90deg, rgba(0,0,0,.5), rgba(0,0,0,.1));filter:brightness(.9);transform:translateZ(-22px);border-radius:14px;opacity:.8}
-
-  .txt{position:absolute;inset:10px;display:flex;align-items:center;justify-content:center;padding:12px;
-       writing-mode:horizontal-tb;white-space:nowrap;letter-spacing:.18em;
-       font-weight:900;font-size:clamp(24px, 4.4vw, 60px); color:#dff;
-       text-shadow:0 0 16px var(--ink), 0 0 36px var(--ink); animation:flicker 6s infinite steps(40)}
-  .alt .txt{color:#fde; text-shadow:0 0 16px var(--ink2), 0 0 36px var(--ink2); animation-duration:7s}
-  .txt a.link{color:inherit;text-decoration:none;cursor:pointer}
-  .txt a.link:hover{text-decoration:underline;text-decoration-thickness:.08em;text-underline-offset:.14em}
 
   /* Logo block (SVG or IMG) */
   .logo{position:absolute;inset:8px;display:grid;place-items:center;padding:6px;pointer-events:auto;animation:pulseGlow 2.8s ease-in-out infinite;will-change:transform,filter}
   .logo a.link{display:block;width:100%;height:100%;cursor:pointer;position:relative;z-index:5;pointer-events:auto}
-  .logo img, .logo svg{max-width:100%;max-height:100%;filter:drop-shadow(0 0 16px var(--ink)) drop-shadow(0 0 36px var(--ink));will-change:transform;}
-  .sign.alt .logo img, .sign.alt .logo svg{filter:drop-shadow(0 0 16px var(--ink2)) drop-shadow(0 0 36px var(--ink2));will-change:transform;}
-
-  .logo[data-kind="pv18"]::after{content:none}
 
   /* PV18 text logo (Jacquard 12 + glitch) */
   .pv18{
-    font-family: var(--font-pv);
+    font-family:'Jacquard12PV18',cursive;
     font-size: clamp(28px, 6.4vw, 96px);
     line-height: 1;
     letter-spacing: .06em;
@@ -103,7 +97,7 @@
     transform: translateX(0);
   }
   .pv18::after{
-    color:#f0f; text-shadow:0 0 10px #f0f;
+    color:#b8c7d8; text-shadow:0 0 10px #b8c7d8;
     clip-path: inset(45% 0 0 0);
     mix-blend-mode: screen;
     animation: glitchTextB 2.0s steps(34) infinite, glitchFlash 4.4s steps(30) infinite;
@@ -113,25 +107,73 @@
   /* Text glitch for right sign */
   .txt.glitch{animation:pulseGlow 3s ease-in-out infinite}
   .txt.glitch::before,
-  .txt.glitch::after{content:attr(data-text);position:absolute;inset:10px;pointer-events:none}
+  .txt.glitch::after{content:attr(data-text);position:absolute;inset:0;padding:inherit;pointer-events:none;font-family:inherit;font-weight:inherit;letter-spacing:inherit;}
   .txt.glitch::before{color:#0ff;text-shadow:0 0 8px #0ff;transform:translateX(0);clip-path:inset(0 0 55% 0);mix-blend-mode:screen;animation:glitchTextA 2.2s steps(36) infinite, glitchFlash 4.2s steps(30) infinite}
-  .txt.glitch::after{color:#f0f;text-shadow:0 0 8px #f0f;transform:translateX(0);clip-path:inset(45% 0 0 0);mix-blend-mode:screen;animation:glitchTextB 2.0s steps(34) infinite, glitchFlash 4.2s steps(30) infinite}
+  .txt.glitch::after{color:#b8c7d8;text-shadow:0 0 8px #b8c7d8;transform:translateX(0);clip-path:inset(45% 0 0 0);mix-blend-mode:screen;animation:glitchTextB 2.0s steps(34) infinite, glitchFlash 4.2s steps(30) infinite}
 
   /* Animations */
   @keyframes pulseGlow{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
   @keyframes glitchFlash{0%,92%{opacity:0}93%{opacity:.8}96%{opacity:.2}97%{opacity:.9}100%{opacity:0}}
-  @keyframes glitchImgA{0%{transform:translate(0,0)} 20%{transform:translate(-2px,1px)} 40%{transform:translate(2px,-1px)} 60%{transform:translate(-1px,-2px)} 80%{transform:translate(1px,1px)} 100%{transform:translate(0,0)}}
-  @keyframes glitchImgB{0%{transform:translate(0,0)} 20%{transform:translate(2px,-1px)} 40%{transform:translate(-1px,2px)} 60%{transform:translate(1px,-2px)} 80%{transform:translate(-2px,1px)} 100%{transform:translate(0,0)}}
-  @keyframes glitchTextA{0%{transform:translateX(0)} 25%{transform:translateX(-2px)} 50%{transform:translateX(1px)} 75%{transform:translateX(-1px)} 100%{transform:translateX(0)}}
+@keyframes glitchTextA{0%{transform:translateX(0)} 25%{transform:translateX(-2px)} 50%{transform:translateX(1px)} 75%{transform:translateX(-1px)} 100%{transform:translateX(0)}}
   @keyframes glitchTextB{0%{transform:translateX(0)} 25%{transform:translateX(2px)} 50%{transform:translateX(-1px)} 75%{transform:translateX(1px)} 100%{transform:translateX(0)}}
 
   /* Language-specific fonts */
-  .txt:lang(ja){ font-family: var(--font-ja); letter-spacing:.12em; }
-  .txt:lang(en){ font-family: var(--font-en); letter-spacing:.22em; }
+  
+  
+/* DIMProductionsに対しては上書き */
 
-  @keyframes flicker{0%,97%,100%{opacity:1} 98%{opacity:.35} 99%{opacity:.7}}
+@font-face {
+  font-family: 'DIMProductions';
+  src: url('assets/fonts/DIMProductions.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.dim-font {
+  font-family: 'DIMProductions', sans-serif !important;
+  font-size:4.5em; /* 調整可 */
+  font-weight: 400 !important; /* 合成ボールド抑止で字間の乱れ防止 */
+  line-height: 1;
+  letter-spacing: .02em !important; /* すき間を詰める */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-kerning: normal;
+  font-variant-ligatures: none;
+}
+.txt{line-height:1; font-family:'PressStart2P',monospace; letter-spacing:.04em; color:#e6eef7; text-shadow:0 0 10px rgba(200,220,240,.45);}
+
+.glitch-silver{ color:#eaf2ff !important; text-shadow:0 0 10px #d7e6ff,0 0 28px #d7e6ff !important }
+.glitch-silver::before{ color:#f6fbff !important; text-shadow:0 0 10px #eef7ff !important }
+.glitch-silver::after{ color:#b8c7d8 !important; text-shadow:0 0 10px #b8c7d8 !important }
+
+.site-footer{
+  position:fixed;left:0;right:0;bottom:10px;
+  display:flex;justify-content:center;z-index:6;pointer-events:none;
+}
+.site-footer .inner{
+  pointer-events:auto;display:flex;gap:.6rem;align-items:center;
+  padding:.35rem .6rem;border-radius:10px;border:1px solid #1a2a3a;
+  background:rgba(0,0,0,.35);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  box-shadow:0 0 0 1px rgba(255,255,255,.04) inset;
+  font-family:'PressStart2P',monospace;font-size:12px;letter-spacing:.04em;color:#cfd8e6;
+}
+.site-footer .brand{font-family:'DIMProductions',sans-serif;letter-spacing:.02em;font-size:14px}
+.site-footer .sep{opacity:.5}
 
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "DIMProductions",
+  "legalName": "DIMProductions LLC",
+  "url": "https://dim.productions/",
+  "logo": "https://dim.productions/logo.png",
+  "description": "Cyberpunk piano & game SFX studio in Tokyo. Featured work: Piano Virtuoso 18.",
+  "foundingLocation": "Tokyo, Japan"
+}
+</script>
 </head>
 <body>
   <div class="scene scanlines">
@@ -150,10 +192,10 @@
         </div>
       </div>
       <div class="signWrap right">
-        <div class="sign h alt">
+        <div class="sign h silver">
           <div class="edge"></div>
           <div class="extrude"></div>
-          <div class="txt glitch" lang="en" data-text="DIMProductions">DIMProductions</div>
+          <div class="txt glitch dim-font glitch-silver" lang="en" data-text="DIMProductions">DIMProductions</div>
         </div>
       </div>
     </div>
@@ -190,5 +232,22 @@
   loop();
 })();
 </script>
+<script>
+  // Footer year auto-fill (robust: runs after DOM ready)
+  (function(){
+    function setYear(){
+      var el=document.getElementById('year');
+      if(el) el.textContent = new Date().getFullYear();
+    }
+    if(document.readyState==='loading'){
+      document.addEventListener('DOMContentLoaded', setYear);
+    }else{ setYear(); }
+  })();
+</script>
+<footer class="site-footer">
+  <div class="inner">
+    <span class="legal">© <span id="year"></span> <span class="brand dim-font">DIMProductions</span> All Rights Reserved</span>
+  </div>
+</footer>
 </body>
 </html>
