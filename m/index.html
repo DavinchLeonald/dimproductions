@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="description" content="DIMProductions — Cyberpunk piano & game SFX studio in Tokyo. Featured work: Piano Virtuoso 18." />
+<meta name="description" content="DIMProductions — Plugin & game SFX studio in Tokyo. Featured work: Piano Virtuoso 18." />
 <link rel="canonical" href="https://dim.productions/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="DIMProductions" />
@@ -14,6 +14,10 @@
 <meta property="og:locale" content="ja_JP" />
 <meta name="twitter:card" content="summary_large_image" />
 <title>DIMProductions</title>
+<!-- Preload local fonts (helps layout stability) -->
+<link rel="preload" as="font" href="/assets/fonts/Jacquard12-pv18.woff2" type="font/woff2" crossorigin>
+<link rel="preload" as="font" href="/assets/fonts/DIMProductions.woff2" type="font/woff2" crossorigin>
+<link rel="preload" as="font" href="/assets/fonts/PressStart2P.woff2" type="font/woff2" crossorigin>
 <style>
 @font-face{font-family:'Jacquard12PV18';src:url('/assets/fonts/Jacquard12-pv18.woff2') format('woff2');font-display:swap;}
 @font-face{font-family:'PressStart2P';src:url('/assets/fonts/PressStart2P.woff2') format('woff2');font-display:swap;}
@@ -49,10 +53,11 @@ canvas#fx{position:absolute;inset:0;mix-blend-mode:screen;pointer-events:none}
 /* ===== 3‑point perspective signboards ===== */
 .signWrap{position:absolute;transform-style:preserve-3d}
 /* Desktop placement */
-.signWrap.left{left:10vw; top:60vh; transform:rotateX(22deg) rotateY(26deg) rotateZ(-6deg) translateZ(120px)}
-.signWrap.right{right:12vw; top:30vh; transform:rotateX(20deg) rotateY(-28deg) rotateZ(7deg) translateZ(160px)}
+.signWrap.left{left:10vw; top:58vh; transform:rotateX(22deg) rotateY(26deg) rotateZ(-6deg) translateZ(110px)}
+.signWrap.right{right:12vw; top:28vh; transform:rotateX(20deg) rotateY(-28deg) rotateZ(7deg) translateZ(140px)}
 
-.sign{--w: clamp(120px, 15vw, 260px); --h: clamp(280px, 52vh, 620px); position:relative; width:var(--w); height:var(--h);
+/* Base sign size (tall variant not used here but kept for reuse) */
+.sign{--w: clamp(120px, 15vw, 260px); --h: clamp(220px, 46vh, 520px); position:relative; width:var(--w); height:var(--h);
   border-radius:14px; background:
     linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.01) 60%, rgba(0,0,0,.35)),
     radial-gradient(120% 100% at 50% -10%, rgba(255,255,255,.08), rgba(0,0,0,.0));
@@ -60,8 +65,9 @@ canvas#fx{position:absolute;inset:0;mix-blend-mode:screen;pointer-events:none}
   box-shadow:0 0 30px rgba(0,0,0,.55) inset, 0 0 80px rgba(0,234,255,.25), 0 40px 120px rgba(0,0,0,.7);
   overflow:visible; transform-style:preserve-3d;
 }
-.sign.h{--w: clamp(320px, 46vw, 760px); --h: clamp(80px, 16vh, 160px);} 
-.sign.h .txt{position:absolute; inset:0; display:grid; place-items:center; padding:28px; text-align:center;}
+/* Horizontal sign — shrink height to better fit fonts */
+.sign.h{--w: clamp(300px, 46vw, 720px); --h: clamp(56px, 12vh, 104px);} 
+.sign.h .txt{position:absolute; inset:0; display:grid; place-items:center; padding:14px; text-align:center;}
 /* fake thickness */
 .sign::before{content:"";position:absolute;inset:0;border-radius:14px;box-shadow:0 0 22px var(--glow) inset, 0 0 60px var(--glow);
   --glow: var(--ink); filter:blur(.2px); mix-blend-mode:screen; opacity:.9;}
@@ -70,13 +76,13 @@ canvas#fx{position:absolute;inset:0;mix-blend-mode:screen;pointer-events:none}
 .extrude{position:absolute;inset:0;background:linear-gradient(90deg, rgba(0,0,0,.5), rgba(0,0,0,.1));filter:brightness(.9);transform:translateZ(-22px);border-radius:14px;opacity:.8}
 
 /* Logo block */
-.logo{position:absolute;inset:8px;display:grid;place-items:center;padding:6px;pointer-events:auto;animation:pulseGlow 2.8s ease-in-out infinite;will-change:transform,filter}
+.logo{position:absolute;inset:6px;display:grid;place-items:center;padding:4px;pointer-events:auto;animation:pulseGlow 2.8s ease-in-out infinite;will-change:transform,filter}
 .logo a.link{display:block;width:100%;height:100%;cursor:pointer;position:relative;z-index:5;pointer-events:auto}
 
 /* PV18 text logo (Jacquard 12 + glitch) */
 .pv18{
   font-family:'Jacquard12PV18',cursive;
-  font-size: clamp(28px, 6.4vw, 96px);
+  font-size: clamp(22px, 5.2vw, 72px);
   line-height: 1; letter-spacing: .06em;
   color: #ffc800;
   text-shadow: 0 0 16px var(--ink), 0 0 36px var(--ink);
@@ -88,17 +94,15 @@ canvas#fx{position:absolute;inset:0;mix-blend-mode:screen;pointer-events:none}
 .pv18::after{color:#b8c7d8; text-shadow:0 0 10px #b8c7d8; clip-path: inset(45% 0 0 0); mix-blend-mode: screen; animation: glitchTextB 2.0s steps(34) infinite, glitchFlash 4.4s steps(30) infinite}
 
 /* Right sign text */
-.txt{line-height:1; font-family:'PressStart2P',monospace; letter-spacing:.04em; color:#e6eef7; text-shadow:0 0 10px rgba(200,220,240,.45);}
-.dim-font{font-family:'DIMProductions',sans-serif !important; font-weight:400 !important; letter-spacing:.02em !important; -webkit-font-smoothing: antialiased; font-variant-ligatures: none; text-transform:uppercase !important}
+.txt{line-height:1; font-family:'PressStart2P',monospace; letter-spacing:.04em; color:#e6eef7; text-shadow:0 0 10px rgba(200,220,240,.45);} 
+.dim-font{font-family:'DIMProductions','PressStart2P',monospace !important; font-weight:400 !important; letter-spacing:.02em !important; -webkit-font-smoothing: antialiased; font-variant-ligatures: none; text-transform:uppercase !important}
 .glitch-silver{ color:#eaf2ff !important; text-shadow:0 0 10px #d7e6ff,0 0 28px #d7e6ff !important }
 .glitch-silver::before{ color:#f6fbff !important; text-shadow:0 0 10px #eef7ff !important }
 .glitch-silver::after{ color:#b8c7d8 !important; text-shadow:0 0 10px #b8c7d8 !important }
 
 .txt.glitch{animation:pulseGlow 3s ease-in-out infinite; position:relative}
-.txt.glitch::before, .txt.glitch::after{color:#b8c7d8;text-shadow:0 0 8px #b8c7d8;transform:translateX(0);clip-path:inset(45% 0 0 0);mix-blend-mode:screen;animation:glitchTextB 2.0s steps(34) infinite, glitchFlash 4.2s steps(30) infinite}
-/* Force logo font on glitch layers */
 .txt.glitch.dim-font::before,
-.txt.glitch.dim-font::after{font-family:'DIMProductions',sans-serif !important; text-transform:uppercase !important;}
+.txt.glitch.dim-font::after{font-family:'DIMProductions','PressStart2P',monospace !important; text-transform:uppercase !important;}
 .txt.glitch::before{color:#0ff;text-shadow:0 0 8px #0ff;transform:translateX(0);clip-path:inset(0 0 55% 0);mix-blend-mode:screen;animation:glitchTextA 2.2s steps(36) infinite, glitchFlash 4.2s steps(30) infinite}
 .txt.glitch::after{color:#b8c7d8;text-shadow:0 0 8px #b8c7d8;transform:translateX(0);clip-path:inset(45% 0 0 0);mix-blend-mode:screen;animation:glitchTextB 2.0s steps(34) infinite, glitchFlash 4.2s steps(30) infinite}
 
@@ -118,10 +122,11 @@ canvas#fx{position:absolute;inset:0;mix-blend-mode:screen;pointer-events:none}
 .mode{pointer-events:auto}
 @media (max-width: 720px), (pointer: coarse){
   .scene{perspective:900px;perspective-origin:50% 74%}
-  .sign{--w: clamp(280px, 86vw, 560px); --h: clamp(64px, 14vh, 120px)}
-  .signWrap.left{left:50vw; right:auto; top:14vh; transform:rotateX(16deg) rotateY(0deg) rotateZ(0deg) translateZ(120px) translateX(-50%)}
-  .signWrap.right{left:50vw; right:auto; top:40vh; transform:rotateX(14deg) rotateY(0deg) rotateZ(0deg) translateZ(100px) translateX(-50%)}
-  .dim-font{font-size:10.5vw}
+  /* shrink horizontal sign on mobile too */
+  .sign.h{--w: clamp(300px, 92vw, 680px); --h: clamp(52px, 11vh, 92px);} 
+  .signWrap.left{left:50vw; right:auto; top:16vh; transform:rotateX(16deg) rotateY(0deg) rotateZ(0deg) translateZ(100px) translateX(-50%)}
+  .signWrap.right{left:50vw; right:auto; top:42vh; transform:rotateX(14deg) rotateY(0deg) rotateZ(0deg) translateZ(90px) translateX(-50%)}
+  .dim-font{font-size:10.2vw}
   .site-footer .inner{font-size:11px}
 }
 
