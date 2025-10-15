@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description" content="DIMProductions — Plugin & game SFX studio in Tokyo. Featured work: Piano Virtuoso 18." />
 <link rel="canonical" href="https://dim.productions/" />
-<link rel="alternate" media="only screen and (max-width: 720px)" href="https://dim.productions/m/" />
+
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="DIMProductions" />
 <meta property="og:title" content="DIMProductions" />
@@ -17,7 +17,7 @@
 <title>DIMProductions</title>
 <style>
 @font-face{font-family:'Jacquard12PV18';src:url('assets/fonts/Jacquard12-pv18.woff2') format('woff2');font-display:swap;}
-@font-face{font-family:'PressStart2P';src:url('assets/fonts/PressStart2P.woff2') format('woff2');font-display:swap;}
+@font-face{font-family:'Tektur-VariableFont_wdth,wght';src:url('assets/fonts/Tektur-VariableFont_wdth,wght.woff2') format('woff2');font-display:swap;}
 @font-face{ font-family:'DIMProductions';src: url('assets/fonts/DIMProductions.woff2') format('woff2');font-weight: normal;font-style:normal; }
   
   :root{
@@ -133,7 +133,7 @@
   font-kerning: normal;
   font-variant-ligatures: none;
 }
-.txt{line-height:1; font-family:'PressStart2P',monospace; letter-spacing:.04em; color:#e6eef7; text-shadow:0 0 10px rgba(200,220,240,.45);}
+.txt{line-height:1; font-family:'Tektur-VariableFont_wdth,wght',monospace; letter-spacing:.04em; color:#e6eef7; text-shadow:0 0 10px rgba(200,220,240,.45);}
 
 .glitch-silver{ color:#eaf2ff !important; text-shadow:0 0 10px #d7e6ff,0 0 28px #d7e6ff !important }
 .glitch-silver::before{ color:#f6fbff !important; text-shadow:0 0 10px #eef7ff !important }
@@ -148,11 +148,23 @@
   padding:.35rem .6rem;border-radius:10px;border:1px solid #1a2a3a;
   background:rgba(0,0,0,.35);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
   box-shadow:0 0 0 1px rgba(255,255,255,.04) inset;
-  font-family:'PressStart2P',monospace;font-size:12px;letter-spacing:.04em;color:#cfd8e6;
+  font-family:'Tektur-VariableFont_wdth,wght',monospace;font-size:12px;letter-spacing:.04em;color:#cfd8e6;
 }
 .site-footer .brand{font-family:'DIMProductions',sans-serif;letter-spacing:.02em;font-size:14px}
 .site-footer .sep{opacity:.5}
 
+/* === Mobile layout (same HTML, CSS switch) === */
+@media (max-width: 900px), (pointer: coarse){
+  .scene{perspective:900px;perspective-origin:50% 74%}
+  .sign{--w: clamp(280px, 86vw, 560px); --h: clamp(56px, 12vh, 100px)}
+  .sign.h .txt{padding:14px}
+  /* stack center */
+  .signWrap.left{left:50vw; right:auto; top:42vh; transform:rotateX(16deg) rotateY(0deg) rotateZ(0deg) translateZ(100px) translateX(-50%)}
+  .signWrap.right{left:50vw; right:auto; top:16vh; transform:rotateX(14deg) rotateY(0deg) rotateZ(0deg) translateZ(90px) translateX(-50%)}
+  /* brand text size */
+  .dim-font{font-size:clamp(18px,8.8vw,40px)}
+  .site-footer .inner{font-size:11px}
+}
 </style>
 <script type="application/ld+json">
 {
@@ -166,23 +178,7 @@
   "foundingLocation": "Tokyo, Japan"
 }
 </script>
-<script>
-// Mobile redirect (bypass with ?view=desktop or localStorage flag)
-(function(){
-  try{
-    var url=new URL(window.location.href);
-    var wantDesktop = url.searchParams.has('view') && url.searchParams.get('view')==='desktop' || localStorage.getItem('viewDesktop')==='1';
-    if(wantDesktop){ localStorage.setItem('viewDesktop','1'); return; }
-    var isMobileUA = /Android|iPhone|iPad|iPod|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    var isNarrow = Math.min(screen.width, window.innerWidth||screen.width) <= 720;
-    var onMobilePath = location.pathname.indexOf('/m/')===0;
-    if((isMobileUA || isNarrow) && !onMobilePath){
-      var to = 'https://dim.productions/m/' + (location.search||'');
-      location.replace(to);
-    }
-  }catch(e){}
-})();
-</script>
+
 </head>
 <body>
   <div class="scene scanlines">
@@ -204,7 +200,7 @@
         <div class="sign h silver">
           <div class="edge"></div>
           <div class="extrude"></div>
-          <div class="txt glitch dim-font glitch-silver" lang="en" data-text="DIMProductions">DIMProductions</div>
+          <div class="txt glitch dim-font glitch-silver" lang="en" data-text="DIMP">DIMP</div>
         </div>
       </div>
     </div>
@@ -255,7 +251,7 @@
 </script>
 <footer class="site-footer">
   <div class="inner">
-    <span class="legal">© <span id="year"></span> <span class="brand dim-font">DIMProductions</span> All Rights Reserved</span>
+    <span class="legal">© <span id="year"></span> <span class="brand dim-font">DIMP</span> All Rights Reserved</span>
   </div>
 </footer>
 </body>
