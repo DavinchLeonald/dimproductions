@@ -16,9 +16,9 @@
 <meta name="twitter:card" content="summary_large_image" />
 <title>DIMProductions</title>
 <style>
+@font-face {font-family:'DIMProductions';src:url('assets/fonts/DIMProductions.woff2') format('woff2');font-display: swap;}
 @font-face{font-family:'Jacquard12PV18';src:url('assets/fonts/Jacquard12-pv18.woff2') format('woff2');font-display:swap;}
 @font-face{font-family:'Tektur-VariableFont_wdth,wght';src:url('assets/fonts/Tektur-VariableFont_wdth,wght.woff2') format('woff2');font-display:swap;}
-@font-face{ font-family:'DIMProductions';src: url('assets/fonts/DIMProductions.woff2') format('woff2');font-weight: normal;font-style:normal; }
   
   :root{
     --ink:#00eaff;
@@ -62,7 +62,7 @@
     overflow:visible; transform-style:preserve-3d;
   }
   .sign.h{--w: clamp(320px, 46vw, 760px); --h: clamp(80px, 16vh, 160px);} 
-  .sign.h .txt{position:absolute; inset:0; display:grid; place-items:center; padding:28px; text-align:center;}
+  .sign.h .txt{position:absolute; inset:0; display:grid; place-items:center; padding:14px; text-align:center;}
   /* fake thickness */
   .sign::before{content:"";position:absolute;inset:0;border-radius:14px;box-shadow:0 0 22px var(--glow) inset, 0 0 60px var(--glow);
     --glow: var(--ink);
@@ -72,8 +72,8 @@
   .extrude{position:absolute;inset:0;background:linear-gradient(90deg, rgba(0,0,0,.5), rgba(0,0,0,.1));filter:brightness(.9);transform:translateZ(-22px);border-radius:14px;opacity:.8}
 
   /* Logo block (SVG or IMG) */
-  .logo{position:absolute;inset:8px;display:grid;place-items:center;padding:6px;pointer-events:auto;animation:pulseGlow 2.8s ease-in-out infinite;will-change:transform,filter}
-  .logo a.link{display:block;width:100%;height:100%;cursor:pointer;position:relative;z-index:5;pointer-events:auto}
+  .logo{position:absolute;inset:0;display:grid;place-items:center;padding:0;pointer-events:auto;animation:pulseGlow 2.8s ease-in-out infinite;will-change:transform,filter}
+  .logo a.link{display:grid;place-items:center;text-align:center;width:100%;height:100%;cursor:pointer;position:relative;z-index:5;pointer-events:auto;text-decoration:none;outline:0}
 
   /* PV18 text logo (Jacquard 12 + glitch) */
   .pv18{
@@ -84,12 +84,15 @@
     color: #ffc800;
     text-shadow: 0 0 16px var(--ink), 0 0 36px var(--ink);
     position: relative;
-    display: inline-block;
+    display: grid;                /* 中央寄せのため */
+    place-items: center;          /* ここで縦横センター */
+    height: 100%;                 /* 親の看板内でフルに使う */
     animation: pulseGlow 2.8s ease-in-out infinite;
   }
   .pv18::before, .pv18::after{
     content: attr(data-text);
     position:absolute; inset:0; pointer-events:none;
+    display:grid; place-items:center;   /* 疑似要素側も中央寄せ */
   }
   .pv18::before{
     color:#0ff; text-shadow:0 0 10px #0ff;
@@ -113,12 +116,44 @@
   .txt.glitch::before{color:#0ff;text-shadow:0 0 8px #0ff;transform:translateX(0);clip-path:inset(0 0 55% 0);mix-blend-mode:screen;animation:glitchTextA 2.2s steps(36) infinite, glitchFlash 4.2s steps(30) infinite}
   .txt.glitch::after{color:#b8c7d8;text-shadow:0 0 8px #b8c7d8;transform:translateX(0);clip-path:inset(45% 0 0 0);mix-blend-mode:screen;animation:glitchTextB 2.0s steps(34) infinite, glitchFlash 4.2s steps(30) infinite}
 
+
+/* 1) 看板内の本文を確実に中央 */
+.logo,
+.sign.h .txt{
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  padding:12px;           /* 余白は少なめに */
+  text-align:center;
+}
+
+/* 2) 疑似要素も中央に揃える（ここが肝） */
+.pv18::before,
+.pv18::after,
+.txt.glitch::before,
+.txt.glitch::after{
+  display:flex; align-items:center; justify-content:center;
+  inset:0;                /* すでに書いてあるならOK */
+}
+
+/* 3) ベースライン微調整（上ズレ対策の微下げ） */
+.dim-font{ transform: translateY(6%); }   /* DIMP の方を少し下へ */
+.pv18{      transform: translateY(2%); }   /* PV18 も少しだけ下へ */
+
+/* モバイル時はやや強めに下げる */
+@media (max-width:900px), (pointer:coarse){
+  .dim-font{ transform: translateY(8%); }
+  .pv18{      transform: translateY(3%); }
+}
+
   /* Animations */
   @keyframes pulseGlow{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
   @keyframes glitchFlash{0%,92%{opacity:0}93%{opacity:.8}96%{opacity:.2}97%{opacity:.9}100%{opacity:0}}
 @keyframes glitchTextA{0%{transform:translateX(0)} 25%{transform:translateX(-2px)} 50%{transform:translateX(1px)} 75%{transform:translateX(-1px)} 100%{transform:translateX(0)}}
   @keyframes glitchTextB{0%{transform:translateX(0)} 25%{transform:translateX(2px)} 50%{transform:translateX(-1px)} 75%{transform:translateX(1px)} 100%{transform:translateX(0)}}
 
+.logo a.link{display:block;width:100%;height:100%;text-decoration:none;outline:0}
+.sign a{ text-decoration:none }
+.pv18{ text-decoration:none }
   /* Language-specific fonts */
   
   .dim-font {
@@ -133,7 +168,7 @@
   font-kerning: normal;
   font-variant-ligatures: none;
 }
-.txt{line-height:1; font-family:'Tektur-VariableFont_wdth,wght',monospace; letter-spacing:.04em; color:#e6eef7; text-shadow:0 0 10px rgba(200,220,240,.45);}
+.txt{display:grid; place-items:center; line-height:1; font-family:'Tektur-VariableFont_wdth,wght',monospace; letter-spacing:.04em; color:#e6eef7; text-shadow:0 0 10px rgba(200,220,240,.45);}
 
 .glitch-silver{ color:#eaf2ff !important; text-shadow:0 0 10px #d7e6ff,0 0 28px #d7e6ff !important }
 .glitch-silver::before{ color:#f6fbff !important; text-shadow:0 0 10px #eef7ff !important }
@@ -171,7 +206,6 @@
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "DIMProductions",
-  "legalName": "DIMProductions LLC",
   "url": "https://dim.productions/",
   "logo": "https://dim.productions/logo.png",
   "description": "Plugin & game SFX studio in Tokyo. Featured work: Piano Virtuoso 18.",
