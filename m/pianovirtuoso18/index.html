@@ -3,15 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <link rel="preload" href="/assets/fonts/PressStart2P.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="canonical" href="https://dim.productions/pianovirtuoso18">
   <title>Piano Virtuoso 18</title>
   <style>
     *{box-sizing:border-box}
-    html,body{height:100%; overscroll-behavior: none; touch-action: manipulation; -webkit-text-size-adjust: 100%;}
+    html,body{height:100%; overscroll-behavior: none; touch-action: manipulation; -webkit-text-size-adjust: 100%; overflow-x:hidden;}
     body{-webkit-touch-callout:none;-webkit-user-select:none}
-    @font-face{font-family:'Press Start 2P';src:url('/asset/fonts/PressStart2P.woff2') format('woff2');font-display:swap}
+    @font-face{font-family:'Press Start 2P';src:url('/assets/fonts/PressStart2P.woff2') format('woff2');font-display:swap}
     body{margin:0;background:#000;color:#fff;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans JP",sans-serif;text-align:center}
-    .wrap{max-width:800px;margin:0 auto;padding:16px}
+    .wrap{max-width:800px;margin:0 auto;padding:16px;overflow-x:hidden}
     h1{font:700 18px/1.2 'Press Start 2P',monospace;margin:6px 0 12px;letter-spacing:.5px}
     .controls{display:flex;flex-direction:column;gap:12px;align-items:center}
     .segments{display:flex;gap:10px}
@@ -199,7 +200,7 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
 
     <div class="grid">
       <div class="card"><div>HITS</div><div id="hits" class="big">0</div></div>
-      <div class="card"><div>SPEED (HITS/S)</div><div id="speed" class="big">0.00</div></div>
+      <div class="card"><div>HITS/S</div><div id="speed" class="big">0.00</div></div>
       <div class="card"><div>STABILITY</div><div id="stability" class="big">0.000</div></div>
       <div class="card"><div>SCORE</div><div id="score" class="big">0</div></div>
     </div>
