@@ -78,7 +78,7 @@
   /* PV18 text logo (Jacquard 12 + glitch) */
   .pv18{
     font-family:'Jacquard12PV18',cursive;
-    font-size: clamp(28px, 6.4vw, 96px);
+    font-size: clamp(36px, 6.4vw, 90px);
     line-height: 1;
     letter-spacing: .06em;
     color: #ffc800;
@@ -158,7 +158,7 @@
   
   .dim-font {
   font-family: 'DIMProductions', sans-serif !important;
-  font-size:4.5em; /* 調整可 */
+  font-size:6.5em; /* 調整可 */
   font-weight: 400 !important; /* 合成ボールド抑止で字間の乱れ防止 */
   line-height: 1;
   letter-spacing: .02em !important; /* すき間を詰める */
@@ -183,10 +183,22 @@
   padding:.35rem .6rem;border-radius:10px;border:1px solid #1a2a3a;
   background:rgba(0,0,0,.35);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
   box-shadow:0 0 0 1px rgba(255,255,255,.04) inset;
-  font-family:'Tektur-VariableFont_wdth,wght',monospace;font-size:12px;letter-spacing:.04em;color:#cfd8e6;
+  font-family:'Tektur-VariableFont_wdth,wght',monospace;font-size:14px;letter-spacing:.04em;color:#cfd8e6;
 }
 .site-footer .brand{font-family:'DIMProductions',sans-serif;letter-spacing:.02em;font-size:14px}
 .site-footer .sep{opacity:.5}
+
+/* Footer brand only: a bit higher */
+.site-footer .brand.dim-font{
+  display:inline-block;     /* 変形を素直に効かせる */
+  line-height:1;
+  transform: translateY(-6%);  /* 上へ持ち上げる（-4%〜-8%で微調整） */
+}
+
+/* モバイルは少し弱めに */
+@media (max-width:900px), (pointer:coarse){
+  .site-footer .brand.dim-font{ transform: translateY(-4%); }
+}
 
 /* === Mobile layout (same HTML, CSS switch) === */
 @media (max-width: 900px), (pointer: coarse){
