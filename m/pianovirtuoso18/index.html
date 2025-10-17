@@ -3,17 +3,28 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <link rel="preload" href="/assets/fonts/PressStart2P.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://dim.productions/assets/fonts/PressStart2P.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="canonical" href="https://dim.productions/pianovirtuoso18">
   <title>Piano Virtuoso 18</title>
   <style>
     *{box-sizing:border-box}
     html,body{height:100%; overscroll-behavior: none; touch-action: manipulation; -webkit-text-size-adjust: 100%; overflow-x:hidden;}
     body{-webkit-touch-callout:none;-webkit-user-select:none}
-    @font-face{font-family:'Press Start 2P';src:url('/assets/fonts/PressStart2P.woff2') format('woff2');font-display:swap}
+    @font-face{
+      font-family:'Press Start 2P';
+      /* 1st: absolute (prod) / 2nd: root-relative (same origin) */
+      src:url('https://dim.productions/assets/fonts/PressStart2P.woff2') format('woff2'),
+          url('/assets/fonts/PressStart2P.woff2') format('woff2');
+      font-style:normal;font-weight:400;font-display:swap;
+    }
     body{margin:0;background:#000;color:#fff;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans JP",sans-serif;text-align:center}
     .wrap{max-width:800px;margin:0 auto;padding:16px;overflow-x:hidden}
     h1{font:700 18px/1.2 'Press Start 2P',monospace;margin:6px 0 12px;letter-spacing:.5px}
+    /* apply retro font to more UI parts */
+    #overlay,.big,.segments label{font-family:'Press Start 2P',monospace}
+/* apply to card titles like "TIME LEFT (s)", HITS, etc. */
+.card>div:first-child{font-family:'Press Start 2P',monospace;font-weight:700;letter-spacing:.3px}
+    body{font-synthesis:none}
     .controls{display:flex;flex-direction:column;gap:12px;align-items:center}
     .segments{display:flex;gap:10px}
     .segments label{padding:8px 12px;cursor:pointer;background:transparent}
@@ -42,7 +53,7 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
 
     .card{background:#111;padding:10px;margin:12px 0}
     .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-    .big{font:700 20px/1.1 monospace}
+    .big{font-weight:700;font-size:20px;line-height:1.1;font-family:'Press Start 2P',monospace}
 
     #pianoArea{display:flex;justify-content:center;align-items:center;margin:12px auto 18px;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:visible;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;}
     #pianoArea svg{display:block;width:clamp(220px,72vw,420px);max-height:38vh;height:auto;margin:0 auto;}
@@ -239,7 +250,7 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
 
   let running=false,counting=false,ts=[]; // timestamps (ms)
   let mode='E';
-  Array.from(document.querySelectorAll('input[name="mode"]')).forEach(r=> r.onchange=()=> mode=r.value);
+  Array.from(document.querySelectorAll('input[name="mode"]')).forEach(r=> r.onchange=()=>{ mode=r.value; lastAlt=null; lastAccepted=null; resetKeyVisuals(); });
 
   function flash(btn){ btn.classList.add('pressed'); setTimeout(()=>btn.classList.remove('pressed'),120); }
   btnStart.addEventListener('pointerdown', ()=> flash(btnStart));
@@ -319,10 +330,14 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
 
   // ---- Event wiring ----
   area.addEventListener('pointerdown',(e)=>{
-    const nv = noteFromPos(e); setKeyVisual(nv, true); // immediate visual
-    if(!running) return;
-    const n=tapToNote(e); if(n==null) return; if(mode==='D' && lastAccepted===n) return; lastAccepted=n;
-    ts.push(performance.now()); elHits.textContent=String(ts.length);
+    const n = tapToNote(e); // respect mode
+    if(n==null) return;      // in Diavolo, ignore same-note repeats (no visual)
+    setKeyVisual(n, true);   // only the allowed key should move
+    if(!running) return;     // before start: visual only, no scoring
+    if(mode==='D' && lastAccepted===n) return; // safety
+    lastAccepted=n;
+    ts.push(performance.now());
+    elHits.textContent=String(ts.length);
   });
   ['pointerup','pointercancel','pointerleave'].forEach(type=>{
     document.addEventListener(type, ()=> resetKeyVisuals(), {passive:true});
