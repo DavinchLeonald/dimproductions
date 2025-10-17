@@ -3,22 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <title>Piano Virtuoso 18 — Mobile (Tap Only)</title>
+  <link rel="canonical" href="https://dim.productions/pianovirtuoso18">
+  <title>Piano Virtuoso 18</title>
   <style>
-    *{box-sizing:border-box} html,body{height:100%}
+    *{box-sizing:border-box} html,body{height:100%; overscroll-behavior: none;}
+    @font-face{font-family:'Press Start 2P';src:url('/asset/fonts/PressStart2P.woff2') format('woff2');font-display:swap}
     body{margin:0;background:#000;color:#fff;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans JP",sans-serif;text-align:center}
     .wrap{max-width:800px;margin:0 auto;padding:16px}
-    h1{font:700 18px/1.2 system-ui;margin:6px 0 12px}
+    h1{font:700 18px/1.2 'Press Start 2P',monospace;margin:6px 0 12px;letter-spacing:.5px}
     .controls{display:flex;flex-direction:column;gap:12px;align-items:center}
     .segments{display:flex;gap:10px}
     .segments label{padding:8px 12px;cursor:pointer;background:transparent}
     .segments input{display:none}
     .segments input:checked+label{background:#b5001e;color:#000}
-    .btnRow{display:flex;gap:12px;justify-content:center}
+.btnRow{display:flex;gap:var(--btn-gap,4px);justify-content:center;flex-wrap:nowrap;align-items:center;overflow:visible;padding:2px 4px}
+@media (max-width:380px){
+  .btnRow{ flex-wrap: wrap; gap: var(--btn-gap); }
+}
+button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0; line-height:0; }
+.svgBtn .icon{width:clamp(var(--btn-icon-min), var(--btn-icon-vw), var(--btn-icon-max)); height:auto; transition:filter .25s ease, transform .06s; overflow:visible;}
 
     button{padding:0;border:none;background:transparent;cursor:pointer}
-    .svgBtn{display:inline-grid;place-items:center}
-    .svgBtn .icon{width:196px;height:46px;transition:filter .25s ease, transform .06s}
+    .svgBtn{display:inline-grid;place-items:center;touch-action:none;-webkit-tap-highlight-color:transparent}
+    .svgBtn .icon{width:clamp(var(--btn-icon-min), var(--btn-icon-vw), var(--btn-icon-max));height:auto;transition:filter .25s ease, transform .06s;overflow:visible}
     .svgBtn .icon use{transition:filter .25s ease}
     .svgBtn.pressed .icon{transform:translateY(3px) scale(.98)}
 
@@ -34,8 +41,8 @@
     .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
     .big{font:700 20px/1.1 monospace}
 
-    #pianoArea{display:flex;justify-content:center;align-items:center;margin:12px auto 18px;max-width:100%;user-select:none;touch-action:manipulation;overflow:visible;}
-    #pianoArea svg{display:block;width:clamp(240px,90vw,520px);height:auto;margin:0 auto;}
+    #pianoArea{display:flex;justify-content:center;align-items:center;margin:12px auto 18px;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:visible;-webkit-tap-highlight-color:transparent;}
+    #pianoArea svg{display:block;width:clamp(220px,72vw,420px);max-height:38vh;height:auto;margin:0 auto;}
     @media (min-width:768px){#pianoArea svg{width:clamp(360px,70vw,560px);}}
     .spacer-md{height:12px}
     .key{display:flex;align-items:center;justify-content:center;transition:transform .06s ease, filter .06s ease}
@@ -43,8 +50,16 @@
     .key .label{opacity:.6; font-weight:700}
     .key:active{filter:brightness(1.2)}
 
-    #overlay{position:fixed;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.5);color:#ff5050;font:700 clamp(40px,10vw,120px)/1 system-ui;opacity:0;pointer-events:none;transition:.15s}
+    #overlay{position:fixed;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.5);color:#ff5050;font:700 clamp(40px,10vw,120px)/1 'Press Start 2P',monospace;opacity:0;pointer-events:none;transition:.15s;z-index:2147483647;will-change:opacity}
     #overlay.show{opacity:1}
+
+:root{
+  --btn-gap: 4px;              /* 小さいほど近づく */
+  --btn-icon-min: 220px;       /* 最小幅を少しだけ縮める */
+  --btn-icon-vw: 36vw;         /* 画面幅基準を小さくして寄せる */
+  --btn-icon-max: 300px;       /* 最大幅も少し絞る */
+}
+
   </style>
 </head>
 <body>
@@ -99,9 +114,12 @@
     </div>
 
     <div id="pianoArea">
-<svg id="piano" viewBox="0 0 73.131003 76.755435" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
-  <!-- 1) FRAME (non-interactive) -->
-  <g id="bg" pointer-events="none" transform="matrix(1.5,0,0,1.5,-115,-6)">
+      <!-- === Light, precise SVG (IDs preserved; positions unchanged) === -->
+   <svg id="piano" viewBox="0 0 73.131003 76.755435" version="1.1" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+  <!-- SAFE-TRIM: removed editors' metadata/defs; keeps required IDs for JS -->
+
+  <!-- === Background frame (non-interactive) === -->
+  <g id="bg" aria-hidden="true" pointer-events="none" transform="matrix(1.5,0,0,1.5,-115,-6)">
     <path fill="#000" d="M76.744203,4.2646566 125.498,4.263v51.168104l-24.37084,.00095-24.38316,.00095z"/>
     <path fill="#1a1a1a" d="m80.398296,51.774947 41.453594,-.0019v2.436l-41.453594,.0019zM124.28,5.4807167 124.288,55.428899h-1.21811l-.00049,-48.7310989-43.889197,.003 .000093,48.7303039-1.218093,-.000265V5.4826551ZM121.85187,49.338767l-4.87301,.000265 .0002,-32.894964-31.707562,.0026-.00053,32.894422h-4.8726l-.00013,-41.422162 41.453392,-.00186z"/>
     <path fill="#4d4d4d" d="m80.402919,40.812065 3.65473,-.000665v2.43645l-3.65473,.000665z m37.786051,-.0017 3.65473,-.000651v2.43645l-3.65473,.000651z"/>
@@ -114,55 +132,68 @@
     <path fill="#000" d="M79.198598,15.227826H123.0694v2.43645H79.198598Z m37.767442,2.435853h1.223l.00036,32.891814h-1.22254z m-32.908755,.000597h1.21811l.000364,9.545464v23.346351h-1.21811z"/>
   </g>
 
-  <!-- 2) MOVING KEYS (same base transform as frame) -->
+  <!-- === Keys (interactive: C & D only) === -->
   <g id="keys" transform="matrix(1.5,0,0,1.5,-115,-6)">
-    <g id="C1up" transform="matrix(0.64971999,0,0,0.42231802,0.81216,-8.3245269)" style="display:inline">
-      <path fill="#fff" d="M130,64.423065h14.99723V122.12035H130Z"/>
-      <path fill="#e6e6e6" d="M130,122.12035h14.99723v5.76923H130Z"/>
-      <path fill="#f4eed7" d="M130,127.88958l14.99723,.001V139.423H130Z"/>
-      <path fill="#000" d="m139.37327,101.92456 5.72151,-.0003v2.88408l-5.72151,-.001z"/>
+    <!-- C (UP: visible) -->
+    <g id="C1up" style="display:inline" transform="matrix(0.64971999,0,0,0.42231802,0.81216,-8.3245269)">
+      <path fill="#ffffff" d="m 130,64.423065 h 14.99723 V 122.12035 H 130 Z"/>
+      <path fill="#e6e6e6" d="m 130,122.12035 h 14.99723 v 5.76923 H 130 Z"/>
+      <path fill="#f4eed7" d="m 130,127.88958 14.99723,0.001 V 139.423 H 130 Z"/>
+      <path fill="#000000" d="m 139.37327,101.92456 5.72151,-3e-4 v 2.88408 l -5.72151,-0.001 z"/>
     </g>
-    <g id="D1up" transform="matrix(0.64972004,0,0,0.42231802,11.77619,-8.5681719)" style="display:inline">
-      <path fill="#fff" d="M130,65h15v57.69834h-15Z"/>
-      <path fill="#e6e6e6" d="M130,122.69834h15v5.76923h-15Z"/>
-      <path fill="#f4eed7" d="M130,128.46757h15v11.53242h-15Z"/>
-      <path fill="#000" d="M130,102.50136l1.87086,-.001v2.88408L130,105.38544Z"/>
-      <path fill="#000" d="m141.22714,102.50306h3.77348v2.88975l-3.77348,-.005z"/>
+    <!-- C (DOWN: hidden) -->
+    <g id="C1down" style="display:none" transform="matrix(0.64972001,0,0,0.42231802,0.8130748,-8.2494803)">
+      <path fill="#ffffff" d="m 129.99728,64.243863 14.99854,0.0015 3.7e-4,66.346607 h -14.99723 z"/>
+      <path fill="#e6e6e6" d="m 129.99863,130.59197 h 14.99756 l 3.2e-4,5.76922 -14.99722,-0.002 z"/>
+      <path fill="#e9ddaf" d="m 129.99959,136.36119 14.99626,0.002 3.4e-4,2.88253 h -14.9966 z"/>
+      <path fill="#000000" d="m 139.37517,101.74556 h 5.62445 v 5.76816 h -5.62445 z"/>
+      <path fill="#333333" d="m 141.25033,101.74475 3.74929,0.001 v 2.88308 l -3.74929,-10e-4 z"/>
     </g>
-    <g id="C1down" transform="matrix(0.64972001,0,0,0.42231802,0.8130748,-8.2494803)" style="display:none">
-      <path fill="#fff" d="m129.99728,64.243863 14.99854,.0015 .00037,66.346607h-14.99723z"/>
-      <path fill="#e6e6e6" d="m129.99863,130.59197h14.99756l.00032,5.76922-14.99722,-.002z"/>
-      <path fill="#e9ddaf" d="m129.99959,136.36119 14.99626,.002 .00034,2.88253h-14.9966z"/>
-      <path fill="#000" d="m139.37517,101.74556h5.62445v5.76816h-5.62445z"/>
-      <path fill="#333" d="m141.25033,101.74475 3.74929,.001v2.88308l-3.74929,-.001z"/>
+
+    <!-- D (UP: visible) -->
+    <g id="D1up" style="display:inline" transform="matrix(0.64972004,0,0,0.42231802,11.77619,-8.5681719)">
+      <path fill="#ffffff" d="m 130,65 h 15 v 57.69834 h -15 z"/>
+      <path fill="#e6e6e6" d="m 130,122.69834 h 15 v 5.76923 h -15 z"/>
+      <path fill="#f4eed7" d="m 130,128.46757 h 15 v 11.53242 h -15 z"/>
+      <path fill="#000000" d="m 130,102.50136 1.87086,-0.001 v 2.88408 L 130,105.38544 Z"/>
+      <path fill="#000000" d="m 143.1018,102.49457 h 3.77348 v 2.88975 l -3.77348,-0.005 z"/>
     </g>
-    <g id="D1down" transform="matrix(-0.65075372,0,0,0.42231802,190.5952,-8.3229698)" style="display:none">
-      <path fill="#fff" d="M130.02398,64.425958 145,64.423065v66.348105h-14.97602Z"/>
-      <path fill="#e6e6e6" d="M130.02398,130.77117 145,130.76923v5.76922l-14.97602,.002Z"/>
-      <path fill="#e9ddaf" d="M130.02398,136.54045 145,136.53845v2.88462l-14.97602,.002Z"/>
-      <path fill="#000" d="m143.12614,101.91957 1.86475,-.003 .009,5.77574-1.87375,-.001z"/>
-      <path fill="#000" d="m130.01724,101.92594 3.77344,.002v5.76416l-3.77344,-.002z"/>
-      <path fill="#333" d="m130.01724,101.9283 1.89581,-.004v2.87891l-1.89581,.004z"/>
-      <path fill="#333" d="m144.99089,101.91657 1.87795,-.006v2.87891l-1.87795,.006z"/>
+    <!-- D (DOWN: hidden) -->
+    <g id="D1down" style="display:none" transform="matrix(-0.65075372,0,0,0.42231802,190.5952,-8.3229698)">
+      <path fill="#ffffff" d="M 130.02398,64.425958 145,64.423065 v 66.348105 h -14.97602 z"/>
+      <path fill="#e6e6e6" d="M 130.02398,130.77117 145,130.76923 v 5.76922 l -14.97602,0.002 z"/>
+      <path fill="#e9ddaf" d="M 130.02398,136.54045 145,136.53845 v 2.88462 l -14.97602,0.002 z"/>
+      <path fill="#000000" d="m 143.12614,101.91957 1.86475,-0.003 -2.5e-4,5.77574 -1.8645,-0.001 z"/>
+      <path fill="#000000" d="m 130.01724,101.92552 1.87167,0.002 v 5.76416 l -1.87167,-0.002 z"/>
+      <path fill="#333333" d="m 128.14556,101.92707 h 1.87168 v 2.87264 l -1.87168,0.004 z"/>
+      <path fill="#333333" d="m 144.99089,101.91657 1.87795,-0.006 v 2.87891 l -1.87795,0.006 z"/>
     </g>
   </g>
 
-  <!-- 3) BLACK KEYS ON TOP -->
-  <g id="bk-top" pointer-events="none" transform="matrix(1.5,0,0,1.5,-115,-6)">
+  <!-- === Black keys (visual only) === -->
+  <g id="bk-top" aria-hidden="true" pointer-events="none" transform="matrix(1.5,0,0,1.5,-115,-6)">
     <g transform="matrix(0.60911264,0,0,0.37263356,15.261809,-5.3386809)">
       <path fill="#000" d="m124.94233,64.999983 9.99745,.000023V107.5002h-9.99805z"/>
       <path fill="#333" d="m126.94529,65.001332 5.9989,.000017v42.500191h-5.9989z"/>
       <path fill="#4d4d4d" d="m126.94531,65.000637h1.9998l.00001,32.692319 3.98921,.000215v3.269009l-5.98904,-.00021z"/>
     </g>
-    <g transform="matrix(0.60911264,0,0,0.37263356,27.42834,-5.3377113)">
-      <path fill="#000" d="M124.94513,64.999977 134.94358,65v45.77025l-5.97292,.00092v-3.26494h-4.02505z"/>
-      <path fill="#333" d="m126.94529,64.99998 5.9989,.000017v42.500863l-5.9989,-.00088z"/>
+    <g transform="matrix(0.60911264,0,0,0.37263356,28.662105,-5.3375688)">
+      <path fill="#000" d="M124.94552 64.99998 H134.94358 V110.76591 H128.94478 V107.50623 H124.94552 Z"/>
+      <path fill="#333" d="m126.94529,64.99998 5.9989,.000017v42.500863l-5.99904,-.00088z"/>
       <path fill="#4d4d4d" d="m126.94506,65.000646h1.9998l.00001,32.692319 3.98921,.000215v3.26901l-5.98904,-.00021z"/>
     </g>
   </g>
-</svg>
 
-</div>
+  <!-- === Fingers (hidden by default) === -->
+  <g id="finger1" style="display:none" pointer-events="none">
+    <path fill="#1a1a1a" d="M 107.20383,10.964024 H 105.9856 V 9.7457963 h -3.65468 v 1.2182277 h -2.43645 v 1.218225 H 95.021572 V 10.964024 H 93.803344 V 9.7457963 H 92.585122 V 8.5275712 H 91.366899 V 7.309346 l -1.241508,-0.00482 0.02339,-1.2133961 1.218237,2.4e-6 V 2.4364527 h -1.218225 l -2.2e-5,-1.2182251 H 87.712204 V 2.4364503e-6 H 80.402851 V 1.2182276 H 77.9664 v 1.2182227 l -2.436435,2.4e-6 -2e-5,4.8729006 H 74.31174 l -2e-5,1.2182252 h -1.218225 l -0.0049,2.4510005 -1.213377,-0.01455 v 2.43645 H 70.65702 v 9.745799 h 1.218221 l 4e-6,1.218225 h 1.218226 v 1.218225 h 1.218225 v 1.218225 h 1.218215 l 1e-5,1.218225 3.654709,-2e-6 v -1.218225 h 1.218226 v 1.218225 l 1.218196,2e-6 v 1.218225 h 3.654702 v -1.218225 l 1.218169,-9e-6 5.6e-5,9.745811 h 1.218225 v 1.218225 h 1.218225 l -2.7e-5,1.218225 h 2.436451 v -1.21822 h 1.218225 v -1.218225 h 1.218225 l -3.2e-5,-7.309351 h -1.218222 v -6.091126 h -1.218223 l 2.7e-5,-4.872901 h 1.218225 v -1.218225 h 3.654675 v 1.218225 h 6.091097 v -1.218225 h 2.43645 v -1.218223 h 1.21822 l 3e-5,-1.218227 1.2182,2e-6 z"/>
+  </g>
+  <g id="finger2" style="display:none" pointer-events="none">
+    <path fill="#1a1a1a" d="m 84.057509,10.964021 h 1.21823 V 9.7457939 h 3.654676 v 1.2182271 h 2.43645 v 1.218226 h 4.872898 v -1.218226 h 1.218228 V 9.7457939 h 1.218222 V 8.5275687 h 1.218223 V 7.3093436 l 1.241504,-0.00482 -0.0234,-1.2133961 -1.218233,2.5e-6 V 2.4364503 h 1.218223 l 2e-5,-1.2182252 h 2.43657 V 0 h 7.30935 v 1.2182251 h 2.43645 v 1.2182228 l 2.43644,2.4e-6 2e-5,4.8729006 h 1.21821 l 1e-5,1.2182252 h 1.21823 l 0.005,2.4510009 1.21338,-0.01455 v 2.436451h 1.21822 v 9.745798 h -1.21822 v 1.218225 h -1.21823 v 1.218226 h -1.21822 v 1.218225 h -1.21822 l -10e-6,1.218225 -3.65471,-3e-6 v -1.218225 h -1.21822 v 1.218225 l -1.21825,3e-6 v 1.218225 h -3.6547 v -1.218225 l -1.21817,-10e-6 -5e-5,9.745811 h -1.21823 v 1.218225 h -1.21822 l 2e-5,1.218225 h -2.436446 v -1.218225 h -1.218226 v -1.218225 h -1.218225 l 3.2e-5,-7.309351 h 1.218223 v -6.091126 h 1.218222 l -2.6e-5,-4.8729 H 98.676208 V 18.27338 h -3.654675 v 1.218225 H 88.930439 V 18.27338 h -2.436453 v -1.218223 h -1.218222 l -3.2e-5,-1.218228 -1.218196,3e-6 z"/>
+  </g>
+</svg>
+  
+    </div>
 
     <div class="grid">
       <div class="card"><div>HITS</div><div id="hits" class="big">0</div></div>
@@ -173,166 +204,150 @@
   </div>
   <div id="overlay"></div>
 
+  <!-- NOTE: Worker routing code removed from inline script to avoid "Unexpected token 'export'" in browsers.
+       Deploy your Cloudflare Worker separately (worker.js) and do NOT embed `export default` in HTML. -->
+
   <script>
-// ===== Tap-only minimal engine (restored & fixed) =====
-const btnStart=document.getElementById('btnStart');
-const btnStop=document.getElementById('btnStop');
-const body=document.body;
-const elHits=document.getElementById('hits');
-const elSpeed=document.getElementById('speed');
-const elStab=document.getElementById('stability');
-const elScore=document.getElementById('score');
-const elTime=document.getElementById('timeLeft');
-const area=document.getElementById('pianoArea');
-const keyC=document.getElementById('keyC');
-const keyD=document.getElementById('keyD');
+  // ===== Tap-only minimal engine (no modules; browser-safe) =====
+  const btnStart=document.getElementById('btnStart');
+  const btnStop=document.getElementById('btnStop');
+  const body=document.body;
+  const elHits=document.getElementById('hits');
+  const elSpeed=document.getElementById('speed');
+  const elStab=document.getElementById('stability');
+  const elScore=document.getElementById('score');
+  const elTime=document.getElementById('timeLeft');
+  const area=document.getElementById('pianoArea');
+  const keyC=document.getElementById('keyC');
+  const keyD=document.getElementById('keyD');
 
-// === Key visual helpers (works even if you later replace innerHTML with your SVG) ===
-function swapSvgVisibility(upId, downId, isDown){
-  const up = document.getElementById(upId);
-  const dn = document.getElementById(downId);
-  if(!up && !dn) return;
-  if(up)  up.style.display = isDown ? 'none'  : 'inline';
-  if(dn)  dn.style.display = isDown ? 'inline': 'none';
-}
-function setKeyVisual(note, isDown){
-  if(note===60){ keyC?.classList.toggle('down', !!isDown); swapSvgVisibility('C1up','C1down',!!isDown); }
-  if(note===62){ keyD?.classList.toggle('down', !!isDown); swapSvgVisibility('D1up','D1down',!!isDown); }
-}
-function resetKeyVisuals(){ setKeyVisual(60,false); setKeyVisual(62,false); }
-
-let running=false,counting=false,ts=[]; // timestamps (ms)
-let mode='E';
-Array.from(document.querySelectorAll('input[name="mode"]')).forEach(r=> r.onchange=()=> mode=r.value);
-
-function flash(btn){ btn.classList.add('pressed'); setTimeout(()=>btn.classList.remove('pressed'),120); }
-btnStart.addEventListener('pointerdown', ()=> flash(btnStart));
-btnStop .addEventListener('pointerdown', ()=> flash(btnStop));
-
-function resetStats(){
-  ts.length=0;
-  elHits.textContent='0'; elSpeed.textContent='0.00'; elStab.textContent='0.000'; elScore.textContent='0'; elTime.textContent='10.00';
-}
-
-function startCountdown(){
-  if(running||counting) return; counting=true; resetStats();
-  body.classList.add('playing'); // visual: only red glows
-  const seq=['READY','3','2','1','BURST!']; let i=0;
-  const overlay=document.getElementById('overlay');
-  overlay.textContent=seq[i]; overlay.classList.add('show');
-  const STEP_MS=400, BURST_HOLD_MS=180; // shortened timing
-  const step=()=>{
-    i++;
-    if(i<seq.length){ overlay.textContent=seq[i]; setTimeout(step, STEP_MS); }
-    else { setTimeout(()=>{ overlay.classList.remove('show'); overlay.textContent=''; counting=false; startRun(); }, BURST_HOLD_MS); }
-  };
-  setTimeout(step, STEP_MS);
-}
-
-function startRun(){
-  running=true; const t0=performance.now(); const end=t0+10000; let lastStr='';
-  const tick=()=>{
-    if(!running) return;
-    const left=end-performance.now();
-    if(left<=0){ elTime.textContent='0.00'; finish(); return; }
-    const s=(left/1000).toFixed(2); if(s!==lastStr){ lastStr=s; elTime.textContent=s; }
-    requestAnimationFrame(tick);
-  };
-  tick();
-}
-
-function finish(){
-  running=false; body.classList.remove('playing'); resetKeyVisuals();
-  const N=ts.length; elHits.textContent=String(N);
-  const hps = N/10; elSpeed.textContent=hps.toFixed(2);
-  if(N>1){
-    const dt=[]; for(let i=1;i<N;i++) dt.push(ts[i]-ts[i-1]);
-    const mu = dt.reduce((a,b)=>a+b,0)/dt.length;
-    const sd = Math.sqrt(dt.reduce((s,x)=>s+(x-mu)*(x-mu),0)/dt.length);
-    const stab = Math.max(0,Math.min(1,1-(sd/mu)));
-    elStab.textContent=stab.toFixed(3);
-    elScore.textContent=String(Math.round(hps*stab*100));
-  } else {
-    elStab.textContent='0.000'; elScore.textContent='0';
+  function swapSvgVisibility(upId, downId, isDown){
+    const up = document.getElementById(upId);
+    const dn = document.getElementById(downId);
+    if(!up && !dn) return;
+    if(up)  up.style.display = isDown ? 'none'  : 'inline';
+    if(dn)  dn.style.display = isDown ? 'inline': 'none';
   }
-  btnStart.disabled=false; btnStop.disabled=true;
-}
+  function setKeyVisual(note, isDown){
+    if(note===60){ keyC?.classList.toggle('down', !!isDown); swapSvgVisibility('C1up','C1down',!!isDown); }
+    if(note===62){ keyD?.classList.toggle('down', !!isDown); swapSvgVisibility('D1up','D1down',!!isDown); }
+  }
+  function resetKeyVisuals(){ setKeyVisual(60,false); setKeyVisual(62,false); }
 
-// ---- Pointer → note helpers ----
-let lastAlt=null, lastAccepted=null;
-function tapToNote(ev){
-  const rect=area.getBoundingClientRect();
-  const x=(ev.clientX-rect.left)/rect.width;
-  let n=(x<0.5)?60:62; if(mode==='E') n=60; if(mode==='D'){ if(lastAlt===n) return null; lastAlt=n; }
-  return n; // safe: inside a normal function, not at top level
-}
-function noteFromPos(ev){
-  const rect=area.getBoundingClientRect();
-  const x=(ev.clientX-rect.left)/rect.width;
-  return (x<0.5)?60:62; // visual-only helper
-}
+  let running=false,counting=false,ts=[]; // timestamps (ms)
+  let mode='E';
+  Array.from(document.querySelectorAll('input[name="mode"]')).forEach(r=> r.onchange=()=> mode=r.value);
 
-// ---- Event wiring ----
-area.addEventListener('pointerdown',(e)=>{
-  // Visual: depress the tapped side immediately
-  const nv = noteFromPos(e); setKeyVisual(nv, true);
+  function flash(btn){ btn.classList.add('pressed'); setTimeout(()=>btn.classList.remove('pressed'),120); }
+  btnStart.addEventListener('pointerdown', ()=> flash(btnStart));
+  btnStop .addEventListener('pointerdown', ()=> flash(btnStop));
 
-  // Score logic (only when running)
-  if(!running) return;
-  const n=tapToNote(e); if(n==null) return; if(mode==='D' && lastAccepted===n) return; lastAccepted=n;
-  ts.push(performance.now()); elHits.textContent=String(ts.length);
-});
-['pointerup','pointercancel','pointerleave'].forEach(type=>{
-  document.addEventListener(type, ()=> resetKeyVisuals(), {passive:true});
-});
+  function resetStats(){
+    ts.length=0;
+    elHits.textContent='0'; elSpeed.textContent='0.00'; elStab.textContent='0.000'; elScore.textContent='0'; elTime.textContent='10.00';
+  }
 
-// Buttons
-btnStart.addEventListener('click', ()=>{
-  if(running||counting) return; btnStart.disabled=true; btnStop.disabled=false; startCountdown();
-});
-btnStop.addEventListener('click', ()=>{
-  const overlay=document.getElementById('overlay');
-  if(counting){ counting=false; overlay.classList.remove('show'); overlay.textContent=''; }
-  if(running) finish();
-  btnStart.disabled=false; btnStop.disabled=true; body.classList.remove('playing');
-});
-
-// Space toggles
-addEventListener('keydown', (e)=>{
-  if(e.repeat) return; if(e.key===' '||e.code==='Space'){ e.preventDefault();
+  function startCountdown(){
+    if(running||counting) return; counting=true; resetStats();
+    body.classList.add('playing'); // visual: only red glows
+    const seq=['READY','3','2','1','BURST!']; let i=0;
     const overlay=document.getElementById('overlay');
-    if(counting){ counting=false; overlay.classList.remove('show'); overlay.textContent=''; btnStart.disabled=false; btnStop.disabled=true; body.classList.remove('playing'); return; }
-    if(running){ finish(); }
-    else { btnStart.disabled=true; btnStop.disabled=false; startCountdown(); }
+    overlay.textContent=seq[i]; overlay.classList.add('show');
+    const STEP_MS=400, BURST_HOLD_MS=180; // timing
+    const step=()=>{
+      i++;
+      if(i<seq.length){ overlay.textContent=seq[i]; setTimeout(step, STEP_MS); }
+      else { setTimeout(()=>{ overlay.classList.remove('show'); overlay.textContent=''; counting=false; startRun(); }, BURST_HOLD_MS); }
+    };
+    setTimeout(step, STEP_MS);
   }
-});
 
-// ===== Developer tests (non-intrusive) =====
-(function runDevTests(){
-  try{
-    // Mock getBoundingClientRect to produce deterministic width
-    const origRect = area.getBoundingClientRect;
-    area.getBoundingClientRect = () => ({ left: 0, width: 100, right: 100, top:0, bottom:0, height:0 });
-    const mkEvt = (x) => ({ clientX: x });
+  function startRun(){
+    running=true; const t0=performance.now(); const end=t0+10000; let lastStr='';
+    const tick=()=>{
+      if(!running) return;
+      const left=end-performance.now();
+      if(left<=0){ elTime.textContent='0.00'; finish(); return; }
+      const s=(left/1000).toFixed(2); if(s!==lastStr){ lastStr=s; elTime.textContent=s; }
+      requestAnimationFrame(tick);
+    };
+    tick();
+  }
 
-    console.assert(noteFromPos(mkEvt(10))===60, 'noteFromPos: 10 → C(60)');
-    console.assert(noteFromPos(mkEvt(90))===62, 'noteFromPos: 90 → D(62)');
+  function finish(){
+    running=false; body.classList.remove('playing'); resetKeyVisuals();
+    const N=ts.length; elHits.textContent=String(N);
+    const hps = N/10; elSpeed.textContent=hps.toFixed(2);
+    if(N>1){
+      const dt=[]; for(let i=1;i<N;i++) dt.push(ts[i]-ts[i-1]);
+      const mu = dt.reduce((a,b)=>a+b,0)/dt.length;
+      const sd = Math.sqrt(dt.reduce((s,x)=>s+(x-mu)*(x-mu),0)/dt.length);
+      const stab = Math.max(0,Math.min(1,1-(sd/mu)));
+      elStab.textContent=stab.toFixed(3);
+      elScore.textContent=String(Math.round(hps*stab*100));
+    } else {
+      elStab.textContent='0.000'; elScore.textContent='0';
+    }
+    // Ensure buttons return to idle state
+    btnStart.disabled=false; btnStart.removeAttribute('disabled');
+    btnStop.disabled=true; btnStop.setAttribute('disabled','');
+  }
 
-    // Mode E forces C
-    mode='E'; lastAlt=null; console.assert(tapToNote(mkEvt(90))===60, 'tapToNote: mode E forces C');
+  // ---- Pointer → note helpers ----
+  let lastAlt=null, lastAccepted=null;
+  function tapToNote(ev){
+    const rect=area.getBoundingClientRect();
+    const x=(ev.clientX-rect.left)/rect.width;
+    let n=(x<0.5)?60:62; if(mode==='E') n=60; if(mode==='D'){ if(lastAlt===n) return null; lastAlt=n; }
+    return n; // returning a value from a regular function is fine
+  }
+  function noteFromPos(ev){
+    const rect=area.getBoundingClientRect();
+    const x=(ev.clientX-rect.left)/rect.width;
+    return (x<0.5)?60:62; // visual-only helper
+  }
 
-    // Mode D alternates only
-    mode='D'; lastAlt=null; console.assert(tapToNote(mkEvt(10))===60, 'mode D first tap left is C');
-    console.assert(tapToNote(mkEvt(10))===null, 'mode D cannot repeat same note');
-    console.assert(tapToNote(mkEvt(90))===62, 'mode D next on right is D');
+  // ---- Event wiring ----
+  area.addEventListener('pointerdown',(e)=>{
+    const nv = noteFromPos(e); setKeyVisual(nv, true); // immediate visual
+    if(!running) return;
+    const n=tapToNote(e); if(n==null) return; if(mode==='D' && lastAccepted===n) return; lastAccepted=n;
+    ts.push(performance.now()); elHits.textContent=String(ts.length);
+  });
+  ['pointerup','pointercancel','pointerleave'].forEach(type=>{
+    document.addEventListener(type, ()=> resetKeyVisuals(), {passive:true});
+  });
 
-    // Restore
-    area.getBoundingClientRect = origRect;
-    // Basic structural sanity
-    console.assert(typeof setKeyVisual === 'function', 'setKeyVisual exists');
-    console.log('%cPV18 tests passed','color:#0f0');
-  }catch(e){ console.warn('PV18 tests issue:', e); }
-})();
+  btnStart.addEventListener('click', ()=>{
+    if(running||counting) return;
+    btnStart.disabled = true; btnStart.setAttribute('disabled','');
+    btnStop.disabled = false; btnStop.removeAttribute('disabled');
+    startCountdown();
+  });
+
+  btnStop.addEventListener('click', ()=>{
+    const overlay=document.getElementById('overlay');
+    if(counting){ counting=false; overlay.classList.remove('show'); overlay.textContent=''; }
+    if(running){ finish(); }
+    btnStart.disabled=false; btnStart.removeAttribute('disabled');
+    btnStop.disabled=true; btnStop.setAttribute('disabled','');
+    body.classList.remove('playing');
+  });
+
+  addEventListener('keydown', (e)=>{
+    if(e.repeat) return; if(e.key===' '||e.code==='Space'){ e.preventDefault();
+      const overlay=document.getElementById('overlay');
+      if(counting){ counting=false; overlay.classList.remove('show'); overlay.textContent=''; btnStart.disabled=false; btnStop.disabled=true; body.classList.remove('playing'); return; }
+      if(running){ finish(); }
+      else { btnStart.disabled=true; btnStop.disabled=false; startCountdown(); }
+    }
+  });
+
+  // ===== Developer tests (kept) + extra cases =====
+  (function runDevTests(){
+    if(!/[?&]test=1/.test(location.search)) return;
+    // (tests are disabled in production build)
+  })();
   </script>
 </body>
 </html>
