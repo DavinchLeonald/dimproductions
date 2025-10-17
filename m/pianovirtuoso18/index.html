@@ -6,7 +6,9 @@
   <link rel="canonical" href="https://dim.productions/pianovirtuoso18">
   <title>Piano Virtuoso 18</title>
   <style>
-    *{box-sizing:border-box} html,body{height:100%; overscroll-behavior: none;}
+    *{box-sizing:border-box}
+    html,body{height:100%; overscroll-behavior: none; touch-action: manipulation; -webkit-text-size-adjust: 100%;}
+    body{-webkit-touch-callout:none;-webkit-user-select:none}
     @font-face{font-family:'Press Start 2P';src:url('/asset/fonts/PressStart2P.woff2') format('woff2');font-display:swap}
     body{margin:0;background:#000;color:#fff;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans JP",sans-serif;text-align:center}
     .wrap{max-width:800px;margin:0 auto;padding:16px}
@@ -24,7 +26,7 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
 .svgBtn .icon{width:clamp(var(--btn-icon-min), var(--btn-icon-vw), var(--btn-icon-max)); height:auto; transition:filter .25s ease, transform .06s; overflow:visible;}
 
     button{padding:0;border:none;background:transparent;cursor:pointer}
-    .svgBtn{display:inline-grid;place-items:center;touch-action:none;-webkit-tap-highlight-color:transparent}
+    .svgBtn{display:inline-grid;place-items:center;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
     .svgBtn .icon{width:clamp(var(--btn-icon-min), var(--btn-icon-vw), var(--btn-icon-max));height:auto;transition:filter .25s ease, transform .06s;overflow:visible}
     .svgBtn .icon use{transition:filter .25s ease}
     .svgBtn.pressed .icon{transform:translateY(3px) scale(.98)}
@@ -41,7 +43,7 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
     .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
     .big{font:700 20px/1.1 monospace}
 
-    #pianoArea{display:flex;justify-content:center;align-items:center;margin:12px auto 18px;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:visible;-webkit-tap-highlight-color:transparent;}
+    #pianoArea{display:flex;justify-content:center;align-items:center;margin:12px auto 18px;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:visible;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;}
     #pianoArea svg{display:block;width:clamp(220px,72vw,420px);max-height:38vh;height:auto;margin:0 auto;}
     @media (min-width:768px){#pianoArea svg{width:clamp(360px,70vw,560px);}}
     .spacer-md{height:12px}
@@ -306,6 +308,13 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
     const x=(ev.clientX-rect.left)/rect.width;
     return (x<0.5)?60:62; // visual-only helper
   }
+
+  // ---- iOS Safari: kill pinch-zoom & double-tap zoom ----
+  ['gesturestart','gesturechange','gestureend'].forEach(t=>{
+    document.addEventListener(t, e=> e.preventDefault(), {passive:false});
+  });
+  // prevent double-tap zoom (iOS) while keeping click behavior
+  document.addEventListener('dblclick', e=> e.preventDefault(), {passive:false, capture:true});
 
   // ---- Event wiring ----
   area.addEventListener('pointerdown',(e)=>{
