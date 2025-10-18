@@ -4,8 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description" content="DIMProductions — Plugin & game SFX studio in Tokyo. Featured work: Piano Virtuoso 18." />
+<link rel="preload" as="font" href="/assets/fonts/Jacquard12-pv18.woff2" type="font/woff2" crossorigin>
+<link rel="preload" as="font" href="/assets/fonts/DIMProductions.woff2"   type="font/woff2" crossorigin>
 <link rel="canonical" href="https://dim.productions/" />
-
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="DIMProductions" />
 <meta property="og:title" content="DIMProductions" />
@@ -16,8 +17,8 @@
 <meta name="twitter:card" content="summary_large_image" />
 <title>DIMProductions</title>
 <style>
-@font-face {font-family:'DIMProductions';src:url('assets/fonts/DIMProductions.woff2') format('woff2');font-display: swap;}
-@font-face{font-family:'Jacquard12PV18';src:url('assets/fonts/Jacquard12-pv18.woff2') format('woff2');font-display:swap;}
+@font-face {font-family:'DIMProductions';src:url('assets/fonts/DIMProductions.woff2') format('woff2');font-display: optional;}
+@font-face{font-family:'Jacquard12PV18';src:url('assets/fonts/Jacquard12-pv18.woff2') format('woff2');font-display:optional;}
 @font-face{font-family:'Tektur-VariableFont_wdth,wght';src:url('assets/fonts/Tektur-VariableFont_wdth,wght.woff2') format('woff2');font-display:swap;}
   
   :root{
@@ -283,6 +284,22 @@
   loop();
 })();
 </script>
+<script>
+(()=>{ 
+  const ready = Promise.all([
+    document.fonts.load('1em "Jacquard12PV18"'),
+    document.fonts.load('1em "DIMProductions"')
+  ]);
+  ready.then(()=>document.documentElement.classList.add('fonts-ready'));
+})();
+</script>
+<style>
+/* 初期はシステム系で描画 → 準備できたら本フォントに切替（無アニメ切替） */
+.pv18{ font-family: ui-sans-serif, system-ui, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif; }
+.dim-font{ font-family: ui-sans-serif, system-ui, sans-serif; }
+.fonts-ready .pv18{ font-family: 'Jacquard12PV18', cursive; }
+.fonts-ready .dim-font{ font-family: 'DIMProductions', sans-serif; }
+</style>
 <script>
   // Footer year auto-fill (robust: runs after DOM ready)
   (function(){
