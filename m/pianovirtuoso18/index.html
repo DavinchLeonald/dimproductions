@@ -52,7 +52,7 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
     body.playing #btnStop .icon{filter:drop-shadow(0 0 10px rgba(255,60,60,.9)) drop-shadow(0 0 25px rgba(255,0,0,.6));opacity:1}
 
     .card{background:#111;padding:10px;margin:12px 0}
-    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
     .big{font-weight:700;font-size:20px;line-height:1.1;font-family:'Press Start 2P',monospace}
 
     #pianoArea{display:flex;justify-content:center;align-items:center;margin:12px auto 18px;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:visible;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;}
@@ -115,9 +115,9 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
     <div class="controls">
       <div class="segments">
         <input id="modeE" type="radio" name="mode" value="E" checked>
-        <label for="modeE">Erlkönig (C)</label>
+        <label for="modeE">Erlkönig</label>
         <input id="modeD" type="radio" name="mode" value="D">
-        <label for="modeD">Diavolo (C–D)</label>
+        <label for="modeD">Diavolo</label>
       </div>
       <div class="btnRow">
         <button id="btnStart" class="svgBtn" aria-label="Start">
@@ -218,7 +218,6 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
 
     <div class="grid">
       <div class="card"><div>HITS</div><div id="hits" class="big">0</div></div>
-      <div class="card"><div>HITS/S</div><div id="speed" class="big">0.00</div></div>
       <div class="card"><div>STABILITY</div><div id="stability" class="big">0.000</div></div>
       <div class="card"><div>SCORE</div><div id="score" class="big">0</div></div>
     </div>
@@ -234,7 +233,6 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
   const btnStop=document.getElementById('btnStop');
   const body=document.body;
   const elHits=document.getElementById('hits');
-  const elSpeed=document.getElementById('speed');
   const elStab=document.getElementById('stability');
   const elScore=document.getElementById('score');
   const elTime=document.getElementById('timeLeft');
@@ -265,7 +263,7 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
 
   function resetStats(){
     ts.length=0;
-    elHits.textContent='0'; elSpeed.textContent='0.00'; elStab.textContent='0.000'; elScore.textContent='0'; elTime.textContent='10.00';
+    elHits.textContent='0'; elStab.textContent='0.000'; elScore.textContent='0'; elTime.textContent='10.00';
   }
 
   function startCountdown(){
@@ -298,14 +296,13 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
   function finish(){
     running=false; body.classList.remove('playing'); resetKeyVisuals();
     const N=ts.length; elHits.textContent=String(N);
-    const hps = N/10; elSpeed.textContent=hps.toFixed(2);
     if(N>1){
       const dt=[]; for(let i=1;i<N;i++) dt.push(ts[i]-ts[i-1]);
       const mu = dt.reduce((a,b)=>a+b,0)/dt.length;
       const sd = Math.sqrt(dt.reduce((s,x)=>s+(x-mu)*(x-mu),0)/dt.length);
       const stab = Math.max(0,Math.min(1,1-(sd/mu)));
       elStab.textContent=stab.toFixed(3);
-      elScore.textContent=String(Math.round(hps*stab*100));
+      elScore.textContent=String(Math.round(N*stab*10));
     } else {
       elStab.textContent='0.000'; elScore.textContent='0';
     }
