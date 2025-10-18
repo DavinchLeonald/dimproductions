@@ -24,7 +24,7 @@
 
     .controls{display:flex;flex-direction:column;gap:12px;align-items:center}
     .segments{display:flex;gap:10px}
-    .segments label{ padding:8px 12px; cursor:pointer; background:transparent; font-size:16px;      /* 追加：iOSフォーカス時のズーム抑止 */ line-height:1.2;     /* 追加：行高整える */ }
+    .segments label{ padding:8px 12px; cursor:pointer; background:transparent; font-size:16px; line-height:1.2; }
     .segments input{display:none}
     .segments input:checked+label{background:#b5001e;color:#000}
 
@@ -49,8 +49,7 @@
     .big{font-weight:700;font-size:20px;line-height:1.1;font-family:'Press Start 2P',monospace}
 
     #pianoArea{display:flex;justify-content:center;align-items:stretch;margin:12px auto 0;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:hidden;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;flex:1}
-    #pianoArea svg{display:block;height:100%;width:auto;max-width:100%;margin:0 auto;}
-    #pianoArea svg{display:block;width:clamp(220px,72vw,420px);max-height:38vh;height:auto;margin:0 auto;}
+    #pianoArea svg{display:block;width:min(420px,100%);height:auto;max-height:100%;margin:0 auto;}
     @media (min-width:768px){#pianoArea svg{width:clamp(360px,70vw,560px);}}
     .spacer-md{height:12px}
 
@@ -130,35 +129,31 @@
       </div>
     </div>
 
-    <div class="card">
-      <div>TIME LEFT (s)</div>
-      <div class="big" id="timeLeft">10.00</div>
-    </div>
-
-    <div id="pianoArea">
-      <!-- === Light, precise SVG (IDs preserved; positions unchanged) === -->
+    <!-- PIANO AREA (was missing) -->
+    <div id="pianoArea" aria-label="Piano Keys">
+      <!-- You will paste the real SVG here. Placeholder below keeps layout & event targets alive. -->
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="piano" width="360" height="480" shape-rendering="crispEdges" version="1.1" viewBox="0 0 360 480" xmlns="http://www.w3.org/2000/svg">
+<svg id="piano" width="420" height="560" shape-rendering="crispEdges" version="1.1" viewBox="0 0 420 560" xmlns="http://www.w3.org/2000/svg">
  <!-- SAFE-TRIM: removed editors' metadata/defs; keeps required IDs for JS -->
  <!-- === Background frame (non-interactive) === -->
- <g id="bg" transform="matrix(7.3837 0 0 7.3837 -566.54 -31.08)" pointer-events="none" aria-hidden="true">
+ <g id="bg" transform="matrix(8.6116 0 0 8.6214 -660.75 -36.356)" pointer-events="none" aria-hidden="true">
   <path d="m76.744 4.2647 48.754-0.00166-0.0137 64.954h-48.756z"/>
   <path d="m80.383 65.563 41.454-0.0019v2.436l-41.454 0.0019zm43.897-60.082-8e-3 62.516h-1.2181l0.0155-61.299-43.889 3e-3 -0.01592 61.298-1.2181-2.65e-4 0.01601-62.516zm-2.4437 53.991-4.873 2.65e-4 0.0158-43.028-31.708 0.0026-0.01611 43.027h-4.8726l0.01545-51.555 41.453-0.00186z" fill="#1a1a1a"/>
   <path d="m80.403 54.604 3.6547-6.64e-4v2.4332l-3.6547 6.64e-4zm37.786-0.0017 3.6547-6.5e-4v2.4332l-3.6547 6.5e-4z" fill="#333" stroke-width=".99926"/>
   <path d="m80.403 52.166h3.6547v2.4375l-3.6547 6.65e-4zm37.786-1.5e-5 3.6547 1.5e-5v2.4358l-3.6547 6.51e-4z" fill="#4d4d4d"/>
-  <path d="m107.2 57.037 9.7632 0.0013v2.4364l-9.7632-0.0013z" fill="#e6e6e6"/>
-  <path d="m107.2 59.473 9.7632-8.28e-4v4.8699l-9.7632 8.28e-4z" fill="#f4eed7"/>
-  <path d="m107.2 18.883 9.7657-0.0014-3e-3 38.157-9.7632-0.0013z" fill="#fff"/>
+  <path d="m107.2 57.037 9.7662 0.0013v2.4331h-9.7662z" fill="#e6e6e6"/>
+  <path d="m107.2 59.471h9.7662v4.8706l-9.7662 8.28e-4z" fill="#f4eed7"/>
+  <path d="m107.2 18.883 9.7662-0.0014v38.156l-9.7662 4.2e-5z" fill="#fff"/>
   <path d="m118.19 49.729 3.6547-6.58e-4v2.4372l-3.6547-6.4e-5z" fill="#666"/>
   <path d="m80.403 49.731 3.6547-6.58e-4v2.4355h-3.6547z" fill="#666"/>
   <path d="m80.405 10.356 41.439-1e-3v2.4364l-41.439 1e-3z"/>
   <path d="m76.746 4.2646h2.4362v1.218h-1.218v1.218h-1.218z"/>
   <path d="m125.5 4.2627h-2.436v1.218h1.218v1.218h1.218z"/>
   <path d="m85.275 17.664 31.691-6.02e-4 -2.9e-4 1.2182-31.691 6.02e-4z" fill="#800000"/>
-  <path d="m79.199 15.228h43.871v2.436l-43.871 4e-4zm37.767 2.436h1.22l-0.0203 45.462h-1.2189zm-32.909 4.97e-4h1.2181l3.64e-4 9.5455-0.02025 35.916h-1.2181z"/>
+  <path d="m79.199 15.228h43.871v2.436l-43.871 4e-4zm37.767 2.436h1.2196l-0.0203 45.462h-1.1993v-42.209zm-32.909 4.97e-4h1.2181l3.64e-4 9.5455-0.02025 35.916h-1.2181z"/>
  </g>
  <!-- === Keys (interactive: C & D only) === -->
- <g id="keys" transform="matrix(7.3837 0 0 7.3837 -566.54 -31.08)">
+ <g id="keys" transform="matrix(8.6116 0 0 8.6214 -660.75 -36.356)">
   <!-- C (UP: visible) -->
   <g id="C1up" transform="matrix(.64972 0 0 .42232 .81216 -8.3245)">
    <path d="m130 64.423 9.3709-8.79e-4 -8.7e-4 57.682h5.627l-5e-5 32.662h-14.997z" fill="#fff"/>
@@ -175,8 +170,8 @@
   </g>
   <!-- D (UP: visible) -->
   <g id="D1up" transform="matrix(.64972 0 0 .42232 11.776 -8.5682)">
-   <path d="m131.87 122.68-4.2e-4 -57.683 11.261-6.51e-4v57.683h1.8724l-2e-3 32.662h-15l-2.1e-4 -32.662z" fill="#fff"/>
-   <path d="m130 155.34h15v5.7692h-15z" fill="#e6e6e6"/>
+   <path d="m131.87 122.68-4.2e-4 -57.683 11.261-6.51e-4v57.684h1.8704v32.661h-15v-32.662z" fill="#fff"/>
+   <path d="m130 155.34h15.001v5.7692l-15-1e-5z" fill="#e6e6e6"/>
    <path d="m130 161.11h15v11.532l-15 1.3e-4z" fill="#f4eed7"/>
   </g>
   <!-- D (DOWN: hidden) -->
@@ -191,14 +186,14 @@
   </g>
  </g>
  <!-- === Black keys (visual only) === -->
- <g id="bk-top" transform="matrix(7.3837 0 0 7.3837 -566.54 -31.08)" pointer-events="none" aria-hidden="true">
+ <g id="bk-top" transform="matrix(8.6116 0 0 8.6214 -660.75 -36.356)" pointer-events="none" aria-hidden="true">
   <g transform="matrix(.60911 0 0 .37263 15.262 -5.3387)">
    <path d="m124.94 65 9.9974-3.1e-4 4.5e-4 62.111h-9.9985z"/>
    <path d="m126.95 65.001 5.9937 1.7e-5 2.1e-4 62.111h-5.9939z" fill="#333"/>
    <path d="m126.95 65.001h1.9998l1e-5 55.554 3.9939 2.1e-4v3.2783l-5.9937-1.1e-4z" fill="#4d4d4d"/>
   </g>
   <g transform="matrix(.60911 0 0 .37263 28.662 -5.3376)">
-   <path d="m124.95 64.996 9.9981 0.0041v65.371l-6.0083-8e-3v-3.2624l-3.9898 8e-3z"/>
+   <path d="m124.95 64.996 9.9982 0.0041v65.369h-6.0107v-3.2688l-3.9875 8e-3z"/>
    <path d="m126.95 65 5.9989 1.7e-5v62.109h-5.9973z" fill="#333"/>
    <path d="m126.95 65.001h1.9889v55.551l4.0001 2.2e-4v3.2783l-5.989-2.1e-4z" fill="#4d4d4d"/>
   </g>
@@ -206,7 +201,11 @@
  <!-- === Fingers (hidden by default) === -->
 </svg>
 
+    </div><!-- end of pianoArea -->
 
+    <div class="card">
+      <div>TIME LEFT (s)</div>
+      <div class="big" id="timeLeft">10.00</div>
     </div>
 
     <div class="grid inlineScore">
@@ -246,6 +245,14 @@
   const elTime=document.getElementById('timeLeft');
   const area=document.getElementById('pianoArea');
 
+  // Guard: if area is missing for any reason, create one to avoid null errors
+  if(!area){
+    const fallback=document.createElement('div');
+    fallback.id='pianoArea';
+    fallback.style.minHeight='320px';
+    document.querySelector('.wrap').insertBefore(fallback, document.querySelector('.wrap').children[2]);
+  }
+
   function swapSvgVisibility(upId, downId, isDown){
     const up = document.getElementById(upId);
     const dn = document.getElementById(downId);
@@ -254,9 +261,9 @@
     if(dn)  dn.style.display = isDown ? 'inline': 'none';
   }
   function pressPath(note){
-  return document.querySelector(note===60 ? '#C1down path' : '#D1down path');
-}
-function setKeyVisual(note, isDown){
+    return document.querySelector(note===60 ? '#C1down path' : '#D1down path');
+  }
+  function setKeyVisual(note, isDown){
     if(note===60){
       swapSvgVisibility('C1up','C1down',!!isDown);
       const p = pressPath(60);
@@ -269,11 +276,11 @@ function setKeyVisual(note, isDown){
     }
   }
   function resetKeyVisuals(){
-  swapSvgVisibility('C1up','C1down',false);
-  swapSvgVisibility('D1up','D1down',false);
-  const pC = pressPath(60); if(pC) pC.classList.remove('glow-black');
-  const pD = pressPath(62); if(pD) pD.classList.remove('glow-black');
-}
+    swapSvgVisibility('C1up','C1down',false);
+    swapSvgVisibility('D1up','D1down',false);
+    const pC = pressPath(60); if(pC) pC.classList.remove('glow-black');
+    const pD = pressPath(62); if(pD) pD.classList.remove('glow-black');
+  }
 
   let running=false,counting=false,ts=[]; let scoreNum=0; // timestamps (ms)
   let mode='E';
@@ -293,32 +300,30 @@ function setKeyVisual(note, isDown){
   btnStop .addEventListener('pointerdown', ()=> flash(btnStop));
 
   function renderScore(){ elScore.textContent = String(scoreNum).padStart(4,'0'); }
-function renderScore(){ elScore.textContent = String(scoreNum).padStart(4,'0'); }
-function calcIntervals(arr){
-  if (!arr || arr.length < 2) return [];
-  const out=[]; for(let i=1;i<arr.length;i++) out.push(arr[i]-arr[i-1]);
-  return out;
-}
-function calcStability(){
-  const iv = calcIntervals(ts);
-  if (iv.length < 2) return 0;
-  const mu = iv.reduce((a,b)=>a+b,0)/iv.length;
-  const sd = Math.sqrt(iv.reduce((s,x)=>s+(x-mu)*(x-mu),0)/iv.length);
-  // original-style stability: 1 - sd/mu, clamped to 0..1
-  const stab = Math.max(0, Math.min(1, 1 - (sd/(mu||1))));
-  return stab; // 0..1 (higher is better)
-}
-function updateStability(){
-  const stab = calcStability();
-  elStab.textContent = stab.toFixed(3);
-}
-function resetStats(){
-  ts.length=0; scoreNum=0;
-  elHits.textContent='0';
-  elStab.textContent='0.000';
-  renderScore();
-  elTime.textContent='10.00';
-}
+  function calcIntervals(arr){
+    if (!arr || arr.length < 2) return [];
+    const out=[]; for(let i=1;i<arr.length;i++) out.push(arr[i]-arr[i-1]);
+    return out;
+  }
+  function calcStability(){
+    const iv = calcIntervals(ts);
+    if (iv.length < 2) return 0;
+    const mu = iv.reduce((a,b)=>a+b,0)/iv.length;
+    const sd = Math.sqrt(iv.reduce((s,x)=>s+(x-mu)*(x-mu),0)/iv.length);
+    const stab = Math.max(0, Math.min(1, 1 - (sd/(mu||1))));
+    return stab; // 0..1 (higher is better)
+  }
+  function updateStability(){
+    const stab = calcStability();
+    elStab.textContent = stab.toFixed(3);
+  }
+  function resetStats(){
+    ts.length=0; scoreNum=0;
+    elHits.textContent='0';
+    elStab.textContent='0.000';
+    renderScore();
+    elTime.textContent='10.00';
+  }
 
   // ===== Audio =====
   const AC = window.AudioContext || window.webkitAudioContext;
@@ -343,10 +348,10 @@ function resetStats(){
     return audio;
   }
 
-window.addEventListener('pointerdown', async () => {
-  await ensureAudio();
-  audioUnlocked = true;
-}, { once: true });
+  window.addEventListener('pointerdown', async () => {
+    await ensureAudio();
+    audioUnlocked = true;
+  }, { once: true });
 
   window.addEventListener('keydown', async () => {
     if (!audioUnlocked) { await ensureAudio(); audioUnlocked = true; }
@@ -359,29 +364,28 @@ window.addEventListener('pointerdown', async () => {
   function toggleMuted(){ setMuted(!muted); }
   if (location.search.includes('mute=1')) setMuted(true);
 
-function beep(midi, vel = 100){
-  if (!audio || muted) return;
-  // まだsuspendedなら再開を試みる（ユーザー操作中のはず）
-  if (audio.state === 'suspended') { audio.resume().catch(()=>{}); }
+  function beep(midi, vel = 100){
+    if (!audio || muted) return;
+    if (audio.state === 'suspended') { audio.resume().catch(()=>{}); }
 
-  const now = audio.currentTime || 0;
-  const startAt = now + 0.008; // ← iOSでの初回落ち防止に微小オフセット
-  const len = 0.09;
+    const now = audio.currentTime || 0;
+    const startAt = now + 0.008; // iOS 初回落ち防止オフセット
+    const len = 0.09;
 
-  try{
-    const osc = audio.createOscillator();
-    const g = audio.createGain();
-    osc.type = 'square';
-    osc.frequency.value = 440 * Math.pow(2,(midi-69)/12);
-    const v = Math.max(0.08, Math.min(1, vel/127));
-    g.gain.setValueAtTime(0.0001, startAt);
-    g.gain.linearRampToValueAtTime(0.25*v, startAt+0.006); // 少し長めのアタック
-    g.gain.linearRampToValueAtTime(0.0001, startAt+len);
-    osc.connect(g).connect(audio.destination);
-    osc.start(startAt);
-    osc.stop(startAt+len);
-  }catch(e){ /* noop */ }
-}
+    try{
+      const osc = audio.createOscillator();
+      const g = audio.createGain();
+      osc.type = 'square';
+      osc.frequency.value = 440 * Math.pow(2,(midi-69)/12);
+      const v = Math.max(0.08, Math.min(1, vel/127));
+      g.gain.setValueAtTime(0.0001, startAt);
+      g.gain.linearRampToValueAtTime(0.25*v, startAt+0.006);
+      g.gain.linearRampToValueAtTime(0.0001, startAt+len);
+      osc.connect(g).connect(audio.destination);
+      osc.start(startAt);
+      osc.stop(startAt+len);
+    }catch(e){ /* noop */ }
+  }
 
   // ========= Speech (female voice + Excellent >= 7000) =========
   async function getVoicesAsync(){
@@ -477,90 +481,75 @@ function beep(midi, vel = 100){
 
   // === Voice (or beep) countdown ===
   const USE_VOICE_COUNTDOWN = true; // ビープに戻す場合は false
-  const FAST_DIGITS = false; // digits not used now         // 3/2/1 を早口＆短尺に
+  const FAST_DIGITS = false; // digits not used now
+  const BURST_RATE = 1.15;   // BURST の速さ
+  const LIVE_STABILITY = false; // 本番は false（終了後のみ）
 
-// BURST の喋る速さ（1.0=標準。早くしたいなら 1.15〜1.35 あたり）
-const BURST_RATE = 1.15;
+  function speakCountdown(label){
+    return new Promise(async (resolve)=>{
+      const fallback = ()=>{
+        const tone = (label==='BURST!') ? 72 : 60;
+        ensureAudio().then(()=>{ try{ beep(tone, label==='BURST!'?127:110); }catch(_){} });
+        resolve(false);
+      };
 
-// === Settings: real-time stability display ===
-// 練習用は true、本番/大会用は false（終了後のみ表示）
-const LIVE_STABILITY = false;
+      if (!USE_VOICE_COUNTDOWN || !('speechSynthesis' in window)) { fallback(); return; }
 
+      try{
+        await unlockSpeech();
+        const voices = await getVoicesAsync();
+        const v = pickPreferredEnFemale(voices);
 
-// 音声で言えたら true、ダメならビープにフォールバックして false を返す
-function speakCountdown(label){
-  return new Promise(async (resolve)=>{
-    const fallback = ()=>{
-      // フォールバックは短いビープ
-      const tone = (label==='BURST!') ? 72 : 60;
-      ensureAudio().then(()=>{ try{ beep(tone, label==='BURST!'?127:110); }catch(_){} });
-      resolve(false);
-    };
+        const u = new SpeechSynthesisUtterance(String(label).replace('BURST!','Burst'));
+        u.lang   = 'en-US';
+        u.rate   = (label==='BURST!') ? BURST_RATE : 1.0;
+        u.pitch  = 2;
+        u.volume = 1.0;
+        if (v) u.voice = v;
 
-    if (!USE_VOICE_COUNTDOWN || !('speechSynthesis' in window)) { fallback(); return; }
+        let started = false;
+        u.onstart = ()=>{ started = true; };
+        u.onerror = ()=>{ fallback(); };
+        u.onend   = ()=>{ resolve(true); };
 
-    try{
-      await unlockSpeech(); // iOS 対策：ユーザー操作後にアンロック
-      const voices = await getVoicesAsync();
-      const v = pickPreferredEnFemale(voices);
+        try{ if (speechSynthesis.speaking) speechSynthesis.cancel(); }catch(_){ }
+        speechSynthesis.speak(u);
+        setTimeout(()=>{ if (!started) fallback(); }, 450);
+      }catch(e){ fallback(); }
+    });
+  }
 
-      const u = new SpeechSynthesisUtterance(String(label).replace('BURST!','Burst'));
-      u.lang   = 'en-US';
-      u.rate   = (label==='BURST!') ? BURST_RATE : 1.0;  // ← ここで速さ
-      u.pitch  = 2;
-      u.volume = 1.0;
-      if (v) u.voice = v;
+  function startCountdown(){
+    if (running || counting) return;
+    counting = true;
+    resetStats();
+    document.body.classList.add('playing');
 
-      let started = false;
-      u.onstart = ()=>{ started = true; };
-      u.onerror = ()=>{ fallback(); };
-      u.onend   = ()=>{ resolve(true); };
+    const overlay = document.getElementById('overlay');
+    overlay.classList.add('show');
 
-      // 直前に話していたらだけ cancel（無闇に cancel すると失敗する端末がある）
-      try{ if (speechSynthesis.speaking) speechSynthesis.cancel(); }catch(_){}
-      speechSynthesis.speak(u);
+    (async ()=>{
+      overlay.textContent = 'READY';
+      await speakCountdown('READY');
 
-      // iOS/Safari で start が来なかったときの保険（声が出なければビープへ）
-      setTimeout(()=>{ if (!started) fallback(); }, 450);
-    }catch(e){
-      fallback();
-    }
-  });
-}
+      overlay.textContent = 'BURST!';
+      await speakCountdown('BURST!');
+      if (!counting) return;
 
-// READY→BURST! だけ。BURST 言い終わり（onend）で startRun()
-function startCountdown(){
-  if (running || counting) return;
-  counting = true;
-  resetStats();
-  document.body.classList.add('playing');
-
-  const overlay = document.getElementById('overlay');
-  overlay.classList.add('show');
-
-  (async ()=>{
-    overlay.textContent = 'READY';
-    await speakCountdown('READY');     // READY は onend 待ち
-
-    overlay.textContent = 'BURST!';
-    await speakCountdown('BURST!');    // BURST 言い終わりで開始
-    if (!counting) return;
-
-    overlay.classList.remove('show');
-    overlay.textContent = '';
-    counting = false;
-    startRun();
-  })();
-}
-
+      overlay.classList.remove('show');
+      overlay.textContent = '';
+      counting = false;
+      startRun();
+    })();
+  }
 
   // ===== Game loop =====
   let timerId=null, endAt=0;
-const DUR_MS = 10000;                 // 10s window (for scoring calc)
-const TARGET_HITS_10S = 200;          // target hits in 10s -> 100% speed (tweakable)
+  const DUR_MS = 10000;                 // 10s window
+  const TARGET_HITS_10S = 200;          // 100% speed基準
   function startRun(){
     running=true; btnStop.disabled=false; btnStart.disabled=true; ts.length=0; lastAccepted=null; ensureAudio();
-    const DURATION=DUR_MS; // 10s
+    const DURATION=DUR_MS;
     const t0=performance.now(); endAt=t0+DURATION;
     const tick=()=>{
       const now=performance.now();
@@ -571,20 +560,21 @@ const TARGET_HITS_10S = 200;          // target hits in 10s -> 100% speed (tweak
     };
     timerId=requestAnimationFrame(tick);
   }
+
   // ===== Scoring (Hits + Stability bonus) =====
-const SC_HITS_W = 1.0;      // weight for raw hits
-const SC_STAB_W = 1.0;      // weight for stability bonus (relative to hits)
-const SC_STAB_REF = 0.12;   // reference CV (lower is better). 0.12 ≈ very安定
-function calcScore(){
-  const hits = Number(elHits.textContent)|0;
-  const effectiveHits = (mode==='E') ? hits : Math.floor(hits/2)*2; // trill counts by pairs
-  // CV → bonus: if CV <= SC_STAB_REF, full bonus; if larger, bonus shrinks to 0
-  const cv = calcStability();
-  const stabFactor = Math.max(0, (SC_STAB_REF - cv)) / SC_STAB_REF; // 0..1
-  const stabBonus = Math.round(effectiveHits * stabFactor * SC_STAB_W);
-  const base = Math.round(effectiveHits * SC_HITS_W);
-  return Math.max(0, base + stabBonus);
-}
+  const SC_HITS_W = 1.0;
+  const SC_STAB_W = 1.0;
+  const SC_STAB_REF = 0.12;   // 目安CV
+  function calcScore(){
+    const hits = Number(elHits.textContent)|0;
+    const effectiveHits = (mode==='E') ? hits : Math.floor(hits/2)*2; // トリルは偶数で評価
+    const cv = calcStability();
+    const stabFactor = Math.max(0, (SC_STAB_REF - cv)) / SC_STAB_REF; // 0..1
+    const stabBonus = Math.round(effectiveHits * stabFactor * SC_STAB_W);
+    const base = Math.round(effectiveHits * SC_HITS_W);
+    return Math.max(0, base + stabBonus);
+  }
+
   function finish(){
     if(timerId){ cancelAnimationFrame(timerId); timerId=null; }
     running=false; counting=false; btnStop.disabled=true; btnStart.disabled=false; body.classList.remove('playing');
@@ -593,7 +583,7 @@ function calcScore(){
     const N = ts.length;
     const dur = (ts.length>=1? (Math.max(1, (ts.at(-1) - ts[0]))/1000) : 0);
     const sec = Math.min(DUR_MS/1000, Math.max(0.001, dur));
-    const hps = N / sec; // hits per second over effective duration
+    const hps = N / sec;
 
     const elSpeed = document.getElementById('speed');
     if (elSpeed) elSpeed.textContent = hps.toFixed(2);
@@ -647,23 +637,20 @@ function calcScore(){
     if(!res) return;
     lastAccepted = res.note;
     ts.push(performance.now());
-    // HITS only; score is computed at finish
     elHits.textContent = String(Number(elHits.textContent)+1);
     if (LIVE_STABILITY) updateStability();
-    // Visual & beep
     setKeyVisual(res.note, true);
     ensureAudio().then(()=>{
-  audioUnlocked = !!(audio && audio.state === 'running');
-  beep(res.note, 115);
-});
+      audioUnlocked = !!(audio && audio.state === 'running');
+      beep(res.note, 115);
+    });
   }
   function onUp(evt){
     if(!running) return;
-    // どちらのキーか再判定して戻す（左右どちらでもOK）
     const n = noteFromPos(evt);
     setKeyVisual(n, false);
   }
-  area.addEventListener('pointerdown', onDown);
+  document.getElementById('pianoArea').addEventListener('pointerdown', onDown);
   window.addEventListener('pointerup', onUp);
 
   // Buttons
@@ -672,13 +659,11 @@ function calcScore(){
   btnCloseResult.addEventListener('click', ()=>{ resultModal.classList.remove('show'); });
   resultModal.addEventListener('click', (e)=>{ if(e.target===resultModal) resultModal.classList.remove('show'); });
 
-
   // ==== iOS Safari: prevent tap-zoom & dblclick zoom ====
   (function preventIOSZoom(){
     const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
     if(!isiOS) return;
 
-    // 連続タップの二発目でのズームを抑止
     let lastTouchEnd = 0;
     document.addEventListener('touchend', (e)=>{
       const now = Date.now();
@@ -686,22 +671,19 @@ function calcScore(){
       lastTouchEnd = now;
     }, {passive:false});
 
-    // dblclick ズームも殺す
     document.addEventListener('dblclick', (e)=>{ e.preventDefault(); }, {capture:true});
 
-    // フォーカス時の自動ズームを避けるため、念のため 16px 未満の label/button に上書き
     document.querySelectorAll('label, button').forEach(el=>{
       const fs = parseFloat(getComputedStyle(el).fontSize);
       if (fs && fs < 16) el.style.fontSize = '16px';
     });
   })();
 
-
   // ===== Developer tests =====
   (function runDevTests(){
     if(!/[?&]test=1\b/.test(location.search)) return;
     console.log('[tests] start');
-    const r = area.getBoundingClientRect ? area.getBoundingClientRect() : {left:0,width:100};
+    const r = document.getElementById('pianoArea').getBoundingClientRect ? document.getElementById('pianoArea').getBoundingClientRect() : {left:0,width:100};
     // E mode: only C accepted
     mode='E'; lastAccepted=null;
     console.assert((tapToNote({clientX:r.left+0.1*r.width, pressure:1})||{}).note===60, 'E:C left ok');
