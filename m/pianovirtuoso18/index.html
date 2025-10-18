@@ -17,13 +17,7 @@
       font-style:normal;font-weight:400;font-display:swap;
     }
     body{margin:0;background:#000;color:#fff;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans JP",sans-serif;text-align:center;font-synthesis:none}
-.wrap{max-width:100%;margin:0 auto;padding:16px var(--padR) 16px var(--padL);min-height:100vh;display:grid;grid-template-rows:auto auto 1fr auto;justify-items:center}
-/* ステージ幅：ピアノに合わせて中央に */
-.controls,
-#pianoArea{ width:min(100%, var(--stage-w)); }
-#pianoArea{
-  width: min(100%, 480px);           /* 420/480などSVG側に合わせる */
-}
+    .wrap{max-width:800px;margin:0 auto;padding:16px;overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column}
     h1{font:700 18px/1.2 'Press Start 2P',monospace;margin:6px 0 12px;letter-spacing:.5px}
     #overlay,.big,.segments label{font-family:'Press Start 2P',monospace}
     .card>div:first-child{font-family:'Press Start 2P',monospace;font-weight:700;letter-spacing:.3px}
@@ -34,16 +28,11 @@
     .segments input{display:none}
     .segments input:checked+label{background:#b5001e;color:#000}
 
-    .btnRow{display:flex;gap:var(--btn-gap);justify-content:center;align-items:center;flex-wrap:nowrap;padding:2px 0;min-width:0;width:100%}
-    @media (max-width:480px){
-  .btnRow{ flex-wrap:nowrap; } /* 幅はアイコン側で自動縮小 */
-}
-@media (min-width:768px){
-  .btnRow{ gap:max(var(--btn-gap), 14px); }
-}
+    .btnRow{display:flex;gap:var(--btn-gap,10px);justify-content:center;flex-wrap:nowrap;align-items:center;overflow:visible;padding:2px 4px}
+    @media (max-width:380px){ .btnRow{ flex-wrap: wrap; gap: var(--btn-gap); } }
     button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0; line-height:0; }
-    .svgBtn{display:grid;place-items:center;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;min-width:0;flex:0 0 calc((100% - var(--btn-gap)) / 2);}
-    .svgBtn .icon{width:100%;height:auto;transition:filter .25s ease, transform .06s;overflow:visible}
+    .svgBtn{display:inline-grid;place-items:center;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+    .svgBtn .icon{width:clamp(var(--btn-icon-min), var(--btn-icon-vw), var(--btn-icon-max));height:auto;transition:filter .25s ease, transform .06s;overflow:visible}
     .svgBtn .icon use{transition:filter .25s ease}
     .svgBtn.pressed .icon{transform:translateY(3px) scale(.98)}
 
@@ -59,9 +48,9 @@
     .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
     .big{font-weight:700;font-size:20px;line-height:1.1;font-family:'Press Start 2P',monospace}
 
-    #pianoArea{display:flex;justify-content:center;align-items:stretch;margin-inline:auto;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:hidden;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;flex:1}
-    #pianoArea svg{display:block;width:100%;height:auto;max-height:100%;margin:0 auto;}
-    
+    #pianoArea{display:flex;justify-content:center;align-items:stretch;margin:12px auto 0;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:hidden;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;flex:1}
+    #pianoArea svg{display:block;width:min(420px,100%);height:auto;max-height:100%;margin:0 auto;}
+    @media (min-width:768px){#pianoArea svg{width:clamp(360px,70vw,560px);}}
     .spacer-md{height:12px}
 
     /* Result modal */
@@ -104,13 +93,12 @@ body.running #timeCard{ display: block; }
     #overlay{position:fixed;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.5);color:#ff5050;font:700 clamp(40px,10vw,120px)/1 'Press Start 2P',monospace;opacity:0;pointer-events:none;transition:.15s;z-index:2147483647;will-change:opacity}
     #overlay.show{opacity:1}
 
-:root{
-  --btn-gap: 12px;
-  --padL: max(16px, env(safe-area-inset-left));
-  --padR: max(16px, env(safe-area-inset-right));
-  /* ピアノ/ボタン共通のステージ幅（最大480px） */
-  --stage-w: clamp(320px, calc(100vw - var(--padL) - var(--padR) - 8px), 480px);
-}
+    :root{
+      --btn-gap: 10px;
+      --btn-icon-min: 220px;
+      --btn-icon-vw: 36vw;
+      --btn-icon-max: 300px;
+    }
   </style>
 </head>
 <body>
