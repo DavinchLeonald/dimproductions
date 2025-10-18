@@ -221,26 +221,29 @@
     if(up)  up.style.display = isDown ? 'none'  : 'inline';
     if(dn)  dn.style.display = isDown ? 'inline': 'none';
   }
-  function setKeyVisual(note, isDown){
+  function pressPath(note){
+  return document.querySelector(note===60 ? '#C1down path' : '#D1down path');
+}
+function setKeyVisual(note, isDown){
     if(note===60){
       swapSvgVisibility('C1up','C1down',!!isDown);
-      const p = document.querySelector('#C1down path[d^="m 129.99728,64.243863"]');
+      const p = pressPath(60);
       if(p) p.classList.toggle('glow-black', !!isDown);
     }
     if(note===62){
       swapSvgVisibility('D1up','D1down',!!isDown);
-      const p = document.querySelector('#D1down path[d^="M 130.02398,64.425958"]');
+      const p = pressPath(62);
       if(p) p.classList.toggle('glow-black', !!isDown);
     }
   }
   function resetKeyVisuals(){
-    swapSvgVisibility('C1up','C1down',false);
-    swapSvgVisibility('D1up','D1down',false);
-    const pC=document.querySelector('#C1down path[d^="m 129.99728,64.243863"]'); if(pC) pC.classList.remove('glow-black');
-    const pD=document.querySelector('#D1down path[d^="M 130.02398,64.425958"]'); if(pD) pD.classList.remove('glow-black');
-  }
+  swapSvgVisibility('C1up','C1down',false);
+  swapSvgVisibility('D1up','D1down',false);
+  const pC = pressPath(60); if(pC) pC.classList.remove('glow-black');
+  const pD = pressPath(62); if(pD) pD.classList.remove('glow-black');
+}
 
-  let running=false,counting=false,ts=[]; // timestamps (ms)
+  let running=false,counting=false,ts=[]; let scoreNum=0; // timestamps (ms)
   let mode='E';
   let lastAccepted=null;
   Array.from(document.querySelectorAll('input[name="mode"]')).forEach(r=>{
@@ -257,10 +260,33 @@
   btnStart.addEventListener('pointerdown', ()=> flash(btnStart));
   btnStop .addEventListener('pointerdown', ()=> flash(btnStop));
 
-  function resetStats(){
-    ts.length=0;
-    elHits.textContent='0'; elStab.textContent='0.000'; elScore.textContent='0'; elTime.textContent='10.00';
-  }
+  function renderScore(){ elScore.textContent = String(scoreNum).padStart(4,'0'); }
+function renderScore(){ elScore.textContent = String(scoreNum).padStart(4,'0'); }
+function calcIntervals(arr){
+  if (!arr || arr.length < 2) return [];
+  const out=[]; for(let i=1;i<arr.length;i++) out.push(arr[i]-arr[i-1]);
+  return out;
+}
+function calcStability(){
+  const iv = calcIntervals(ts);
+  if (iv.length < 2) return 0;
+  const mu = iv.reduce((a,b)=>a+b,0)/iv.length;
+  const sd = Math.sqrt(iv.reduce((s,x)=>s+(x-mu)*(x-mu),0)/iv.length);
+  // original-style stability: 1 - sd/mu, clamped to 0..1
+  const stab = Math.max(0, Math.min(1, 1 - (sd/(mu||1))));
+  return stab; // 0..1 (higher is better)
+}
+function updateStability(){
+  const stab = calcStability();
+  elStab.textContent = stab.toFixed(3);
+}
+function resetStats(){
+  ts.length=0; scoreNum=0;
+  elHits.textContent='0';
+  elStab.textContent='0.000';
+  renderScore();
+  elTime.textContent='10.00';
+}
 
   // ===== Audio =====
   const AC = window.AudioContext || window.webkitAudioContext;
@@ -416,6 +442,10 @@
 // BURST の喋る速さ（1.0=標準。早くしたいなら 1.15〜1.35 あたり）
 const BURST_RATE = 1.15;
 
+// === Settings: real-time stability display ===
+// 練習用は true、本番/大会用は false（終了後のみ表示）
+const LIVE_STABILITY = false;
+
 
 // 音声で言えたら true、ダメならビープにフォールバックして false を返す
 function speakCountdown(label){
@@ -486,9 +516,11 @@ function startCountdown(){
 
   // ===== Game loop =====
   let timerId=null, endAt=0;
+const DUR_MS = 10000;                 // 10s window (for scoring calc)
+const TARGET_HITS_10S = 200;          // target hits in 10s -> 100% speed (tweakable)
   function startRun(){
     running=true; btnStop.disabled=false; btnStart.disabled=true; ts.length=0; lastAccepted=null; ensureAudio();
-    const DURATION=10000; // 10s
+    const DURATION=DUR_MS; // 10s
     const t0=performance.now(); endAt=t0+DURATION;
     const tick=()=>{
       const now=performance.now();
@@ -499,11 +531,51 @@ function startCountdown(){
     };
     timerId=requestAnimationFrame(tick);
   }
+  // ===== Scoring (Hits + Stability bonus) =====
+const SC_HITS_W = 1.0;      // weight for raw hits
+const SC_STAB_W = 1.0;      // weight for stability bonus (relative to hits)
+const SC_STAB_REF = 0.12;   // reference CV (lower is better). 0.12 ≈ very安定
+function calcScore(){
+  const hits = Number(elHits.textContent)|0;
+  const effectiveHits = (mode==='E') ? hits : Math.floor(hits/2)*2; // trill counts by pairs
+  // CV → bonus: if CV <= SC_STAB_REF, full bonus; if larger, bonus shrinks to 0
+  const cv = calcStability();
+  const stabFactor = Math.max(0, (SC_STAB_REF - cv)) / SC_STAB_REF; // 0..1
+  const stabBonus = Math.round(effectiveHits * stabFactor * SC_STAB_W);
+  const base = Math.round(effectiveHits * SC_HITS_W);
+  return Math.max(0, base + stabBonus);
+}
   function finish(){
     if(timerId){ cancelAnimationFrame(timerId); timerId=null; }
     running=false; counting=false; btnStop.disabled=true; btnStart.disabled=false; body.classList.remove('playing');
-    // 簡易スコア読み上げ
-    speakResult(Number(elScore.textContent)||0);
+
+    // === Original-style scoring ===
+    const N = ts.length;
+    const dur = (ts.length>=1? (Math.max(1, (ts.at(-1) - ts[0]))/1000) : 0);
+    const sec = Math.min(DUR_MS/1000, Math.max(0.001, dur));
+    const hps = N / sec; // hits per second over effective duration
+
+    // update SPEED if element exists (some builds removed it)
+    const elSpeed = document.getElementById('speed');
+    if (elSpeed) elSpeed.textContent = hps.toFixed(2);
+
+    if(N>=2){
+      const dt=[]; for(let i=1;i<N;i++) dt.push(ts[i]-ts[i-1]);
+      const mu = dt.reduce((a,b)=>a+b,0)/dt.length;
+      const sd = Math.sqrt(dt.reduce((s,x)=>s+(x-mu)*(x-mu),0)/dt.length);
+      const stab = Math.max(0, Math.min(1, 1 - (sd/(mu||1))));
+      elStab.textContent = stab.toFixed(3);
+
+      const speedScore = Math.max(0, Math.min(100, (N / TARGET_HITS_10S) * 100));
+      const stabScore  = stab * 100;
+      scoreNum = Math.round(speedScore * stabScore);
+      renderScore();
+    }else{
+      elStab.textContent = '0.000';
+      scoreNum = 0; renderScore();
+    }
+
+    speakResult(scoreNum||0);
     resetKeyVisuals();
   }
 
@@ -530,10 +602,10 @@ function startCountdown(){
     if(!res) return;
     lastAccepted = res.note;
     ts.push(performance.now());
-    // HITS & SCORE（簡易）
+    // HITS only; score is computed at finish
     elHits.textContent = String(Number(elHits.textContent)+1);
-    elScore.textContent = String(Number(elScore.textContent)+ (mode==='E'?1:2));
-    // ビジュアル & ビープ
+    if (LIVE_STABILITY) updateStability();
+    // Visual & beep
     setKeyVisual(res.note, true);
     ensureAudio().then(()=>beep(res.note, 115));
   }
@@ -549,6 +621,7 @@ function startCountdown(){
   // Buttons
   btnStart.addEventListener('click', ()=> startCountdown());
   btnStop .addEventListener('click', ()=> finish());
+
 
   // ==== iOS Safari: prevent tap-zoom & dblclick zoom ====
   (function preventIOSZoom(){
