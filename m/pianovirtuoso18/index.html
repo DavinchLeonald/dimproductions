@@ -72,10 +72,23 @@
     .key .label{opacity:.6; font-weight:700}
     .key:active{filter:brightness(1.2)}
 
-    /* Show Time Left only during actual gameplay (after BURST) */
-    #timeCard{display:none}
-    body.running #timeCard{display:block}
+/* Show Time Left only during actual gameplay (after BURST) */
+#pianoArea{ position: relative; }  /* ← 追加（基準にする） */
+
+#timeCard{
+  display: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  /* 上の余白から少し下へ食い込ませる（調整用の変数） */
+  top: calc(-1 * var(--time-overlap, 10px));
+  pointer-events: none;  /* ← タップを貫通させる（鍵盤に干渉しない） */
+  z-index: 2;
+}
+body.running #timeCard{ display: block; }
     body.running #timeCard[aria-hidden]{aria-hidden:false}
+
+#timeCard{ background: rgba(17,17,17,.9); }
 
     #overlay{position:fixed;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.5);color:#ff5050;font:700 clamp(40px,10vw,120px)/1 'Press Start 2P',monospace;opacity:0;pointer-events:none;transition:.15s;z-index:2147483647;will-change:opacity}
     #overlay.show{opacity:1}
@@ -201,13 +214,13 @@
  <!-- === Fingers (hidden by default) === -->
 </svg>
 
-
-    </div><!-- end of pianoArea -->
-
     <div class="card" id="timeCard" aria-live="polite" aria-hidden="true">
       <div>TIME LEFT (s)</div>
       <div class="big" id="timeLeft">10.00</div>
     </div>
+
+    </div><!-- end of pianoArea -->
+
 
     <div class="grid inlineScore">
       <div class="card"><div>HITS</div><div id="hits" class="big">0</div></div>
