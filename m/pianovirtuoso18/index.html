@@ -17,7 +17,7 @@
       font-style:normal;font-weight:400;font-display:swap;
     }
     body{margin:0;background:#000;color:#fff;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans JP",sans-serif;text-align:center;font-synthesis:none}
-    .wrap{max-width:800px;margin:0 auto;padding:16px;overflow-x:hidden}
+    .wrap{max-width:800px;margin:0 auto;padding:16px;overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column}
     h1{font:700 18px/1.2 'Press Start 2P',monospace;margin:6px 0 12px;letter-spacing:.5px}
     #overlay,.big,.segments label{font-family:'Press Start 2P',monospace}
     .card>div:first-child{font-family:'Press Start 2P',monospace;font-weight:700;letter-spacing:.3px}
@@ -48,10 +48,25 @@
     .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
     .big{font-weight:700;font-size:20px;line-height:1.1;font-family:'Press Start 2P',monospace}
 
-    #pianoArea{display:flex;justify-content:center;align-items:center;margin:12px auto 18px;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:visible;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;}
+    #pianoArea{display:flex;justify-content:center;align-items:stretch;margin:12px auto 0;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:hidden;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;flex:1}
+    #pianoArea svg{display:block;height:100%;width:auto;max-width:100%;margin:0 auto;}
     #pianoArea svg{display:block;width:clamp(220px,72vw,420px);max-height:38vh;height:auto;margin:0 auto;}
     @media (min-width:768px){#pianoArea svg{width:clamp(360px,70vw,560px);}}
     .spacer-md{height:12px}
+
+    /* Result modal */
+    #resultModal{position:fixed;inset:0;background:rgba(0,0,0,.78);display:none;align-items:center;justify-content:center;z-index:2147483646}
+    #resultModal.show{display:flex}
+    #resultModal .panel{background:#0b0b0b;border:1px solid #222;padding:18px 16px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.6);width:min(520px,86vw)}
+    #resultModal h2{margin:0 0 14px;font:700 16px/1.2 'Press Start 2P',monospace;letter-spacing:.4px}
+    #resultModal .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    #resultModal .card{background:#111;padding:10px}
+    #resultModal .big{font:700 20px/1.1 'Press Start 2P',monospace}
+    #resultModal .actions{display:flex;justify-content:center;margin-top:14px}
+    #resultModal .actions button{padding:10px 14px;background:#222;border:1px solid #444;border-radius:10px;color:#fff;cursor:pointer;font:700 12px 'Press Start 2P',monospace}
+    body.playing #resultModal{display:none}
+    /* Hide inline grid when using modal */
+    .grid.inlineScore{display:none}
     .key{display:flex;align-items:center;justify-content:center;transition:transform .06s ease, filter .06s ease}
     .key.down{transform:translateY(2px) scaleY(.985); filter:brightness(1.15)}
     .glow-black{filter:drop-shadow(0 0 10px rgba(0,0,0,.95)) drop-shadow(0 0 26px rgba(0,0,0,.85)) brightness(.85) contrast(1.1);} 
@@ -123,88 +138,97 @@
     <div id="pianoArea">
       <!-- === Light, precise SVG (IDs preserved; positions unchanged) === -->
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="piano" shape-rendering="crispEdges" version="1.1" viewBox="0 0 73.131 76.755" xmlns="http://www.w3.org/2000/svg">
+<svg id="piano" width="360" height="480" shape-rendering="crispEdges" version="1.1" viewBox="0 0 360 480" xmlns="http://www.w3.org/2000/svg">
  <!-- SAFE-TRIM: removed editors' metadata/defs; keeps required IDs for JS -->
  <!-- === Background frame (non-interactive) === -->
- <g id="bg" transform="matrix(1.5,0,0,1.5,-115,-6)" pointer-events="none" aria-hidden="true">
-  <path d="m76.744 4.2647 48.754-0.0016566v51.168l-48.754 0.0019z"/>
-  <path d="m80.398 51.775 41.454-0.0019v2.436l-41.454 0.0019zm43.882-46.294 8e-3 49.948h-1.2181l-4.9e-4 -48.731-43.889 3e-3 9.3e-5 48.73-1.2181-2.65e-4v-49.948zm-2.4281 43.858-4.873 2.65e-4 2e-4 -32.895-31.708 0.0026-5.3e-4 32.894h-4.8726l-1.3e-4 -41.422 41.453-0.00186z" fill="#1a1a1a"/>
-  <path d="m80.403 40.812 3.6547-6.65e-4v2.4364l-3.6547 6.65e-4zm37.786-0.0017 3.6547-6.51e-4v2.4364l-3.6547 6.51e-4z" fill="#4d4d4d"/>
-  <path d="m80.403 38.374h3.6547v2.4375l-3.6547 6.65e-4zm37.786-1.5e-5 3.6547 1.5e-5v2.4358l-3.6547 6.51e-4z" fill="#666"/>
-  <path d="m107.2 43.248 9.7632 0.0013v2.4364l-9.7632-0.0013z" fill="#e6e6e6"/>
-  <path d="m107.2 45.686 9.7632-8.28e-4v4.8699l-9.7632 8.28e-4z" fill="#f4eed7"/>
-  <path d="m107.2 18.883 10.986-0.0014 7e-5 24.365-10.986 0.0019z" fill="#fff"/>
-  <path d="m125.5 4.2627h-2.436v1.218h1.218v1.218h1.218zm-48.754 0.00194h2.4362v1.218h-1.218v1.218h-1.218zm3.6589 6.0909 41.439-1e-3v2.4364l-41.439 1e-3zm2.4e-5 32.893 3.6547-6.58e-4v2.4364l-3.6547 6.58e-4zm37.786-0.0017 3.6547-6.58e-4v2.4364l-3.655 6.58e-4zm-37.786-7.3077 3.6547-6.58e-4v2.4355h-3.6547zm37.786-0.0017 3.6547-6.58e-4v2.4372l-3.6547-6.4e-5z" fill="#333"/>
+ <g id="bg" transform="matrix(7.3837 0 0 7.3837 -566.54 -31.08)" pointer-events="none" aria-hidden="true">
+  <path d="m76.744 4.2647 48.754-0.00166-0.0137 64.954h-48.756z"/>
+  <path d="m80.383 65.563 41.454-0.0019v2.436l-41.454 0.0019zm43.897-60.082-8e-3 62.516h-1.2181l0.0155-61.299-43.889 3e-3 -0.01592 61.298-1.2181-2.65e-4 0.01601-62.516zm-2.4437 53.991-4.873 2.65e-4 0.0158-43.028-31.708 0.0026-0.01611 43.027h-4.8726l0.01545-51.555 41.453-0.00186z" fill="#1a1a1a"/>
+  <path d="m80.403 54.604 3.6547-6.64e-4v2.4332l-3.6547 6.64e-4zm37.786-0.0017 3.6547-6.5e-4v2.4332l-3.6547 6.5e-4z" fill="#333" stroke-width=".99926"/>
+  <path d="m80.403 52.166h3.6547v2.4375l-3.6547 6.65e-4zm37.786-1.5e-5 3.6547 1.5e-5v2.4358l-3.6547 6.51e-4z" fill="#4d4d4d"/>
+  <path d="m107.2 57.037 9.7632 0.0013v2.4364l-9.7632-0.0013z" fill="#e6e6e6"/>
+  <path d="m107.2 59.473 9.7632-8.28e-4v4.8699l-9.7632 8.28e-4z" fill="#f4eed7"/>
+  <path d="m107.2 18.883 9.7657-0.0014-3e-3 38.157-9.7632-0.0013z" fill="#fff"/>
+  <path d="m118.19 49.729 3.6547-6.58e-4v2.4372l-3.6547-6.4e-5z" fill="#666"/>
+  <path d="m80.403 49.731 3.6547-6.58e-4v2.4355h-3.6547z" fill="#666"/>
+  <path d="m80.405 10.356 41.439-1e-3v2.4364l-41.439 1e-3z"/>
+  <path d="m76.746 4.2646h2.4362v1.218h-1.218v1.218h-1.218z"/>
+  <path d="m125.5 4.2627h-2.436v1.218h1.218v1.218h1.218z"/>
   <path d="m85.275 17.664 31.691-6.02e-4 -2.9e-4 1.2182-31.691 6.02e-4z" fill="#800000"/>
-  <path d="m79.199 15.228h43.871v2.436l-43.871 4e-4zm37.767 2.436h1.22v32.892h-1.2189zm-32.909 4.97e-4h1.2181l3.64e-4 9.5455v23.346h-1.2181z"/>
+  <path d="m79.199 15.228h43.871v2.436l-43.871 4e-4zm37.767 2.436h1.22l-0.0203 45.462h-1.2189zm-32.909 4.97e-4h1.2181l3.64e-4 9.5455-0.02025 35.916h-1.2181z"/>
  </g>
  <!-- === Keys (interactive: C & D only) === -->
- <g id="keys" transform="matrix(1.5,0,0,1.5,-115,-6)">
+ <g id="keys" transform="matrix(7.3837 0 0 7.3837 -566.54 -31.08)">
   <!-- C (UP: visible) -->
   <g id="C1up" transform="matrix(.64972 0 0 .42232 .81216 -8.3245)">
-   <path d="m130 64.423h14.997l-4.3e-4 57.697h-14.997z" fill="#fff"/>
-   <path d="m130 122.12h14.997v5.7692h-14.997z" fill="#e6e6e6"/>
-   <path d="m130 127.89 14.997 1e-3v11.532h-14.997z" fill="#f4eed7"/>
-   <path d="m139.37 101.92 5.7215-3e-4v2.88l-5.7215-1e-3z"/>
+   <path d="m130 64.423 9.3709-8.79e-4 -8.7e-4 57.682h5.627l-5e-5 32.662h-14.997z" fill="#fff"/>
+   <path d="m130 154.77 14.997 1.6e-4 -5e-5 5.7692-14.997 1.5e-4z" fill="#e6e6e6"/>
+   <path d="m130 160.53 14.997 1e-3 5e-5 11.532h-14.997z" fill="#f4eed7"/>
   </g>
   <!-- C (DOWN: hidden) -->
   <g id="C1down" transform="matrix(.64972 0 0 .42232 .81307 -8.2495)" display="none">
-   <path d="m130 64.244 14.999 0.0015 3.7e-4 66.347h-14.997z" fill="#fff"/>
-   <path d="m130 130.59h14.998l3.2e-4 5.7692-14.997-2e-3z" fill="#e6e6e6"/>
-   <path d="m130 136.36 14.996 2e-3 3.4e-4 2.8825h-14.997z" fill="#e9ddaf"/>
-   <path d="m139.38 101.75h5.6244v5.7682h-5.6244z"/>
-   <path d="m141.25 101.74 3.7493 1e-3v2.8831l-3.7493-1e-3z" fill="#333"/>
+   <path d="m130 64.244 9.3695 5.3e-4 -6.1e-4 57.682h5.6262v41.298h-14.997z" fill="#fff"/>
+   <path d="m130 163.24 14.998-0.0126 3.2e-4 5.7692-14.997 0.0106z" fill="#e6e6e6"/>
+   <path d="m130 168.99 14.996 1.3e-4v2.8957l-14.997-0.0113z" fill="#e9ddaf"/>
+   <path d="m139.38 121.93h5.6244v5.7681l-5.6244 1.1e-4z"/>
+   <path d="m141.25 119.05 3.7493 1e-3v5.7672l-3.7493-1e-3z" fill="#333"/>
   </g>
   <!-- D (UP: visible) -->
   <g id="D1up" transform="matrix(.64972 0 0 .42232 11.776 -8.5682)">
-   <path d="m130 65h15v57.698h-15z" fill="#fff"/>
-   <path d="m130 122.7h15v5.7692h-15z" fill="#e6e6e6"/>
-   <path d="m130 128.47h15v11.532h-15z" fill="#f4eed7"/>
-   <path d="m130 102.5 1.8691-1e-3v2.883l-1.8698 1e-3z"/>
-   <path d="m143.13 102.51 3.7448-6e-3v2.8824h-3.7446z"/>
+   <path d="m131.87 122.68-4.2e-4 -57.683 11.261-6.51e-4v57.683h1.8724l-2e-3 32.662h-15l-2.1e-4 -32.662z" fill="#fff"/>
+   <path d="m130 155.34h15v5.7692h-15z" fill="#e6e6e6"/>
+   <path d="m130 161.11h15v11.532l-15 1.3e-4z" fill="#f4eed7"/>
   </g>
   <!-- D (DOWN: hidden) -->
   <g id="D1down" transform="matrix(-.65075 0 0 .42232 190.6 -8.323)" display="none">
-   <path d="m130.02 64.426 14.976-0.0029v66.348h-14.976z" fill="#fff"/>
-   <path d="m130.02 130.77 14.976-2e-3v5.7692l-14.976 2e-3z" fill="#e6e6e6"/>
-   <path d="m130.02 136.54 14.976-2e-3v2.8846l-14.976 2e-3z" fill="#e9ddaf"/>
-   <path d="m143.14 101.92 1.8664 9.4e-4 -2.5e-4 5.7757-1.8661-5e-3z"/>
-   <path d="m130.02 101.91 1.8693 1.1e-4 -2e-3 5.7868-1.8717-2e-3z"/>
-   <path d="m128.16 101.91 1.8649 0.0152 4e-4 2.8818-1.8673 1.6e-4z" fill="#333"/>
-   <path d="m145 101.92 1.8655-5e-3v2.8789l-1.8655 5e-3z" fill="#333"/>
+   <path d="m130.02 64.426 14.976-0.0029v98.976h-14.976z" fill="#fff"/>
+   <path d="m130.02 163.4 14.976-2e-3v5.7692l-14.976 2e-3z" fill="#e6e6e6"/>
+   <path d="m130.02 169.17h14.976v2.8958h-14.976z" fill="#e9ddaf"/>
+   <path d="m143.14 119.22 1.8664 9.4e-4 -2.5e-4 8.6523h-1.8661z"/>
+   <path d="m130.02 119.22 1.8693 1.1e-4 -2e-3 8.6552h-1.8717z"/>
+   <path d="m128.16 119.2 1.8649 0.0152 4e-4 5.7714h-1.8673z" fill="#333"/>
+   <path d="m145 119.22 1.8655-5e-3v5.7733h-1.8655z" fill="#333"/>
   </g>
  </g>
  <!-- === Black keys (visual only) === -->
- <g id="bk-top" transform="matrix(1.5,0,0,1.5,-115,-6)" pointer-events="none" aria-hidden="true">
+ <g id="bk-top" transform="matrix(7.3837 0 0 7.3837 -566.54 -31.08)" pointer-events="none" aria-hidden="true">
   <g transform="matrix(.60911 0 0 .37263 15.262 -5.3387)">
-   <path d="m124.94 65 9.9974-3.1e-4 4.5e-4 42.501h-9.9985z"/>
-   <path d="m126.95 65.001 5.9937 1.7e-5 2.1e-4 42.5h-5.9939z" fill="#333"/>
-   <path d="m126.95 65.001h1.9998l1e-5 32.692 3.9939 2.15e-4v3.269l-5.9937-2.1e-4z" fill="#4d4d4d"/>
+   <path d="m124.94 65 9.9974-3.1e-4 4.5e-4 62.111h-9.9985z"/>
+   <path d="m126.95 65.001 5.9937 1.7e-5 2.1e-4 62.111h-5.9939z" fill="#333"/>
+   <path d="m126.95 65.001h1.9998l1e-5 55.554 3.9939 2.1e-4v3.2783l-5.9937-1.1e-4z" fill="#4d4d4d"/>
   </g>
   <g transform="matrix(.60911 0 0 .37263 28.662 -5.3376)">
-   <path d="m124.95 64.996 9.9981 0.0041v45.767l-6.0036-5.7e-4v-3.2602l-3.9945 5.7e-4z"/>
-   <path d="m126.95 65 5.9989 1.7e-5v42.51h-5.9973z" fill="#333"/>
-   <path d="m126.95 65.001h1.9889v32.692l4.0001 2.15e-4v3.269l-5.989-2.1e-4z" fill="#4d4d4d"/>
+   <path d="m124.95 64.996 9.9981 0.0041v65.371l-6.0083-8e-3v-3.2624l-3.9898 8e-3z"/>
+   <path d="m126.95 65 5.9989 1.7e-5v62.109h-5.9973z" fill="#333"/>
+   <path d="m126.95 65.001h1.9889v55.551l4.0001 2.2e-4v3.2783l-5.989-2.1e-4z" fill="#4d4d4d"/>
   </g>
  </g>
  <!-- === Fingers (hidden by default) === -->
- <g display="none" fill="#1a1a1a" pointer-events="none">
-  <path d="m107.2 10.964h-1.2182v-1.2182h-3.6547v1.2182h-2.4364v1.2182h-4.8729v-1.2182h-1.2182v-1.2182h-1.2182v-1.2182h-1.2182v-1.2182l-1.2415-0.00482 0.02339-1.2134 1.2182 2.4e-6v-3.6547h-1.2182l-2.2e-5 -1.2182h-2.4366v-1.2182h-7.3094v1.2182h-2.4365v1.2182l-2.4364 2.4e-6 -2e-5 4.8729h-1.2182l-2e-5 1.2182h-1.2182l-0.0049 2.451-1.2134-0.01455v2.4364h-1.2182v9.7458h1.2182l4e-6 1.2182h1.2182v1.2182h1.2182v1.2182h1.2182l1e-5 1.2182 3.6547-2e-6v-1.2182h1.2182v1.2182l1.2182 2e-6v1.2182h3.6547v-1.2182l1.2182-9e-6 5.6e-5 9.7458h1.2182v1.2182h1.2182l-2.7e-5 1.2182h2.4365v-1.2182h1.2182v-1.2182h1.2182l-3.2e-5 -7.3094h-1.2182v-6.0911h-1.2182l2.7e-5 -4.8729h1.2182v-1.2182h3.6547v1.2182h6.0911v-1.2182h2.4364v-1.2182h1.2182l3e-5 -1.2182 1.2182 2e-6z"/>
-  <path d="m84.058 10.964h1.2182v-1.2182h3.6547v1.2182h2.4364v1.2182h4.8729v-1.2182h1.2182v-1.2182h1.2182v-1.2182h1.2182v-1.2182l1.2415-0.00482-0.0234-1.2134-1.2182 2.5e-6v-3.6547h1.2182l2e-5 -1.2182h2.4366v-1.2182h7.3094v1.2182h2.4364v1.2182l2.4364 2.4e-6 2e-5 4.8729h1.2182l1e-5 1.2182h1.2182l5e-3 2.451 1.2134-0.01455v2.4365h1.2182v9.7458h-1.2182v1.2182h-1.2182v1.2182h-1.2182v1.2182h-1.2182l-1e-5 1.2182-3.6547-3e-6v-1.2182h-1.2182v1.2182l-1.2182 3e-6v1.2182h-3.6547v-1.2182l-1.2182-1e-5 -5e-5 9.7458h-1.2182v1.2182h-1.2182l2e-5 1.2182h-2.4364v-1.2182h-1.2182v-1.2182h-1.2182l3.2e-5 -7.3094h1.2182v-6.0911h1.2182l-2.6e-5 -4.8729h-1.2183v-1.2182h-3.6547v1.2182h-6.0911v-1.2182h-2.4365v-1.2182h-1.2182l-3.2e-5 -1.2182-1.2182 3e-6z"/>
- </g>
 </svg>
-
 
 
     </div>
 
-    <div class="grid">
+    <div class="grid inlineScore">
       <div class="card"><div>HITS</div><div id="hits" class="big">0</div></div>
       <div class="card"><div>STABILITY</div><div id="stability" class="big">0.000</div></div>
       <div class="card"><div>SCORE</div><div id="score" class="big">0</div></div>
     </div>
   </div>
   <div id="overlay"></div>
+
+  <!-- Result modal -->
+  <div id="resultModal" aria-hidden="true">
+    <div class="panel" role="dialog" aria-modal="true">
+      <h2>RESULT</h2>
+      <div class="grid">
+        <div class="card"><div>HITS</div><div id="rHits" class="big">0</div></div>
+        <div class="card"><div>STABILITY</div><div id="rStab" class="big">0.000</div></div>
+        <div class="card"><div>SCORE</div><div id="rScore" class="big">0000</div></div>
+      </div>
+      <div class="actions"><button id="closeResult">OK</button></div>
+    </div>
+  </div>
 
   <script>
   // ===== Tap-only minimal engine (no modules; browser-safe) =====
@@ -214,6 +238,11 @@
   const elHits=document.getElementById('hits');
   const elStab=document.getElementById('stability');
   const elScore=document.getElementById('score');
+  const resultModal=document.getElementById('resultModal');
+  const rHits=document.getElementById('rHits');
+  const rStab=document.getElementById('rStab');
+  const rScore=document.getElementById('rScore');
+  const btnCloseResult=document.getElementById('closeResult');
   const elTime=document.getElementById('timeLeft');
   const area=document.getElementById('pianoArea');
 
@@ -566,17 +595,16 @@ function calcScore(){
     const sec = Math.min(DUR_MS/1000, Math.max(0.001, dur));
     const hps = N / sec; // hits per second over effective duration
 
-    // update SPEED if element exists (some builds removed it)
     const elSpeed = document.getElementById('speed');
     if (elSpeed) elSpeed.textContent = hps.toFixed(2);
 
+    let stab = 0;
     if(N>=2){
       const dt=[]; for(let i=1;i<N;i++) dt.push(ts[i]-ts[i-1]);
       const mu = dt.reduce((a,b)=>a+b,0)/dt.length;
       const sd = Math.sqrt(dt.reduce((s,x)=>s+(x-mu)*(x-mu),0)/dt.length);
-      const stab = Math.max(0, Math.min(1, 1 - (sd/(mu||1))));
+      stab = Math.max(0, Math.min(1, 1 - (sd/(mu||1))));
       elStab.textContent = stab.toFixed(3);
-
       const speedScore = Math.max(0, Math.min(100, (N / TARGET_HITS_10S) * 100));
       const stabScore  = stab * 100;
       scoreNum = Math.round(speedScore * stabScore);
@@ -585,6 +613,12 @@ function calcScore(){
       elStab.textContent = '0.000';
       scoreNum = 0; renderScore();
     }
+
+    // === Populate and show result modal ===
+    rHits.textContent = String(N);
+    rStab.textContent = (typeof stab==='number'? stab.toFixed(3) : '0.000');
+    rScore.textContent = String(scoreNum).padStart(4,'0');
+    resultModal.classList.add('show');
 
     speakResult(scoreNum||0);
     resetKeyVisuals();
@@ -634,7 +668,9 @@ function calcScore(){
 
   // Buttons
   btnStart.addEventListener('click', ()=> startCountdown());
-  btnStop .addEventListener('click', ()=> finish());
+  btnStop.addEventListener('click', ()=> finish());
+  btnCloseResult.addEventListener('click', ()=>{ resultModal.classList.remove('show'); });
+  resultModal.addEventListener('click', (e)=>{ if(e.target===resultModal) resultModal.classList.remove('show'); });
 
 
   // ==== iOS Safari: prevent tap-zoom & dblclick zoom ====
