@@ -17,7 +17,15 @@
       font-style:normal;font-weight:400;font-display:swap;
     }
     body{margin:0;background:#000;color:#fff;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans JP",sans-serif;text-align:center;font-synthesis:none}
-    .wrap{max-width:800px;margin:0 auto;padding:16px;overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column}
+.wrap{
+  max-width:800px;
+  margin:0 auto;
+  padding:16px var(--safe-pad);
+  overflow-x:hidden;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
     h1{font:700 18px/1.2 'Press Start 2P',monospace;margin:6px 0 12px;letter-spacing:.5px}
     #overlay,.big,.segments label{font-family:'Press Start 2P',monospace}
     .card>div:first-child{font-family:'Press Start 2P',monospace;font-weight:700;letter-spacing:.3px}
@@ -28,11 +36,38 @@
     .segments input{display:none}
     .segments input:checked+label{background:#b5001e;color:#000}
 
-    .btnRow{display:flex;gap:var(--btn-gap,10px);justify-content:center;flex-wrap:nowrap;align-items:center;overflow:visible;padding:2px 4px}
-    @media (max-width:380px){ .btnRow{ flex-wrap: wrap; gap: var(--btn-gap); } }
+    .btnRow{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:var(--btn-gap);
+  flex-wrap:nowrap;            /* ← できるだけ改行しない */
+  padding:2px var(--safe-pad); /* ← 端に寄りすぎ対策 */
+  overflow:visible;
+  min-width:0;
+}
+    @media (max-width:480px){
+  .btnRow{ flex-wrap:nowrap; } /* 幅はアイコン側で自動縮小 */
+}
+@media (min-width:768px){
+  .btnRow{ gap:max(var(--btn-gap), 14px); }
+}
     button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0; line-height:0; }
-    .svgBtn{display:inline-grid;place-items:center;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
-    .svgBtn .icon{width:clamp(var(--btn-icon-min), var(--btn-icon-vw), var(--btn-icon-max));height:auto;transition:filter .25s ease, transform .06s;overflow:visible}
+    .svgBtn{
+  display:inline-grid;
+  place-items:center;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  -webkit-touch-callout:none;
+  min-width:0;
+  flex:0 1 auto;
+}
+    .svgBtn .icon{
+  width: min(var(--btn-icon-max), var(--btn-icon-fit));
+  height:auto;
+  transition:filter .25s ease, transform .06s;
+  overflow:visible;
+}
     .svgBtn .icon use{transition:filter .25s ease}
     .svgBtn.pressed .icon{transform:translateY(3px) scale(.98)}
 
@@ -93,12 +128,15 @@ body.running #timeCard{ display: block; }
     #overlay{position:fixed;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.5);color:#ff5050;font:700 clamp(40px,10vw,120px)/1 'Press Start 2P',monospace;opacity:0;pointer-events:none;transition:.15s;z-index:2147483647;will-change:opacity}
     #overlay.show{opacity:1}
 
-    :root{
-      --btn-gap: 10px;
-      --btn-icon-min: 220px;
-      --btn-icon-vw: 36vw;
-      --btn-icon-max: 300px;
-    }
+:root{
+  --btn-gap: 12px;
+  /* 左右の安全余白（iPhone のノッチ/ホームバー + 16px 基本余白） */
+  --safe-pad: max(16px, env(safe-area-inset-left), env(safe-area-inset-right));
+  /* デスクトップ上限 */
+  --btn-icon-max: 300px;
+  /* 2ボタンが必ず横に収まるように画面幅から安全余白とギャップを引いて÷2 */
+  --btn-icon-fit: calc((100vw - (var(--safe-pad) * 2) - var(--btn-gap)) / 2);
+}
   </style>
 </head>
 <body>
@@ -151,68 +189,6 @@ body.running #timeCard{ display: block; }
     <div id="pianoArea" aria-label="Piano Keys">
       <!-- You will paste the real SVG here. Placeholder below keeps layout & event targets alive. -->
 
-<?xml version="1.0" encoding="UTF-8"?>
-<svg id="piano" width="420" height="480" shape-rendering="crispEdges" version="1.1" viewBox="0 0 420 480" xmlns="http://www.w3.org/2000/svg">
- <!-- SAFE-TRIM: removed editors' metadata/defs; keeps required IDs for JS -->
- <!-- === Background frame (non-interactive) === -->
- <g id="bg" transform="matrix(8.6114 0 0 8.6214 -660.72 -126.02)" pointer-events="none" aria-hidden="true">
-  <path d="m76.728 15.836h48.77l1e-3 54.457h-48.772z"/>
-  <path d="m125.5 14.617-9.4e-4 1.8279h-24.386l-0.14099 40.681-0.0228 7.2164h14.363v-7.304h10.188v7.304l-48.772-4e-6 0.0014-7.304h7.3125l-0.0022 7.304h31.273-14.363l0.1639-47.897-24.386-4e-5 9.35e-4 -1.8279z" fill="#1a1a1a" stroke-width=".69471"/>
-  <path d="m107.2 57.037 9.7662 0.0013v2.4331h-9.7662z" fill="#e6e6e6"/>
-  <path d="m107.2 59.471h9.7662v4.8706l-9.7662 7.9e-4z" fill="#f4eed7"/>
-  <path d="m107.2 18.883 9.7662-0.0014v38.156l-9.7662 4.2e-5z" fill="#fff"/>
-  <path d="m85.275 65.559-3e-5 -1.217h31.691l-5e-5 1.217zm40.224-8.521h-7.3125l-0.0187-38.155h7.3329zm-41.438-5.15e-4h-7.3125l-0.022025-38.155h7.3141zm-7.3346 13.255v-1.3919h48.772l3e-5 1.3919z" fill="#1a1a1a" stroke-width=".14835"/>
-  <path d="m85.275 17.664 31.691-6.27e-4 -3.2e-4 1.2182-31.691 6.02e-4z" fill="#800000"/>
-  <path d="m116.97 16.444h1.1992l4.3e-4 49.116h-1.1992zm-32.929 5.32e-4h1.238l-0.01946 49.115h-1.2181z"/>
- </g>
- <!-- === Keys (interactive: C & D only) === -->
- <g id="keys" transform="matrix(8.6116 0 0 8.6214 -660.75 -126.02)">
-  <!-- C (UP: visible) -->
-  <g id="C1up" transform="matrix(.64972 0 0 .42232 .81216 -8.3245)">
-   <path d="m130 64.423 9.3709-8.79e-4 -8.7e-4 57.682h5.627l-5e-5 32.662h-14.997z" fill="#fff"/>
-   <path d="m130 154.77 14.997 1.6e-4 -5e-5 5.7692-14.997 1.5e-4z" fill="#e6e6e6"/>
-   <path d="m130 160.53 14.997 1e-3 5e-5 11.532h-14.997z" fill="#f4eed7"/>
-  </g>
-  <!-- C (DOWN: hidden) -->
-  <g id="C1down" transform="matrix(.64972 0 0 .42232 .81307 -8.2495)" display="none">
-   <path d="m130 64.244 9.3695 5.3e-4 -6.1e-4 57.682h5.6262v41.298h-14.997z" fill="#fff"/>
-   <path d="m130 163.24 14.998-0.0126 3.2e-4 5.7692-14.997 0.0106z" fill="#e6e6e6"/>
-   <path d="m130 168.99 14.996 1.3e-4v2.8957l-14.997-0.0113z" fill="#e9ddaf"/>
-   <path d="m139.38 121.93h5.6244v5.7681l-5.6244 1.1e-4z"/>
-   <path d="m141.25 119.05 3.7493 1e-3v5.7672l-3.7493-1e-3z" fill="#333"/>
-  </g>
-  <!-- D (UP: visible) -->
-  <g id="D1up" transform="matrix(.64972 0 0 .42232 11.776 -8.5682)">
-   <path d="m131.87 122.68-4.2e-4 -57.683 11.261-6.51e-4v57.684h1.8704v32.661h-15v-32.662z" fill="#fff"/>
-   <path d="m130 155.34h15.001v5.7692l-15-1e-5z" fill="#e6e6e6"/>
-   <path d="m130 161.11h15v11.532l-15 1.3e-4z" fill="#f4eed7"/>
-  </g>
-  <!-- D (DOWN: hidden) -->
-  <g id="D1down" transform="matrix(-.65075 0 0 .42232 190.6 -8.323)" display="none">
-   <path d="m130.02 64.426 14.976-0.0029v98.976h-14.976z" fill="#fff"/>
-   <path d="m130.02 163.4 14.976-2e-3v5.7692l-14.976 2e-3z" fill="#e6e6e6"/>
-   <path d="m130.02 169.17h14.976v2.8958h-14.976z" fill="#e9ddaf"/>
-   <path d="m143.14 119.22 1.8664 9.4e-4 -2.5e-4 8.6523h-1.8661z"/>
-   <path d="m130.02 119.22 1.8736 1.1e-4v8.6552h-1.878z"/>
-   <path d="m128.16 119.2 1.8615 0.0152v5.7714h-1.8635z" fill="#333"/>
-   <path d="m145 119.22 1.8655-5e-3v5.7733h-1.8655z" fill="#333"/>
-  </g>
- </g>
- <!-- === Black keys (visual only) === -->
- <g id="bk-top" transform="matrix(8.6116 0 0 8.6214 -660.75 -126.02)" pointer-events="none" aria-hidden="true">
-  <g transform="matrix(.60911 0 0 .37263 15.262 -5.3387)">
-   <path d="m124.94 65 9.9974-3.1e-4 4.5e-4 62.111h-9.9985z"/>
-   <path d="m126.95 65.001 5.9937 1.7e-5 2.1e-4 62.111h-5.9939zm-26.041-6.5416h12.005v6.5416h-12.003zm3e-3 113.84h12.002v4.9068h-12.002zm68.028 1e-5h12.036l3e-3 4.9068h-12.039zm4e-3 -113.84h12.031l7e-3 6.5416h-12.038z" fill="#333"/>
-   <path d="m126.95 65.001 1.9998 4e-6 1e-5 55.554 3.9939 2.1e-4v3.2783l-5.9937-1.1e-4zm-26.039-11.447h12.004v4.9052h-12.005zm3e-3 113.84h12.001v4.9052h-12.002zm68.032-113.84h12.035l-4e-3 4.9052h-12.031zm-4e-3 113.84h12.041l-4e-3 4.9052h-12.037z" fill="#4d4d4d"/>
-  </g>
-  <g transform="matrix(.60911 0 0 .37263 28.662 -5.3376)">
-   <path d="m124.95 64.996 9.9982 0.0041v65.369h-6.0107v-3.2688l-3.9876 8e-3z"/>
-   <path d="m126.95 65 5.9989 1.7e-5v62.109h-5.9989z" fill="#333"/>
-   <path d="m126.95 65.001h1.9889v55.551l4.0001 2.2e-4v3.2783l-5.989-2.1e-4z" fill="#4d4d4d"/>
-  </g>
- </g>
- <!-- === Fingers (hidden by default) === -->
-</svg>
 
     <div class="card" id="timeCard" aria-live="polite" aria-hidden="true">
       <div>TIME LEFT (s)</div>
