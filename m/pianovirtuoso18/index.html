@@ -12,32 +12,25 @@
     body{-webkit-touch-callout:none;-webkit-user-select:none}
     @font-face{
       font-family:'Press Start 2P';
-      /* 1st: absolute (prod) / 2nd: root-relative (same origin) */
       src:url('https://dim.productions/assets/fonts/PressStart2P.woff2') format('woff2'),
           url('/assets/fonts/PressStart2P.woff2') format('woff2');
       font-style:normal;font-weight:400;font-display:swap;
     }
-    body{margin:0;background:#000;color:#fff;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans JP",sans-serif;text-align:center}
+    body{margin:0;background:#000;color:#fff;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans JP",sans-serif;text-align:center;font-synthesis:none}
     .wrap{max-width:800px;margin:0 auto;padding:16px;overflow-x:hidden}
     h1{font:700 18px/1.2 'Press Start 2P',monospace;margin:6px 0 12px;letter-spacing:.5px}
-    /* apply retro font to more UI parts */
     #overlay,.big,.segments label{font-family:'Press Start 2P',monospace}
-/* apply to card titles like "TIME LEFT (s)", HITS, etc. */
-.card>div:first-child{font-family:'Press Start 2P',monospace;font-weight:700;letter-spacing:.3px}
-    body{font-synthesis:none}
+    .card>div:first-child{font-family:'Press Start 2P',monospace;font-weight:700;letter-spacing:.3px}
+
     .controls{display:flex;flex-direction:column;gap:12px;align-items:center}
     .segments{display:flex;gap:10px}
     .segments label{padding:8px 12px;cursor:pointer;background:transparent}
     .segments input{display:none}
     .segments input:checked+label{background:#b5001e;color:#000}
-.btnRow{display:flex;gap:var(--btn-gap,4px);justify-content:center;flex-wrap:nowrap;align-items:center;overflow:visible;padding:2px 4px}
-@media (max-width:380px){
-  .btnRow{ flex-wrap: wrap; gap: var(--btn-gap); }
-}
-button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0; line-height:0; }
-.svgBtn .icon{width:clamp(var(--btn-icon-min), var(--btn-icon-vw), var(--btn-icon-max)); height:auto; transition:filter .25s ease, transform .06s; overflow:visible;}
 
-    button{padding:0;border:none;background:transparent;cursor:pointer}
+    .btnRow{display:flex;gap:var(--btn-gap,10px);justify-content:center;flex-wrap:nowrap;align-items:center;overflow:visible;padding:2px 4px}
+    @media (max-width:380px){ .btnRow{ flex-wrap: wrap; gap: var(--btn-gap); } }
+    button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0; line-height:0; }
     .svgBtn{display:inline-grid;place-items:center;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
     .svgBtn .icon{width:clamp(var(--btn-icon-min), var(--btn-icon-vw), var(--btn-icon-max));height:auto;transition:filter .25s ease, transform .06s;overflow:visible}
     .svgBtn .icon use{transition:filter .25s ease}
@@ -61,19 +54,19 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
     .spacer-md{height:12px}
     .key{display:flex;align-items:center;justify-content:center;transition:transform .06s ease, filter .06s ease}
     .key.down{transform:translateY(2px) scaleY(.985); filter:brightness(1.15)}
+    .glow-black{filter:drop-shadow(0 0 10px rgba(0,0,0,.95)) drop-shadow(0 0 26px rgba(0,0,0,.85)) brightness(.85) contrast(1.1);} 
     .key .label{opacity:.6; font-weight:700}
     .key:active{filter:brightness(1.2)}
 
     #overlay{position:fixed;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.5);color:#ff5050;font:700 clamp(40px,10vw,120px)/1 'Press Start 2P',monospace;opacity:0;pointer-events:none;transition:.15s;z-index:2147483647;will-change:opacity}
     #overlay.show{opacity:1}
 
-:root{
-  --btn-gap: 4px;              /* 小さいほど近づく */
-  --btn-icon-min: 220px;       /* 最小幅を少しだけ縮める */
-  --btn-icon-vw: 36vw;         /* 画面幅基準を小さくして寄せる */
-  --btn-icon-max: 300px;       /* 最大幅も少し絞る */
-}
-
+    :root{
+      --btn-gap: 10px;
+      --btn-icon-min: 220px;
+      --btn-icon-vw: 36vw;
+      --btn-icon-max: 300px;
+    }
   </style>
 </head>
 <body>
@@ -104,14 +97,7 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
   </svg>
 
   <div class="wrap">
-    <h1><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 211.67 26.46" role="img" aria-label="Piano Virtuoso 18 logo">
-  <g transform="translate(74.122 -23.225) scale(.31127)">
-    <path fill="#800000" d="M287.15-1430.72h3.68v3.68h-3.68zm7.36 36.83h7.37v-11.05h-7.37v-3.68h7.37v-3.69h-7.37v-3.68h7.37v-7.36h-11.05v-3.69h3.68v-3.68h11.05v3.68h3.68v3.68h3.68v3.69h-3.68v29.46h3.68v-29.46h3.69v25.78h3.68v-29.46h-7.36v-3.69h14.73v33.14h-3.69v3.69h-7.36v3.68h-7.37v7.37h-3.68v3.68h-3.68v-14.73h-7.37zm33.15-36.83h3.68v3.68h-3.69zm-36.83 40.5h3.68v3.69h-3.68zm47.87-40.5h7.37v7.37h-7.37zm-3.68 36.83h3.68v-14.73h-3.68v-3.69h3.68v-3.68h7.37v3.68h3.68v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-7.37v-3.68h-3.68zm18.41 0h3.68v-14.73h3.69v-3.69h3.68v18.41h7.37v-18.4h-7.37v-3.69h11.05v3.68h7.36v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-7.36v-3.68h-3.69v3.68h-7.36v-3.68h-7.37zm36.83 0h3.68v-14.73h-7.36v-3.69h3.68v-3.68h7.36v3.68H405v-3.68h7.36v3.68h7.37v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-3.69v-3.68h-3.68v-18.41h-7.36v14.72H405v3.69h-3.68v3.68h-7.37v-3.68h-3.68zm33.14 0h3.68v-14.73h3.69v-3.69h3.68v18.41h7.36v-14.72h-3.68v-3.69h-3.68v-3.68h11.05v3.68h7.36v3.68h-3.68v14.74h-3.68v3.68h-7.37v3.68h-7.36v-3.68h-7.37zm51.56-36.83h3.68v3.68h-3.68zm29.46 3.68h3.68v-3.68h7.36v3.68h7.37v3.68h-3.68v25.78h-3.69v3.68h-3.68v-29.45h-7.36Zm18.41-3.68h3.68v3.68h-3.68zm-36.83 22.1h7.37v-3.69H486v-3.68h7.37v-7.36h-14.73v-3.69H486v-3.68h11.05v3.68h3.68v3.68h3.69v3.69h-3.69v22.1h-7.36v-7.37H486zm-3.68 14.72h22.1v-25.77h3.68v25.78h3.68v3.68h-3.68v3.68h-11.05v-3.68h-14.73zm-3.68 3.69h3.68v3.68h-3.68zm51.55-40.51h7.37v7.37h-7.36zm-3.68 36.83h3.68v-14.73h-3.68v-3.69h3.68v-3.68h7.37v3.68h3.68v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-7.36v-3.68h-3.69zm22.1 0h3.68v-14.73h-7.36v-3.69h3.68v-3.68h7.36v3.68h3.68v18.41h3.69v3.69h-3.69v3.68h-7.36v-3.68h-3.68zm14.73-18.42h-3.69v-3.68h11.05v7.37h-7.36zm11.04 18.41h3.69v-18.4h-3.69v-3.69h3.69v-7.36h3.68v-3.69h3.68v11.05h7.37v3.68h-7.37v18.41h7.37v3.69h-3.68v3.68h-7.37v-3.68h-7.36zm25.78 0h3.69v-14.72h-7.37v-3.69h3.68v-3.68h7.37v3.68h3.68v18.41h7.37v-14.72h-3.69v-3.69h3.69v-3.68h7.36v3.68h3.68v3.68h-3.68v14.74h7.37v3.68h-3.69v3.68h-7.36v-3.68h-7.37v3.68h-7.36v-3.68h-7.37zm36.83 0h3.68v-14.72h3.68v-3.69h3.69v18.41h7.36v-14.72h-3.68v-3.69h-3.68v-3.68h11.04v3.68h7.37v3.68h-3.68v14.74h-3.69v3.68h-7.36v3.68h-7.37v-3.68H637zm55.24-25.77h3.68v7.36h-3.68zm0 11.05h3.68v3.68h-3.68zm-18.42 14.72h3.69v-3.68h-3.69v-11.05h3.69v-3.68h3.68v-3.68h7.36v3.68h3.69v3.68h-11.05v7.37h3.68v3.68h-3.68v3.68h7.37v-7.36h-3.69v-3.68h7.37v3.68h3.68v7.37h-3.68v3.68h-3.69v3.68h-7.36v-3.68h-7.36zm-3.68 3.69h3.68v3.68h-3.68zm29.46-3.68h3.68v-14.73h3.69v-3.69h3.68v18.41H718v-14.72h-3.68v-3.69h-3.68v-3.68h11.05v3.68h7.36v3.68h-3.68v14.74h-3.68v3.68h-7.37v3.68h-7.36v-3.68h-7.37zm51.56-18.42h3.68v-3.68h7.37v25.78h-3.69v3.68h-3.68v-22.1h-3.68zm22.1-3.68h3.68v3.68h3.68v-7.36h-7.37zm7.36 14.73h-3.68v-3.68h-3.69v11.05h7.37zm-14.73-3.68h3.68v-7.37h-3.68v-7.36h3.68v-3.68h3.68v-3.69h7.37v3.68h3.68v3.69h3.68v7.36h-3.68v7.37h3.68v11.05h-3.68v3.68h-3.68v3.68h-7.37v-3.68h-3.68v-3.68h-3.68z" transform="matrix(1.35775 0 0 1.35776 -627.998 2027.187)"/>
-    <path fill="#f00" d="M287.15-1430.72h3.68v3.68h-3.68zm7.36 36.83h7.37v-11.05h-7.37v-3.68h7.37v-3.69h-7.37v-3.68h7.37v-7.36h-11.05v-3.69h3.68v-3.68h11.05v3.68h3.68v3.68h3.68v3.69h-3.68v29.46h3.68v-29.46h3.69v25.78h3.68v-29.46h-7.36v-3.69h14.73v33.14h-3.69v3.69h-7.36v3.68h-7.37v7.37h-3.68v3.68h-3.68v-14.73h-7.37zm33.15-36.83h3.68v3.68h-3.69zm-36.83 40.5h3.68v3.69h-3.68zm47.87-40.5h7.37v7.37h-7.37zm-3.68 36.83h3.68v-14.73h-3.68v-3.69h3.68v-3.68h7.37v3.68h3.68v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-7.37v-3.68h-3.68zm18.41 0h3.68v-14.73h3.69v-3.69h3.68v18.41h7.37v-18.4h-7.37v-3.69h11.05v3.68h7.36v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-7.36v-3.68h-3.69v3.68h-7.36v-3.68h-7.37zm36.83 0h3.68v-14.73h-7.36v-3.69h3.68v-3.68h7.36v3.68H405v-3.68h7.36v3.68h7.37v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-3.69v-3.68h-3.68v-18.41h-7.36v14.72H405v3.69h-3.68v3.68h-7.37v-3.68h-3.68zm33.14 0h3.68v-14.73h3.69v-3.69h3.68v18.41h7.36v-14.72h-3.68v-3.69h-3.68v-3.68h11.05v3.68h7.36v3.68h-3.68v14.74h-3.68v3.68h-7.37v3.68h-7.36v-3.68h-7.37zm51.56-36.83h3.68v3.68h-3.68zm29.46 3.68h3.68v-3.68h7.36v3.68h7.37v3.68h-3.68v25.78h-3.69v3.68h-3.68v-29.45h-7.36Zm18.41-3.68h3.68v3.68h-3.68zm-36.83 22.1h7.37v-3.69H486v-3.68h7.37v-7.36h-14.73v-3.69H486v-3.68h11.05v3.68h3.68v3.68h3.69v3.69h-3.69v22.1h-7.36v-7.37H486zm-3.68 14.72h22.1v-25.77h3.68v25.78h3.68v3.68h-3.68v3.68h-11.05v-3.68h-14.73zm-3.68 3.69h3.68v3.68h-3.68zm51.55-40.51h7.37v7.37h-7.36zm-3.68 36.83h3.68v-14.73h-3.68v-3.69h3.68v-3.68h7.37v3.68h3.68v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-7.36v-3.68h-3.69zm22.1 0h3.68v-14.73h-7.36v-3.69h3.68v-3.68h7.36v3.68h3.68v18.41h3.69v3.69h-3.69v3.68h-7.36v-3.68h-3.68zm14.73-18.42h-3.69v-3.68h11.05v7.37h-7.36zm11.04 18.41h3.69v-18.4h-3.69v-3.69h3.69v-7.36h3.68v-3.69h3.68v11.05h7.37v3.68h-7.37v18.41h7.37v3.69h-3.68v3.68h-7.37v-3.68h-7.36zm25.78 0h3.69v-14.72h-7.37v-3.69h3.68v-3.68h7.37v3.68h3.68v18.41h7.37v-14.72h-3.69v-3.69h3.69v-3.68h7.36v3.68h3.68v3.68h-3.68v14.74h7.37v3.68h-3.69v3.68h-7.36v-3.68h-7.37v3.68h-7.36v-3.68h-7.37zm36.83 0h3.68v-14.72h3.68v-3.69h3.69v18.41h7.36v-14.72h-3.68v-3.69h-3.68v-3.68h11.04v3.68h7.37v3.68h-3.68v14.74h-3.69v3.68h-7.36v3.68h-7.37v-3.68H637zm55.24-25.77h3.68v7.36h-3.68zm0 11.05h3.68v3.68h-3.68zm-18.42 14.72h3.69v-3.68h-3.69v-11.05h3.69v-3.68h3.68v-3.68h7.36v3.68h3.69v3.68h-11.05v7.37h3.68v3.68h-3.68v3.68h7.37v-7.36h-3.69v-3.68h7.37v3.68h3.68v7.37h-3.68v3.68h-3.69v3.68h-7.36v-3.68h-7.36zm-3.68 3.69h3.68v3.68h-3.68zm29.46-3.68h3.68v-14.73h3.69v-3.69h3.68v18.41H718v-14.72h-3.68v-3.69h-3.68v-3.68h11.05v3.68h7.36v3.68h-3.68v14.74h-3.68v3.68h-7.37v3.68h-7.36v-3.68h-7.37zm51.56-18.42h3.68v-3.68h7.37v25.78h-3.69v3.68h-3.68v-22.1h-3.68zm22.1-3.68h3.68v3.68h3.68v-7.36h-7.37zm7.36 14.73h-3.68v-3.68h-3.69v11.05h7.37zm-14.73-3.68h3.68v-7.37h-3.68v-7.36h3.68v-3.68h3.68v-3.69h7.37v3.68h3.68v3.69h3.68v7.36h-3.68v7.37h3.68v11.05h-3.68v3.68h-3.68v3.68h-7.37v-3.68h-3.68v-3.68h-3.68z" transform="translate(-628.002 2022.187) scale(1.35776)"/>
-    <path fill="#fc0" d="M287.15-1430.72h3.68v3.68h-3.68zm7.36 36.83h7.37v-11.05h-7.37v-3.68h7.37v-3.69h-7.37v-3.68h7.37v-7.36h-11.05v-3.69h3.68v-3.68h11.05v3.68h3.68v3.68h3.68v3.69h-3.68v29.46h3.68v-29.46h3.69v25.78h3.68v-29.46h-7.36v-3.69h14.73v33.14h-3.69v3.69h-7.36v3.68h-7.37v7.37h-3.68v3.68h-3.68v-14.73h-7.37zm33.15-36.83h3.68v3.68h-3.69zm-36.83 40.5h3.68v3.69h-3.68zm47.87-40.5h7.37v7.37h-7.37zm-3.68 36.83h3.68v-14.73h-3.68v-3.69h3.68v-3.68h7.37v3.68h3.68v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-7.37v-3.68h-3.68zm18.41 0h3.68v-14.73h3.69v-3.69h3.68v18.41h7.37v-18.4h-7.37v-3.69h11.05v3.68h7.36v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-7.36v-3.68h-3.69v3.68h-7.36v-3.68h-7.37zm36.83 0h3.68v-14.73h-7.36v-3.69h3.68v-3.68h7.36v3.68H405v-3.68h7.36v3.68h7.37v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-3.69v-3.68h-3.68v-18.41h-7.36v14.72H405v3.69h-3.68v3.68h-7.37v-3.68h-3.68zm33.14 0h3.68v-14.73h3.69v-3.69h3.68v18.41h7.36v-14.72h-3.68v-3.69h-3.68v-3.68h11.05v3.68h7.36v3.68h-3.68v14.74h-3.68v3.68h-7.37v3.68h-7.36v-3.68h-7.37zm51.56-36.83h3.68v3.68h-3.68zm29.46 3.68h3.68v-3.68h7.36v3.68h7.37v3.68h-3.68v25.78h-3.69v3.68h-3.68v-29.45h-7.36Zm18.41-3.68h3.68v3.68h-3.68zm-36.83 22.1h7.37v-3.69H486v-3.68h7.37v-7.36h-14.73v-3.69H486v-3.68h11.05v3.68h3.68v3.68h3.69v3.69h-3.69v22.1h-7.36v-7.37H486zm-3.68 14.72h22.1v-25.77h3.68v25.78h3.68v3.68h-3.68v3.68h-11.05v-3.68h-14.73zm-3.68 3.69h3.68v3.68h-3.68zm51.55-40.51h7.37v7.37h-7.36zm-3.68 36.83h3.68v-14.73h-3.68v-3.69h3.68v-3.68h7.37v3.68h3.68v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-7.36v-3.68h-3.69zm22.1 0h3.68v-14.73h-7.36v-3.69h3.68v-3.68h7.36v3.68h3.68v18.41h3.69v3.69h-3.69v3.68h-7.36v-3.68h-3.68zm14.73-18.42h-3.69v-3.68h11.05v7.37h-7.36zm11.04 18.41h3.69v-18.4h-3.69v-3.69h3.69v-7.36h3.68v-3.69h3.68v11.05h7.37v3.68h-7.37v18.41h7.37v3.69h-3.68v3.68h-7.37v-3.68h-7.36zm25.78 0h3.69v-14.72h-7.37v-3.69h3.68v-3.68h7.37v3.68h3.68v18.41h7.37v-14.72h-3.69v-3.69h3.69v-3.68h7.36v3.68h3.68v3.68h-3.68v14.74h7.37v3.68h-3.69v3.68h-7.36v-3.68h-7.37v3.68h-7.36v-3.68h-7.37zm36.83 0h3.68v-14.72h3.68v-3.69h3.69v18.41h7.36v-14.72h-3.68v-3.69h-3.68v-3.68h11.04v3.68h7.37v3.68h-3.68v14.74h-3.69v3.68h-7.36v3.68h-7.37v-3.68H637zm55.24-25.77h3.68v7.36h-3.68zm0 11.05h3.68v3.68h-3.68zm-18.42 14.72h3.69v-3.68h-3.69v-11.05h3.69v-3.68h3.68v-3.68h7.36v3.68h3.69v3.68h-11.05v7.37h3.68v3.68h-3.68v3.68h7.37v-7.36h-3.69v-3.68h7.37v3.68h3.68v7.37h-3.68v3.68h-3.69v3.68h-7.36v-3.68h-7.36zm-3.68 3.69h3.68v3.68h-3.68zm29.46-3.68h3.68v-14.73h3.69v-3.69h3.68v18.41H718v-14.72h-3.68v-3.69h-3.68v-3.68h11.05v3.68h7.36v3.68h-3.68v14.74h-3.68v3.68h-7.37v3.68h-7.36v-3.68h-7.37zm51.56-18.42h3.68v-3.68h7.37v25.78h-3.69v3.68h-3.68v-22.1h-3.68zm22.1-3.68h3.68v3.68h3.68v-7.36h-7.37zm7.36 14.73h-3.68v-3.68h-3.69v11.05h7.37zm-14.73-3.68h3.68v-7.37h-3.68v-7.36h3.68v-3.68h3.68v-3.69h7.37v3.68h3.68v3.69h3.68v7.36h-3.68v7.37h3.68v11.05h-3.68v3.68h-3.68v3.68h-7.37v-3.68h-3.68v-3.68h-3.68z" transform="matrix(1.35775 0 0 1.35776 -627.998 2017.187)"/>
-  </g>
-</svg>
-</h1>
+    <h1></h1>
     <div class="controls">
       <div class="segments">
         <input id="modeE" type="radio" name="mode" value="E" checked>
@@ -136,84 +122,73 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
 
     <div id="pianoArea">
       <!-- === Light, precise SVG (IDs preserved; positions unchanged) === -->
-   <svg id="piano" viewBox="0 0 73.131003 76.755435" version="1.1" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
-  <!-- SAFE-TRIM: removed editors' metadata/defs; keeps required IDs for JS -->
+      <svg id="piano" viewBox="0 0 73.131003 76.755435" version="1.1" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background frame -->
+        <g id="bg" aria-hidden="true" pointer-events="none" transform="matrix(1.5,0,0,1.5,-115,-6)">
+          <path fill="#000" d="M76.744203,4.2646566 125.498,4.263v51.168104l-24.37084,.00095-24.38316,.00095z"/>
+          <path fill="#1a1a1a" d="m80.398296,51.774947 41.453594,-.0019v2.436l-41.453594,.0019zM124.28,5.4807167 124.288,55.428899h-1.21811l-.00049,-48.7310989-43.889197,.003 .000093,48.7303039-1.218093,-.000265V5.4826551ZM121.85187,49.338767l-4.87301,.000265 .0002,-32.894964-31.707562,.0026-.00053,32.894422h-4.8726l-.00013,-41.422162 41.453392,-.00186z"/>
+          <path fill="#4d4d4d" d="m80.402919,40.812065 3.65473,-.000665v2.43645l-3.65473,.000665z m37.786051,-.0017 3.65473,-.000651v2.43645l-3.65473,.000651z"/>
+          <path fill="#666" d="m80.402919,38.37393h3.65473v2.43747l-3.65473,.000665z m37.786051,-.000015 3.65473,.000015v2.435784l-3.65473,.000651z"/>
+          <path fill="#e6e6e6" d="m107.20368,43.24785 9.76318,.0013v2.43645l-9.76318,-.0013z"/>
+          <path fill="#f4eed7" d="m107.20368,45.6864 9.76318,-.000828v4.869921l-9.76318,.000828z"/>
+          <path fill="#fff" d="m107.2038,18.883275 10.98553,-.0014 .00007,24.365167-10.98509,.0019z"/>
+          <path fill="#333" d="m125.498,4.2627166h-2.436v1.2180001h1.218v1.218h1.218z m-48.754,.00194h2.436203V5.482652h-1.218v1.218h-1.218z m3.658895,6.0909014 41.439125,-.001v2.43645l-41.439125,.001z m.000024,32.892957 3.65473,-.000658v2.43645l-3.65473,.000658z m37.786051,-.0017 3.65473,-.000658v2.43645l-3.65473,.000658z m-37.786051,-7.307699 3.65473,-.000658v2.435472h-3.65473z m37.786051,-.0017 3.65473,-.000658v2.437172l-3.65473,-.000064z"/>
+          <path fill="#800000" d="m85.275395,17.664276 31.691145,-.000602-.00029,1.218223-31.690855,.000602z"/>
+          <path fill="#000" d="M79.198598,15.227826H123.0694v2.43645H79.198598Z m37.767442,2.435853h1.223l.00036,32.891814h-1.22254z m-32.908755,.000597h1.21811l.000364,9.545464v23.346351h-1.21811z"/>
+        </g>
 
-  <!-- === Background frame (non-interactive) === -->
-  <g id="bg" aria-hidden="true" pointer-events="none" transform="matrix(1.5,0,0,1.5,-115,-6)">
-    <path fill="#000" d="M76.744203,4.2646566 125.498,4.263v51.168104l-24.37084,.00095-24.38316,.00095z"/>
-    <path fill="#1a1a1a" d="m80.398296,51.774947 41.453594,-.0019v2.436l-41.453594,.0019zM124.28,5.4807167 124.288,55.428899h-1.21811l-.00049,-48.7310989-43.889197,.003 .000093,48.7303039-1.218093,-.000265V5.4826551ZM121.85187,49.338767l-4.87301,.000265 .0002,-32.894964-31.707562,.0026-.00053,32.894422h-4.8726l-.00013,-41.422162 41.453392,-.00186z"/>
-    <path fill="#4d4d4d" d="m80.402919,40.812065 3.65473,-.000665v2.43645l-3.65473,.000665z m37.786051,-.0017 3.65473,-.000651v2.43645l-3.65473,.000651z"/>
-    <path fill="#666" d="m80.402919,38.37393h3.65473v2.43747l-3.65473,.000665z m37.786051,-.000015 3.65473,.000015v2.435784l-3.65473,.000651z"/>
-    <path fill="#e6e6e6" d="m107.20368,43.24785 9.76318,.0013v2.43645l-9.76318,-.0013z"/>
-    <path fill="#f4eed7" d="m107.20368,45.6864 9.76318,-.000828v4.869921l-9.76318,.000828z"/>
-    <path fill="#fff" d="m107.2038,18.883275 10.98553,-.0014 .00007,24.365167-10.98509,.0019z"/>
-    <path fill="#333" d="m125.498,4.2627166h-2.436v1.2180001h1.218v1.218h1.218z m-48.754,.00194h2.436203V5.482652h-1.218v1.218h-1.218z m3.658895,6.0909014 41.439125,-.001v2.43645l-41.439125,.001z m.000024,32.892957 3.65473,-.000658v2.43645l-3.65473,.000658z m37.786051,-.0017 3.65473,-.000658v2.43645l-3.65473,.000658z m-37.786051,-7.307699 3.65473,-.000658v2.435472h-3.65473z m37.786051,-.0017 3.65473,-.000658v2.437172l-3.65473,-.000064z"/>
-    <path fill="#800000" d="m85.275395,17.664276 31.691145,-.000602-.00029,1.218223-31.690855,.000602z"/>
-    <path fill="#000" d="M79.198598,15.227826H123.0694v2.43645H79.198598Z m37.767442,2.435853h1.223l.00036,32.891814h-1.22254z m-32.908755,.000597h1.21811l.000364,9.545464v23.346351h-1.21811z"/>
-  </g>
+        <!-- Keys (C & D) -->
+        <g id="keys" transform="matrix(1.5,0,0,1.5,-115,-6)">
+          <g id="C1up" style="display:inline" transform="matrix(0.64971999,0,0,0.42231802,0.81216,-8.3245269)">
+            <path fill="#ffffff" d="m 130,64.423065 h 14.99723 V 122.12035 H 130 Z"/>
+            <path fill="#e6e6e6" d="m 130,122.12035 h 14.99723 v 5.76923 H 130 Z"/>
+            <path fill="#f4eed7" d="m 130,127.88958 14.99723,0.001 V 139.423 H 130 Z"/>
+            <path fill="#000000" d="m 139.37327,101.92456 5.72151,-3e-4 v 2.88408 l -5.72151,-0.001 z"/>
+          </g>
+          <g id="C1down" style="display:none" transform="matrix(0.64972001,0,0,0.42231802,0.8130748,-8.2494803)">
+            <path fill="#ffffff" d="m 129.99728,64.243863 14.99854,0.0015 3.7e-4,66.346607 h -14.99723 z"/>
+            <path fill="#e6e6e6" d="m 129.99863,130.59197 h 14.99756 l 3.2e-4,5.76922 -14.99722,-0.002 z"/>
+            <path fill="#e9ddaf" d="m 129.99959,136.36119 14.99626,0.002 3.4e-4,2.88253 h -14.9966 z"/>
+            <path fill="#000000" d="m 139.37517,101.74556 h 5.62445 v 5.76816 h -5.62445 z"/>
+            <path fill="#333333" d="m 141.25033,101.74475 3.74929,0.001 v 2.88308 l -3.74929,-10e-4 z"/>
+          </g>
 
-  <!-- === Keys (interactive: C & D only) === -->
-  <g id="keys" transform="matrix(1.5,0,0,1.5,-115,-6)">
-    <!-- C (UP: visible) -->
-    <g id="C1up" style="display:inline" transform="matrix(0.64971999,0,0,0.42231802,0.81216,-8.3245269)">
-      <path fill="#ffffff" d="m 130,64.423065 h 14.99723 V 122.12035 H 130 Z"/>
-      <path fill="#e6e6e6" d="m 130,122.12035 h 14.99723 v 5.76923 H 130 Z"/>
-      <path fill="#f4eed7" d="m 130,127.88958 14.99723,0.001 V 139.423 H 130 Z"/>
-      <path fill="#000000" d="m 139.37327,101.92456 5.72151,-3e-4 v 2.88408 l -5.72151,-0.001 z"/>
-    </g>
-    <!-- C (DOWN: hidden) -->
-    <g id="C1down" style="display:none" transform="matrix(0.64972001,0,0,0.42231802,0.8130748,-8.2494803)">
-      <path fill="#ffffff" d="m 129.99728,64.243863 14.99854,0.0015 3.7e-4,66.346607 h -14.99723 z"/>
-      <path fill="#e6e6e6" d="m 129.99863,130.59197 h 14.99756 l 3.2e-4,5.76922 -14.99722,-0.002 z"/>
-      <path fill="#e9ddaf" d="m 129.99959,136.36119 14.99626,0.002 3.4e-4,2.88253 h -14.9966 z"/>
-      <path fill="#000000" d="m 139.37517,101.74556 h 5.62445 v 5.76816 h -5.62445 z"/>
-      <path fill="#333333" d="m 141.25033,101.74475 3.74929,0.001 v 2.88308 l -3.74929,-10e-4 z"/>
-    </g>
+          <g id="D1up" style="display:inline" transform="matrix(0.64972004,0,0,0.42231802,11.77619,-8.5681719)">
+            <path fill="#ffffff" d="m 130,65 h 15 v 57.69834 h -15 z"/>
+            <path fill="#e6e6e6" d="m 130,122.69834 h 15 v 5.76923 h -15 z"/>
+            <path fill="#f4eed7" d="m 130,128.46757 h 15 v 11.53242 h -15 z"/>
+            <path fill="#000000" d="m 130,102.50136 1.87086,-0.001 v 2.88408 L 130,105.38544 Z"/>
+            <path fill="#000000" d="m 143.1018,102.49457 h 3.77348 v 2.88975 l -3.77348,-0.005 z"/>
+          </g>
+          <g id="D1down" style="display:none" transform="matrix(-0.65075372,0,0,0.42231802,190.5952,-8.3229698)">
+            <path fill="#ffffff" d="M 130.02398,64.425958 145,64.423065 v 66.348105 h -14.97602 z"/>
+            <path fill="#e6e6e6" d="M 130.02398,130.77117 145,130.76923 v 5.76922 l -14.97602,0.002 z"/>
+            <path fill="#e9ddaf" d="M 130.02398,136.54045 145,136.53845 v 2.88462 l -14.97602,0.002 z"/>
+            <path fill="#000000" d="m 143.12614,101.91957 1.86475,-0.003 -2.5e-4,5.77574 -1.8645,-0.001 z"/>
+            <path fill="#000000" d="m 130.01724,101.92552 1.87167,0.002 v 5.76416 l -1.87167,-0.002 z"/>
+            <path fill="#333333" d="m 128.14556,101.92707 h 1.87168 v 2.87264 l -1.87168,0.004 z"/>
+            <path fill="#333333" d="m 144.99089,101.91657 1.87795,-0.006 v 2.87891 l -1.87795,0.006 z"/>
+          </g>
+        </g>
 
-    <!-- D (UP: visible) -->
-    <g id="D1up" style="display:inline" transform="matrix(0.64972004,0,0,0.42231802,11.77619,-8.5681719)">
-      <path fill="#ffffff" d="m 130,65 h 15 v 57.69834 h -15 z"/>
-      <path fill="#e6e6e6" d="m 130,122.69834 h 15 v 5.76923 h -15 z"/>
-      <path fill="#f4eed7" d="m 130,128.46757 h 15 v 11.53242 h -15 z"/>
-      <path fill="#000000" d="m 130,102.50136 1.87086,-0.001 v 2.88408 L 130,105.38544 Z"/>
-      <path fill="#000000" d="m 143.1018,102.49457 h 3.77348 v 2.88975 l -3.77348,-0.005 z"/>
-    </g>
-    <!-- D (DOWN: hidden) -->
-    <g id="D1down" style="display:none" transform="matrix(-0.65075372,0,0,0.42231802,190.5952,-8.3229698)">
-      <path fill="#ffffff" d="M 130.02398,64.425958 145,64.423065 v 66.348105 h -14.97602 z"/>
-      <path fill="#e6e6e6" d="M 130.02398,130.77117 145,130.76923 v 5.76922 l -14.97602,0.002 z"/>
-      <path fill="#e9ddaf" d="M 130.02398,136.54045 145,136.53845 v 2.88462 l -14.97602,0.002 z"/>
-      <path fill="#000000" d="m 143.12614,101.91957 1.86475,-0.003 -2.5e-4,5.77574 -1.8645,-0.001 z"/>
-      <path fill="#000000" d="m 130.01724,101.92552 1.87167,0.002 v 5.76416 l -1.87167,-0.002 z"/>
-      <path fill="#333333" d="m 128.14556,101.92707 h 1.87168 v 2.87264 l -1.87168,0.004 z"/>
-      <path fill="#333333" d="m 144.99089,101.91657 1.87795,-0.006 v 2.87891 l -1.87795,0.006 z"/>
-    </g>
-  </g>
+        <!-- Black keys (visual only) -->
+        <g id="bk-top" aria-hidden="true" pointer-events="none" transform="matrix(1.5,0,0,1.5,-115,-6)">
+          <g transform="matrix(0.60911264,0,0,0.37263356,15.261809,-5.3386809)">
+            <path fill="#000" d="m124.94233,64.999983 9.99745,.000023V107.5002h-9.99805z"/>
+            <path fill="#333" d="m126.94529,65.001332 5.9989,.000017v42.500191h-5.9989z"/>
+            <path fill="#4d4d4d" d="m126.94531,65.000637h1.9998l.00001,32.692319 3.98921,.000215v3.269009l-5.98904,-.00021z"/>
+          </g>
+          <g transform="matrix(0.60911264,0,0,0.37263356,28.662105,-5.3375688)">
+            <path fill="#000" d="M124.94552 64.99998 H134.94358 V110.76591 H128.94478 V107.50623 H124.94552 Z"/>
+            <path fill="#333" d="m126.94529,64.99998 5.9989,.000017v42.500863l-5.99904,-.00088z"/>
+            <path fill="#4d4d4d" d="m126.94506,65.000646h1.9998l.00001,32.692319 3.98921,.000215v3.26901l-5.98904,-.00021z"/>
+          </g>
+        </g>
 
-  <!-- === Black keys (visual only) === -->
-  <g id="bk-top" aria-hidden="true" pointer-events="none" transform="matrix(1.5,0,0,1.5,-115,-6)">
-    <g transform="matrix(0.60911264,0,0,0.37263356,15.261809,-5.3386809)">
-      <path fill="#000" d="m124.94233,64.999983 9.99745,.000023V107.5002h-9.99805z"/>
-      <path fill="#333" d="m126.94529,65.001332 5.9989,.000017v42.500191h-5.9989z"/>
-      <path fill="#4d4d4d" d="m126.94531,65.000637h1.9998l.00001,32.692319 3.98921,.000215v3.269009l-5.98904,-.00021z"/>
-    </g>
-    <g transform="matrix(0.60911264,0,0,0.37263356,28.662105,-5.3375688)">
-      <path fill="#000" d="M124.94552 64.99998 H134.94358 V110.76591 H128.94478 V107.50623 H124.94552 Z"/>
-      <path fill="#333" d="m126.94529,64.99998 5.9989,.000017v42.500863l-5.99904,-.00088z"/>
-      <path fill="#4d4d4d" d="m126.94506,65.000646h1.9998l.00001,32.692319 3.98921,.000215v3.26901l-5.98904,-.00021z"/>
-    </g>
-  </g>
-
-  <!-- === Fingers (hidden by default) === -->
-  <g id="finger1" style="display:none" pointer-events="none">
-    <path fill="#1a1a1a" d="M 107.20383,10.964024 H 105.9856 V 9.7457963 h -3.65468 v 1.2182277 h -2.43645 v 1.218225 H 95.021572 V 10.964024 H 93.803344 V 9.7457963 H 92.585122 V 8.5275712 H 91.366899 V 7.309346 l -1.241508,-0.00482 0.02339,-1.2133961 1.218237,2.4e-6 V 2.4364527 h -1.218225 l -2.2e-5,-1.2182251 H 87.712204 V 2.4364503e-6 H 80.402851 V 1.2182276 H 77.9664 v 1.2182227 l -2.436435,2.4e-6 -2e-5,4.8729006 H 74.31174 l -2e-5,1.2182252 h -1.218225 l -0.0049,2.4510005 -1.213377,-0.01455 v 2.43645 H 70.65702 v 9.745799 h 1.218221 l 4e-6,1.218225 h 1.218226 v 1.218225 h 1.218225 v 1.218225 h 1.218215 l 1e-5,1.218225 3.654709,-2e-6 v -1.218225 h 1.218226 v 1.218225 l 1.218196,2e-6 v 1.218225 h 3.654702 v -1.218225 l 1.218169,-9e-6 5.6e-5,9.745811 h 1.218225 v 1.218225 h 1.218225 l -2.7e-5,1.218225 h 2.436451 v -1.21822 h 1.218225 v -1.218225 h 1.218225 l -3.2e-5,-7.309351 h -1.218222 v -6.091126 h -1.218223 l 2.7e-5,-4.872901 h 1.218225 v -1.218225 h 3.654675 v 1.218225 h 6.091097 v -1.218225 h 2.43645 v -1.218223 h 1.21822 l 3e-5,-1.218227 1.2182,2e-6 z"/>
-  </g>
-  <g id="finger2" style="display:none" pointer-events="none">
-    <path fill="#1a1a1a" d="m 84.057509,10.964021 h 1.21823 V 9.7457939 h 3.654676 v 1.2182271 h 2.43645 v 1.218226 h 4.872898 v -1.218226 h 1.218228 V 9.7457939 h 1.218222 V 8.5275687 h 1.218223 V 7.3093436 l 1.241504,-0.00482 -0.0234,-1.2133961 -1.218233,2.5e-6 V 2.4364503 h 1.218223 l 2e-5,-1.2182252 h 2.43657 V 0 h 7.30935 v 1.2182251 h 2.43645 v 1.2182228 l 2.43644,2.4e-6 2e-5,4.8729006 h 1.21821 l 1e-5,1.2182252 h 1.21823 l 0.005,2.4510009 1.21338,-0.01455 v 2.436451h 1.21822 v 9.745798 h -1.21822 v 1.218225 h -1.21823 v 1.218226 h -1.21822 v 1.218225 h -1.21822 l -10e-6,1.218225 -3.65471,-3e-6 v -1.218225 h -1.21822 v 1.218225 l -1.21825,3e-6 v 1.218225 h -3.6547 v -1.218225 l -1.21817,-10e-6 -5e-5,9.745811 h -1.21823 v 1.218225 h -1.21822 l 2e-5,1.218225 h -2.436446 v -1.218225 h -1.218226 v -1.218225 h -1.218225 l 3.2e-5,-7.309351 h 1.218223 v -6.091126 h 1.218222 l -2.6e-5,-4.8729 H 98.676208 V 18.27338 h -3.654675 v 1.218225 H 88.930439 V 18.27338 h -2.436453 v -1.218223 h -1.218222 l -3.2e-5,-1.218228 -1.218196,3e-6 z"/>
-  </g>
-</svg>
-  
+        <!-- Fingers (hidden) -->
+        <g id="finger1" style="display:none" pointer-events="none"><path fill="#1a1a1a" d="M 107.20383,10.964024 H 105.9856 V 9.7457963 h -3.65468 v 1.2182277 h -2.43645 v 1.218225 H 95.021572 V 10.964024 H 93.803344 V 9.7457963 H 92.585122 V 8.5275712 H 91.366899 V 7.309346 l -1.241508,-0.00482 0.02339,-1.2133961 1.218237,2.4e-6 V 2.4364527 h -1.218225 l -2.2e-5,-1.2182251 H 87.712204 V 2.4364503e-6 H 80.402851 V 1.2182276 H 77.9664 v 1.2182227 l -2.436435,2.4e-6 -2e-5,4.8729006 H 74.31174 l -2e-5,1.2182252 h -1.218225 l -0.0049,2.4510005 -1.213377,-0.01455 v 2.43645 H 70.65702 v 9.745799 h 1.218221 l 4e-6,1.218225 h 1.218226 v 1.218225 h 1.218225 v 1.218225 h 1.218215 l 1e-5,1.218225 3.654709,-2e-6 v -1.218225 h 1.218226 v 1.218225 l 1.218196,2e-6 v 1.218225 h 3.654702 v -1.218225 l 1.218169,-9e-6 5.6e-5,9.745811 h 1.218225 v 1.218225 h 1.218225 l -2.7e-5,1.218225 h 2.436451 v -1.21822 h 1.218225 v -1.218225 h 1.218225 l -3.2e-5,-7.309351 h -1.218222 v -6.091126 h -1.218223 l 2.7e-5,-4.872901 h 1.218225 v -1.218225 h 3.654675 v 1.218225 h 6.091097 v -1.218225 h 2.43645 v -1.218223 h 1.21822 l 3e-5,-1.218227 1.2182,2e-6 z"/></g>
+        <g id="finger2" style="display:none" pointer-events="none"><path fill="#1a1a1a" d="m 84.057509,10.964021 h 1.21823 V 9.7457939 h 3.654676 v 1.2182271 h 2.43645 v 1.218226 h 4.872898 v -1.218226 h 1.218228 V 9.7457939 h 1.218222 V 8.5275687 h 1.218223 V 7.3093436 l 1.241504,-0.00482 -0.0234,-1.2133961 -1.218233,2.5e-6 V 2.4364503 h 1.218223 l 2e-5,-1.2182252 h 2.43657 V 0 h 7.30935 v 1.2182251 h 2.43645 v 1.2182228 l 2.43644,2.4e-6 2e-5,4.8729006 h 1.21821 l 1e-5,1.2182252 h 1.21823 l 0.005,2.4510009 1.21338,-0.01455 v 2.436451h 1.21822 v 9.745798 h -1.21822 v 1.218225 h -1.21823 v 1.218226 h -1.21822 v 1.218225 h -1.21822 l -10e-6,1.218225 -3.65471,-3e-6 v -1.218225 h -1.21822 v 1.218225 l -1.21825,3e-6 v 1.218225 h -3.6547 v -1.218225 l -1.21817,-10e-6 -5e-5,9.745811 h -1.21823 v 1.218225 h -1.21822 l 2e-5,1.218225 h -2.436446 v -1.218225 h -1.218226 v -1.218225 h -1.218225 l 3.2e-5,-7.309351 h 1.218223 v -6.091126 h 1.218222 l -2.6e-5,-4.8729 H 98.676208 V 18.27338 h -3.654675 v 1.218225 H 88.930439 V 18.27338 h -2.436453 v -1.218223 h -1.218222 l -3.2e-5,-1.218228 -1.218196,3e-6 z"/></g>
+      </svg>
     </div>
 
     <div class="grid">
@@ -223,9 +198,6 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
     </div>
   </div>
   <div id="overlay"></div>
-
-  <!-- NOTE: Worker routing code removed from inline script to avoid "Unexpected token 'export'" in browsers.
-       Deploy your Cloudflare Worker separately (worker.js) and do NOT embed `export default` in HTML. -->
 
   <script>
   // ===== Tap-only minimal engine (no modules; browser-safe) =====
@@ -237,8 +209,6 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
   const elScore=document.getElementById('score');
   const elTime=document.getElementById('timeLeft');
   const area=document.getElementById('pianoArea');
-  const keyC=document.getElementById('keyC');
-  const keyD=document.getElementById('keyD');
 
   function swapSvgVisibility(upId, downId, isDown){
     const up = document.getElementById(upId);
@@ -248,14 +218,36 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
     if(dn)  dn.style.display = isDown ? 'inline': 'none';
   }
   function setKeyVisual(note, isDown){
-    if(note===60){ keyC?.classList.toggle('down', !!isDown); swapSvgVisibility('C1up','C1down',!!isDown); }
-    if(note===62){ keyD?.classList.toggle('down', !!isDown); swapSvgVisibility('D1up','D1down',!!isDown); }
+    if(note===60){
+      swapSvgVisibility('C1up','C1down',!!isDown);
+      const p = document.querySelector('#C1down path[d^="m 129.99728,64.243863"]');
+      if(p) p.classList.toggle('glow-black', !!isDown);
+    }
+    if(note===62){
+      swapSvgVisibility('D1up','D1down',!!isDown);
+      const p = document.querySelector('#D1down path[d^="M 130.02398,64.425958"]');
+      if(p) p.classList.toggle('glow-black', !!isDown);
+    }
   }
-  function resetKeyVisuals(){ setKeyVisual(60,false); setKeyVisual(62,false); }
+  function resetKeyVisuals(){
+    swapSvgVisibility('C1up','C1down',false);
+    swapSvgVisibility('D1up','D1down',false);
+    const pC=document.querySelector('#C1down path[d^="m 129.99728,64.243863"]'); if(pC) pC.classList.remove('glow-black');
+    const pD=document.querySelector('#D1down path[d^="M 130.02398,64.425958"]'); if(pD) pD.classList.remove('glow-black');
+  }
 
   let running=false,counting=false,ts=[]; // timestamps (ms)
   let mode='E';
-  Array.from(document.querySelectorAll('input[name="mode"]')).forEach(r=> r.onchange=()=>{ mode=r.value; lastAlt=null; lastAccepted=null; resetKeyVisuals(); });
+  let lastAccepted=null;
+  Array.from(document.querySelectorAll('input[name="mode"]')).forEach(r=>{
+    r.onchange = async (e)=>{
+      mode=r.value; lastAccepted=null; resetKeyVisuals();
+      if (e && e.isTrusted) { try{ await ensureAudio(); }catch(_){ }
+        const noteMap = { E:60, D:62 };
+        const midi = noteMap[r.value] || 60; beep(midi, 110);
+      }
+    };
+  });
 
   function flash(btn){ btn.classList.add('pressed'); setTimeout(()=>btn.classList.remove('pressed'),120); }
   btnStart.addEventListener('pointerdown', ()=> flash(btnStart));
@@ -266,129 +258,311 @@ button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0
     elHits.textContent='0'; elStab.textContent='0.000'; elScore.textContent='0'; elTime.textContent='10.00';
   }
 
-  function startCountdown(){
-    if(running||counting) return; counting=true; resetStats();
-    body.classList.add('playing'); // visual: only red glows
-    const seq=['READY','3','2','1','BURST!']; let i=0;
-    const overlay=document.getElementById('overlay');
-    overlay.textContent=seq[i]; overlay.classList.add('show');
-    const STEP_MS=400, BURST_HOLD_MS=180; // timing
-    const step=()=>{
-      i++;
-      if(i<seq.length){ overlay.textContent=seq[i]; setTimeout(step, STEP_MS); }
-      else { setTimeout(()=>{ overlay.classList.remove('show'); overlay.textContent=''; counting=false; startRun(); }, BURST_HOLD_MS); }
-    };
-    setTimeout(step, STEP_MS);
-  }
+  // ===== Audio =====
+  const AC = window.AudioContext || window.webkitAudioContext;
+  let audio = null;
+  let audioUnlocked = false;
 
-  function startRun(){
-    running=true; const t0=performance.now(); const end=t0+10000; let lastStr='';
-    const tick=()=>{
-      if(!running) return;
-      const left=end-performance.now();
-      if(left<=0){ elTime.textContent='0.00'; finish(); return; }
-      const s=(left/1000).toFixed(2); if(s!==lastStr){ lastStr=s; elTime.textContent=s; }
-      requestAnimationFrame(tick);
-    };
-    tick();
-  }
-
-  function finish(){
-    running=false; body.classList.remove('playing'); resetKeyVisuals();
-    const N=ts.length; elHits.textContent=String(N);
-    if(N>1){
-      const dt=[]; for(let i=1;i<N;i++) dt.push(ts[i]-ts[i-1]);
-      const mu = dt.reduce((a,b)=>a+b,0)/dt.length;
-      const sd = Math.sqrt(dt.reduce((s,x)=>s+(x-mu)*(x-mu),0)/dt.length);
-      const stab = Math.max(0,Math.min(1,1-(sd/mu)));
-      elStab.textContent=stab.toFixed(3);
-      elScore.textContent=String(Math.round(N*stab*10));
-    } else {
-      elStab.textContent='0.000'; elScore.textContent='0';
+  async function ensureAudio(){
+    if (!AC) return null;
+    if (!audio || audio.state === 'closed'){
+      audio = new AC({ latencyHint: 'interactive' });
+      try{
+        const g = audio.createGain(); g.gain.value = 1; g.connect(audio.destination);
+        const buf = audio.createBuffer(1, 32, audio.sampleRate);
+        const src = audio.createBufferSource(); src.buffer = buf; src.connect(g);
+        src.start(audio.currentTime + 0.002);
+      }catch(e){}
     }
-    // Ensure buttons return to idle state
-    btnStart.disabled=false; btnStart.removeAttribute('disabled');
-    btnStop.disabled=true; btnStop.setAttribute('disabled','');
+    if (audio.state === 'suspended'){
+      try{ await audio.resume(); }catch(e){ console.warn('resume failed', e); }
+    }
+    audioUnlocked = !!(audio && audio.state === 'running');
+    return audio;
   }
 
-  // ---- Pointer → note helpers ----
-  let lastAlt=null, lastAccepted=null;
-function tapToNote(ev){
-  const r = area.getBoundingClientRect();
-  const x = (ev.clientX - r.left) / r.width;
-  const n = (x < 0.5) ? 60 : 62;        // 左= C(60), 右= D(62)
+  window.addEventListener('click', async () => {
+    await ensureAudio();
+    audioUnlocked = true;
+  }, { once: true });
 
-  // ---- Erlkönig: Cキー“領域”以外は完全に無視 ----
-  if (mode === 'E') {
-    if (n !== 60) return null;          // D側タップは不受理（可視反応/カウント共に無し）
+  window.addEventListener('keydown', async () => {
+    if (!audioUnlocked) { await ensureAudio(); audioUnlocked = true; }
+  }, { once:true });
+
+  let muted = false;  // テスト用ミュート
+  function setMuted(on){
+    muted = !!on; document.body.classList.toggle('muted', muted);
+  }
+  function toggleMuted(){ setMuted(!muted); }
+  if (location.search.includes('mute=1')) setMuted(true);
+
+  function beep(midi, vel = 100){
+    if (!audioUnlocked || !audio || muted) return;
+    const t0 = audio.currentTime, len = 0.08;
+    const osc = audio.createOscillator();
+    const g = audio.createGain();
+    osc.type = 'square';
+    osc.frequency.value = 440 * Math.pow(2,(midi-69)/12);
+    const v = Math.max(0.08, Math.min(1, vel/127));
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.linearRampToValueAtTime(0.25*v, t0+0.003);
+    g.gain.linearRampToValueAtTime(0.0001, t0+len);
+    osc.connect(g).connect(audio.destination);
+    osc.start(t0);
+    osc.stop(t0+len);
   }
 
-  // ---- Diavolo: 交互のみ。連続同キーは無視 ----
-  if (mode === 'D') {
-    if (lastAccepted === n) return null;
+  // ========= Speech (female voice + Excellent >= 7000) =========
+  async function getVoicesAsync(){
+    if (!('speechSynthesis' in window)) return [];
+    const have = speechSynthesis.getVoices();
+    if (have && have.length) return have;
+    return new Promise(res=>{
+      const onv = ()=>{ speechSynthesis.removeEventListener('voiceschanged', onv); res(speechSynthesis.getVoices()||[]); };
+      speechSynthesis.addEventListener('voiceschanged', onv);
+      setTimeout(()=>res(speechSynthesis.getVoices()||[]), 500);
+    });
+  }
+  function pickPreferredEnFemale(voices){
+    if (!voices || !voices.length) return null;
+    const femaleHints = /(samantha|victoria|karen|zira|aria|ana|female|google.*english.*female)/i;
+    const enUS = voices.filter(v => /en[-_]US/i.test(v.lang||''));
+    const hit = enUS.find(v => femaleHints.test(`${v.name} ${v.voiceURI}`));
+    if (hit) return hit;
+    if (enUS[0]) return enUS[0];
+    const enAny = voices.find(v => /^en[-_]/i.test(v.lang||''));
+    return enAny || voices[0] || null;
+  }
+  let speechReady = false;
+  let lastUtter = null;
+  async function unlockSpeech(){
+    if (!('speechSynthesis' in window) || speechReady) return;
+    await getVoicesAsync();
+    try{
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance('');
+      u.lang = 'en-US';
+      u.volume = 0; // 無音
+      u.onend = ()=>{ speechReady = true; };
+      speechSynthesis.speak(u);
+    }catch(e){}
+  }
+  window.addEventListener('pointerdown', unlockSpeech, { once:true });
+  window.addEventListener('keydown',     unlockSpeech, { once:true });
+  document.addEventListener('visibilitychange', ()=>{
+    if (document.visibilityState === 'visible' && 'speechSynthesis' in window){
+      try{ speechSynthesis.resume(); }catch(e){}
+    }
+  });
+
+  function formatScoreTwoDigits(score){
+    const n = Math.max(0, Number(score)|0);
+    const W2 = {
+      '00':'zero','01':'one','02':'two','03':'three','04':'four','05':'five','06':'six','07':'seven','08':'eight','09':'nine',
+      '10':'ten','11':'eleven','12':'twelve','13':'thirteen','14':'fourteen','15':'fifteen','16':'sixteen','17':'seventeen','18':'eighteen','19':'nineteen',
+      '20':'twenty','21':'twenty-one','22':'twenty-two','23':'twenty-three','24':'twenty-four','25':'twenty-five','26':'twenty-six','27':'twenty-seven','28':'twenty-eight','29':'twenty-nine',
+      '30':'thirty','31':'thirty-one','32':'thirty-two','33':'thirty-three','34':'thirty-four','35':'thirty-five','36':'thirty-six','37':'thirty-seven','38':'thirty-eight','39':'thirty-nine',
+      '40':'forty','41':'forty-one','42':'forty-two','43':'forty-three','44':'forty-four','45':'forty-five','46':'forty-six','47':'forty-seven','48':'forty-eight','49':'forty-nine',
+      '50':'fifty','51':'fifty-one','52':'fifty-two','53':'fifty-three','54':'fifty-four','55':'fifty-five','56':'fifty-six','57':'fifty-seven','58':'fifty-eight','59':'fifty-nine',
+      '60':'sixty','61':'sixty-one','62':'sixty-two','63':'sixty-three','64':'sixty-four','65':'sixty-five','66':'sixty-six','67':'sixty-seven','68':'sixty-eight','69':'sixty-nine',
+      '70':'seventy','71':'seventy-one','72':'seventy-two','73':'seventy-three','74':'seventy-four','75':'seventy-five','76':'seventy-six','77':'seventy-seven','78':'seventy-eight','79':'seventy-nine',
+      '80':'eighty','81':'eighty-one','82':'eighty-two','83':'eighty-three','84':'eighty-four','85':'eighty-five','86':'eighty-six','87':'eighty-seven','88':'eighty-eight','89':'eighty-nine',
+      '90':'ninety','91':'ninety-one','92':'ninety-two','93':'ninety-three','94':'ninety-four','95':'ninety-five','96':'ninety-six','97':'ninety-seven','98':'ninety-eight','99':'ninety-nine'
+    };
+    const W1 = ['zero','one','two','three','four','five','six','seven','eight','nine'];
+    if (n < 10) return `${W1[n]} points.`;
+    if (n < 100) return `${W2[String(n).padStart(2,'0')]} points.`;
+    const s4 = String(n).padStart(4,'0');
+    const a = s4.slice(0,2);
+    const b = s4.slice(2);
+    const partA = (a === '00') ? '' : W2[a];
+    const partB = (b === '00') ? '' : W2[b];
+    const phrase = [partA, partB].filter(Boolean).join(' ');
+    return `${phrase || 'zero'} points.`;
+  }
+  async function speakResult(score, {lang='en-US'}={}){
+    if (!('speechSynthesis' in window)) return;
+    if (!speechReady) {
+      await unlockSpeech();
+      if (!speechReady) { setTimeout(()=>{ if (speechReady) speakResult(score,{lang}); }, 80); return; }
+    }
+    const voices = await getVoicesAsync();
+    const v = pickPreferredEnFemale(voices);
+    const isExcellent = Number(score) >= 7000;
+    const formatted = formatScoreTwoDigits(Number(score));
+    const text = isExcellent ? `Excellent! ${formatted}` : formatted;
+    try{
+      if (lastUtter) { try{ speechSynthesis.cancel(); }catch(e){} }
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang   = 'en-US';
+      utter.rate   = 1.0;
+      utter.pitch  = 2;
+      utter.volume = 1.0;
+      if (v) utter.voice = v;
+      lastUtter = utter;
+      speechSynthesis.speak(utter);
+    }catch(e){ console.warn('TTS failed:', e); }
   }
 
-  const vel = Math.max(1, Math.min(127, Math.round((ev.pressure || 0.8) * 127)));
-  return { note: n, vel };
+  // === Voice (or beep) countdown ===
+  const USE_VOICE_COUNTDOWN = true; // ビープに戻す場合は false
+  const FAST_DIGITS = false; // digits not used now         // 3/2/1 を早口＆短尺に
+
+// BURST の喋る速さ（1.0=標準。早くしたいなら 1.15〜1.35 あたり）
+const BURST_RATE = 1.15;
+
+
+// 音声で言えたら true、ダメならビープにフォールバックして false を返す
+function speakCountdown(label){
+  return new Promise(async (resolve)=>{
+    const fallback = ()=>{
+      // フォールバックは短いビープ
+      const tone = (label==='BURST!') ? 72 : 60;
+      ensureAudio().then(()=>{ try{ beep(tone, label==='BURST!'?127:110); }catch(_){} });
+      resolve(false);
+    };
+
+    if (!USE_VOICE_COUNTDOWN || !('speechSynthesis' in window)) { fallback(); return; }
+
+    try{
+      await unlockSpeech(); // iOS 対策：ユーザー操作後にアンロック
+      const voices = await getVoicesAsync();
+      const v = pickPreferredEnFemale(voices);
+
+      const u = new SpeechSynthesisUtterance(String(label).replace('BURST!','Burst'));
+      u.lang   = 'en-US';
+      u.rate   = (label==='BURST!') ? BURST_RATE : 1.0;  // ← ここで速さ
+      u.pitch  = 2;
+      u.volume = 1.0;
+      if (v) u.voice = v;
+
+      let started = false;
+      u.onstart = ()=>{ started = true; };
+      u.onerror = ()=>{ fallback(); };
+      u.onend   = ()=>{ resolve(true); };
+
+      // 直前に話していたらだけ cancel（無闇に cancel すると失敗する端末がある）
+      try{ if (speechSynthesis.speaking) speechSynthesis.cancel(); }catch(_){}
+      speechSynthesis.speak(u);
+
+      // iOS/Safari で start が来なかったときの保険（声が出なければビープへ）
+      setTimeout(()=>{ if (!started) fallback(); }, 450);
+    }catch(e){
+      fallback();
+    }
+  });
 }
 
-  function noteFromPos(ev){
-    const rect=area.getBoundingClientRect();
-    const x=(ev.clientX-rect.left)/rect.width;
-    return (x<0.5)?60:62; // visual-only helper
+// READY→BURST! だけ。BURST 言い終わり（onend）で startRun()
+function startCountdown(){
+  if (running || counting) return;
+  counting = true;
+  resetStats();
+  document.body.classList.add('playing');
+
+  const overlay = document.getElementById('overlay');
+  overlay.classList.add('show');
+
+  (async ()=>{
+    overlay.textContent = 'READY';
+    await speakCountdown('READY');     // READY は onend 待ち
+
+    overlay.textContent = 'BURST!';
+    await speakCountdown('BURST!');    // BURST 言い終わりで開始
+    if (!counting) return;
+
+    overlay.classList.remove('show');
+    overlay.textContent = '';
+    counting = false;
+    startRun();
+  })();
+}
+
+
+  // ===== Game loop =====
+  let timerId=null, endAt=0;
+  function startRun(){
+    running=true; btnStop.disabled=false; btnStart.disabled=true; ts.length=0; lastAccepted=null; ensureAudio();
+    const DURATION=10000; // 10s
+    const t0=performance.now(); endAt=t0+DURATION;
+    const tick=()=>{
+      const now=performance.now();
+      const left=Math.max(0, endAt-now);
+      elTime.textContent=(left/1000).toFixed(2);
+      if (left<=0){ finish(); return; }
+      timerId=requestAnimationFrame(tick);
+    };
+    timerId=requestAnimationFrame(tick);
+  }
+  function finish(){
+    if(timerId){ cancelAnimationFrame(timerId); timerId=null; }
+    running=false; counting=false; btnStop.disabled=true; btnStart.disabled=false; body.classList.remove('playing');
+    // 簡易スコア読み上げ
+    speakResult(Number(elScore.textContent)||0);
+    resetKeyVisuals();
   }
 
-  // ---- iOS Safari: kill pinch-zoom & double-tap zoom ----
-  ['gesturestart','gesturechange','gestureend'].forEach(t=>{
-    document.addEventListener(t, e=> e.preventDefault(), {passive:false});
-  });
-  // prevent double-tap zoom (iOS) while keeping click behavior
-  document.addEventListener('dblclick', e=> e.preventDefault(), {passive:false, capture:true});
-
-  // ---- Event wiring ----
-  area.addEventListener('pointerdown',(e)=>{
-    const n = tapToNote(e); // respect mode
-    if(n==null) return;      // in Diavolo, ignore same-note repeats (no visual)
-    setKeyVisual(n, true);   // only the allowed key should move
-    if(!running) return;     // before start: visual only, no scoring
-    if(mode==='D' && lastAccepted===n) return; // safety
-    lastAccepted=n;
-    ts.push(performance.now());
-    elHits.textContent=String(ts.length);
-  });
-  ['pointerup','pointercancel','pointerleave'].forEach(type=>{
-    document.addEventListener(type, ()=> resetKeyVisuals(), {passive:true});
-  });
-
-  btnStart.addEventListener('click', ()=>{
-    if(running||counting) return;
-    btnStart.disabled = true; btnStart.setAttribute('disabled','');
-    btnStop.disabled = false; btnStop.removeAttribute('disabled');
-    startCountdown();
-  });
-
-  btnStop.addEventListener('click', ()=>{
-    const overlay=document.getElementById('overlay');
-    if(counting){ counting=false; overlay.classList.remove('show'); overlay.textContent=''; }
-    if(running){ finish(); }
-    btnStart.disabled=false; btnStart.removeAttribute('disabled');
-    btnStop.disabled=true; btnStop.setAttribute('disabled','');
-    body.classList.remove('playing');
-  });
-
-  addEventListener('keydown', (e)=>{
-    if(e.repeat) return; if(e.key===' '||e.code==='Space'){ e.preventDefault();
-      const overlay=document.getElementById('overlay');
-      if(counting){ counting=false; overlay.classList.remove('show'); overlay.textContent=''; btnStart.disabled=false; btnStop.disabled=true; body.classList.remove('playing'); return; }
-      if(running){ finish(); }
-      else { btnStart.disabled=true; btnStop.disabled=false; startCountdown(); }
+  // ===== Tap logic =====
+  function noteFromPos(evt){
+    const r = area.getBoundingClientRect();
+    const x = (evt.clientX ?? (evt.touches && evt.touches[0] && evt.touches[0].clientX) ?? r.left);
+    const ratio = (x - r.left) / Math.max(1, r.width);
+    return (ratio < 0.5) ? 60 : 62; // left:C(60), right:D(62)
+  }
+  function tapToNote(evt){
+    const n = noteFromPos(evt);
+    if (mode==='E'){
+      if (n!==60) return null; // C のみ
+    } else if (mode==='D'){
+      if (lastAccepted===n) return null; // トリル（交互）
     }
-  });
+    return { note:n };
+  }
 
-  // ===== Developer tests (kept) + extra cases =====
+  function onDown(evt){
+    if(!running) return;
+    const res = tapToNote(evt);
+    if(!res) return;
+    lastAccepted = res.note;
+    ts.push(performance.now());
+    // HITS & SCORE（簡易）
+    elHits.textContent = String(Number(elHits.textContent)+1);
+    elScore.textContent = String(Number(elScore.textContent)+ (mode==='E'?1:2));
+    // ビジュアル & ビープ
+    setKeyVisual(res.note, true);
+    ensureAudio().then(()=>beep(res.note, 115));
+  }
+  function onUp(evt){
+    if(!running) return;
+    // どちらのキーか再判定して戻す（左右どちらでもOK）
+    const n = noteFromPos(evt);
+    setKeyVisual(n, false);
+  }
+  area.addEventListener('pointerdown', onDown);
+  window.addEventListener('pointerup', onUp);
+
+  // Buttons
+  btnStart.addEventListener('click', ()=> startCountdown());
+  btnStop .addEventListener('click', ()=> finish());
+
+  // ===== Developer tests =====
   (function runDevTests(){
-    if(!/[?&]test=1/.test(location.search)) return;
-    // (tests are disabled in production build)
+    if(!/[?&]test=1\b/.test(location.search)) return;
+    console.log('[tests] start');
+    const r = area.getBoundingClientRect ? area.getBoundingClientRect() : {left:0,width:100};
+    // E mode: only C accepted
+    mode='E'; lastAccepted=null;
+    console.assert((tapToNote({clientX:r.left+0.1*r.width, pressure:1})||{}).note===60, 'E:C left ok');
+    console.assert(tapToNote({clientX:r.left+0.9*r.width, pressure:1})===null, 'E:D right ignored');
+    // D mode: alternate required
+    mode='D'; lastAccepted=60;
+    console.assert(tapToNote({clientX:r.left+0.1*r.width, pressure:1})===null, 'D:C repeat ignored');
+    lastAccepted=60; console.assert((tapToNote({clientX:r.left+0.9*r.width, pressure:1})||{}).note===62, 'D:D accepted after C');
+    // noteFromPos helper
+    const nn = noteFromPos({clientX:r.left+0.75*r.width});
+    console.assert(nn===62, 'noteFromPos right→D');
+    console.log('[tests] ok');
   })();
   </script>
 </body>
