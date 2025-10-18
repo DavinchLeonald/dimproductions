@@ -17,14 +17,10 @@
       font-style:normal;font-weight:400;font-display:swap;
     }
     body{margin:0;background:#000;color:#fff;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans JP",sans-serif;text-align:center;font-synthesis:none}
-.wrap{$1padding:16px var(--padR) 16px var(--padL);
-  min-height: 100vh;
-  display: grid;
-  grid-template-rows: auto auto 1fr auto;
-  justify-items: center;             /* ← 中央寄せの主役 */
-}
+.wrap{max-width:100%;margin:0 auto;padding:16px var(--padR) 16px var(--padL);min-height:100vh;display:grid;grid-template-rows:auto auto 1fr auto;justify-items:center}
 /* ステージ幅：ピアノに合わせて中央に */
 .controls,
+#pianoArea{ width:min(100%, var(--stage-w)); }
 #pianoArea{
   width: min(100%, 480px);           /* 420/480などSVG側に合わせる */
 }
@@ -38,10 +34,7 @@
     .segments input{display:none}
     .segments input:checked+label{background:#b5001e;color:#000}
 
-    .btnRow{$1padding:2px var(--padR) 2px var(--padL); /* ← 端に寄りすぎ対策 */
-  overflow:visible;
-  min-width:0;
-}
+    .btnRow{display:flex;gap:var(--btn-gap);justify-content:center;align-items:center;flex-wrap:nowrap;padding:2px 0;min-width:0;width:100%}
     @media (max-width:480px){
   .btnRow{ flex-wrap:nowrap; } /* 幅はアイコン側で自動縮小 */
 }
@@ -49,21 +42,8 @@
   .btnRow{ gap:max(var(--btn-gap), 14px); }
 }
     button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0; line-height:0; }
-    .svgBtn{
-  display:inline-grid;
-  place-items:center;
-  touch-action:manipulation;
-  -webkit-tap-highlight-color:transparent;
-  -webkit-touch-callout:none;
-  min-width:0;
-  flex:0 1 auto;
-}
-    .svgBtn .icon{
-  width: min(var(--btn-icon-max), var(--btn-icon-fit));
-  height:auto;
-  transition:filter .25s ease, transform .06s;
-  overflow:visible;
-}
+    .svgBtn{display:grid;place-items:center;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;min-width:0;flex:0 0 calc((100% - var(--btn-gap)) / 2);}
+    .svgBtn .icon{width:100%;height:auto;transition:filter .25s ease, transform .06s;overflow:visible}
     .svgBtn .icon use{transition:filter .25s ease}
     .svgBtn.pressed .icon{transform:translateY(3px) scale(.98)}
 
@@ -80,8 +60,8 @@
     .big{font-weight:700;font-size:20px;line-height:1.1;font-family:'Press Start 2P',monospace}
 
     #pianoArea{display:flex;justify-content:center;align-items:stretch;margin-inline:auto;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:hidden;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;flex:1}
-    #pianoArea svg{display:block;width:min(420px,100%);height:auto;max-height:100%;margin:0 auto;}
-    @media (min-width:768px){#pianoArea svg{width:clamp(360px,70vw,560px);}}
+    #pianoArea svg{display:block;width:100%;height:auto;max-height:100%;margin:0 auto;}
+    
     .spacer-md{height:12px}
 
     /* Result modal */
@@ -126,13 +106,10 @@ body.running #timeCard{ display: block; }
 
 :root{
   --btn-gap: 12px;
-  /* 左右を独立して取得（左右の差で片寄りしない） */
   --padL: max(16px, env(safe-area-inset-left));
   --padR: max(16px, env(safe-area-inset-right));
-  /* デスクトップ上限 */
-  --btn-icon-max: 300px;
-  /* 2ボタンが必ず横に収まるよう、左右パディングを別々に控除 */
-  --btn-icon-fit: calc((100vw - var(--padL) - var(--padR) - var(--btn-gap)) / 2);
+  /* ピアノ/ボタン共通のステージ幅（最大480px） */
+  --stage-w: clamp(320px, calc(100vw - var(--padL) - var(--padR) - 8px), 480px);
 }
   </style>
 </head>
