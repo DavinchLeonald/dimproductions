@@ -18,13 +18,18 @@
     }
     body{margin:0;background:#000;color:#fff;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans JP",sans-serif;text-align:center;font-synthesis:none}
 .wrap{
-  max-width:800px;
-  margin:0 auto;
-  padding:16px var(--safe-pad);
-  overflow-x:hidden;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px var(--safe-pad,16px);
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  justify-items: center;             /* ← 中央寄せの主役 */
+}
+/* ステージ幅：ピアノに合わせて中央に */
+.controls,
+#pianoArea{
+  width: min(100%, 480px);           /* 420/480などSVG側に合わせる */
 }
     h1{font:700 18px/1.2 'Press Start 2P',monospace;margin:6px 0 12px;letter-spacing:.5px}
     #overlay,.big,.segments label{font-family:'Press Start 2P',monospace}
@@ -83,7 +88,7 @@
     .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
     .big{font-weight:700;font-size:20px;line-height:1.1;font-family:'Press Start 2P',monospace}
 
-    #pianoArea{display:flex;justify-content:center;align-items:stretch;margin:12px auto 0;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:hidden;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;flex:1}
+    #pianoArea{display:flex;justify-content:center;align-items:stretch;margin-inline:auto;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:hidden;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;flex:1}
     #pianoArea svg{display:block;width:min(420px,100%);height:auto;max-height:100%;margin:0 auto;}
     @media (min-width:768px){#pianoArea svg{width:clamp(360px,70vw,560px);}}
     .spacer-md{height:12px}
