@@ -17,10 +17,7 @@
       font-style:normal;font-weight:400;font-display:swap;
     }
     body{margin:0;background:#000;color:#fff;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans JP",sans-serif;text-align:center;font-synthesis:none}
-.wrap{
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 16px var(--safe-pad,16px);
+.wrap{$1padding:16px var(--padR) 16px var(--padL);
   min-height: 100vh;
   display: grid;
   grid-template-rows: auto auto 1fr auto;
@@ -41,13 +38,7 @@
     .segments input{display:none}
     .segments input:checked+label{background:#b5001e;color:#000}
 
-    .btnRow{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:var(--btn-gap);
-  flex-wrap:nowrap;            /* ← できるだけ改行しない */
-  padding:2px var(--safe-pad); /* ← 端に寄りすぎ対策 */
+    .btnRow{$1padding:2px var(--padR) 2px var(--padL); /* ← 端に寄りすぎ対策 */
   overflow:visible;
   min-width:0;
 }
@@ -135,12 +126,13 @@ body.running #timeCard{ display: block; }
 
 :root{
   --btn-gap: 12px;
-  /* 左右の安全余白（iPhone のノッチ/ホームバー + 16px 基本余白） */
-  --safe-pad: max(16px, env(safe-area-inset-left), env(safe-area-inset-right));
+  /* 左右を独立して取得（左右の差で片寄りしない） */
+  --padL: max(16px, env(safe-area-inset-left));
+  --padR: max(16px, env(safe-area-inset-right));
   /* デスクトップ上限 */
   --btn-icon-max: 300px;
-  /* 2ボタンが必ず横に収まるように画面幅から安全余白とギャップを引いて÷2 */
-  --btn-icon-fit: calc((100vw - (var(--safe-pad) * 2) - var(--btn-gap)) / 2);
+  /* 2ボタンが必ず横に収まるよう、左右パディングを別々に控除 */
+  --btn-icon-fit: calc((100vw - var(--padL) - var(--padR) - var(--btn-gap)) / 2);
 }
   </style>
 </head>
