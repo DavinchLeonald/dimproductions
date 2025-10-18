@@ -1,673 +1,304 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <link rel="preload" href="https://dim.productions/assets/fonts/PressStart2P.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="canonical" href="https://dim.productions/pianovirtuoso18">
-  <title>Piano Virtuoso 18</title>
-  <style>
-    *{box-sizing:border-box}
-    html,body{height:100%; overscroll-behavior: none; touch-action: manipulation; -webkit-text-size-adjust: 100%; overflow-x:hidden;}
-    body{-webkit-touch-callout:none;-webkit-user-select:none}
-    @font-face{
-      font-family:'Press Start 2P';
-      src:url('https://dim.productions/assets/fonts/PressStart2P.woff2') format('woff2'),
-          url('/assets/fonts/PressStart2P.woff2') format('woff2');
-      font-style:normal;font-weight:400;font-display:swap;
-    }
-    body{margin:0;background:#000;color:#fff;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans JP",sans-serif;text-align:center;font-synthesis:none}
-    .wrap{max-width:800px;margin:0 auto;padding:16px;overflow-x:hidden}
-    h1{font:700 18px/1.2 'Press Start 2P',monospace;margin:6px 0 12px;letter-spacing:.5px}
-    #overlay,.big,.segments label{font-family:'Press Start 2P',monospace}
-    .card>div:first-child{font-family:'Press Start 2P',monospace;font-weight:700;letter-spacing:.3px}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="DIMProductions — Plugin & game SFX studio in Tokyo. Featured work: Piano Virtuoso 18." />
+<link rel="canonical" href="https://dim.productions/" />
 
-    .controls{display:flex;flex-direction:column;gap:12px;align-items:center}
-    .segments{display:flex;gap:10px}
-    .segments label{ padding:8px 12px; cursor:pointer; background:transparent; font-size:16px;      /* 追加：iOSフォーカス時のズーム抑止 */ line-height:1.2;     /* 追加：行高整える */ }
-    .segments input{display:none}
-    .segments input:checked+label{background:#b5001e;color:#000}
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="DIMProductions" />
+<meta property="og:title" content="DIMProductions" />
+<meta property="og:description" content="Plugin & game SFX studio in Tokyo. Featured work: Piano Virtuoso 18." />
+<meta property="og:url" content="https://dim.productions/" />
+<meta property="og:image" content="https://dim.productions/og-image.jpg" />
+<meta property="og:locale" content="ja_JP" />
+<meta name="twitter:card" content="summary_large_image" />
+<title>DIMProductions</title>
+<style>
+@font-face {font-family:'DIMProductions';src:url('assets/fonts/DIMProductions.woff2') format('woff2');font-display: swap;}
+@font-face{font-family:'Jacquard12PV18';src:url('assets/fonts/Jacquard12-pv18.woff2') format('woff2');font-display:swap;}
+@font-face{font-family:'Tektur-VariableFont_wdth,wght';src:url('assets/fonts/Tektur-VariableFont_wdth,wght.woff2') format('woff2');font-display:swap;}
+  
+  :root{
+    --ink:#00eaff;
+    --bgA:#021019; --bgB:#0a0f1a;
+    --font-ja:'Noto Sans JP','Hiragino Kaku Gothic ProN','Yu Gothic',system-ui,sans-serif;
+  }
+  html,body{height:100%}
+  body{
+    margin:0;overflow:hidden;color:#cde;
+    background:radial-gradient(1200px 70% at 50% 120%, var(--bgA) 0%, #02070e 45%, #000 100%),
+               linear-gradient(180deg, #02070e 0%, var(--bgB) 100%);
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+  }
+  .scene{position:fixed;inset:0;overflow:hidden;perspective:1200px;perspective-origin:50% 80%;}
+  .stage{position:absolute;inset:0;transform-style:preserve-3d}
 
-    .btnRow{display:flex;gap:var(--btn-gap,10px);justify-content:center;flex-wrap:nowrap;align-items:center;overflow:visible;padding:2px 4px}
-    @media (max-width:380px){ .btnRow{ flex-wrap: wrap; gap: var(--btn-gap); } }
-    button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0; line-height:0; }
-    .svgBtn{display:inline-grid;place-items:center;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
-    .svgBtn .icon{width:clamp(var(--btn-icon-min), var(--btn-icon-vw), var(--btn-icon-max));height:auto;transition:filter .25s ease, transform .06s;overflow:visible}
-    .svgBtn .icon use{transition:filter .25s ease}
-    .svgBtn.pressed .icon{transform:translateY(3px) scale(.98)}
+  /* ===== Rain Canvas ===== */
+  canvas#fx{position:absolute;inset:0;mix-blend-mode:screen;pointer-events:none}
 
-    /* 初期状態: start青く光る, stop消灯 */
-    #btnStart .icon{filter:drop-shadow(0 0 10px rgba(0,180,255,.9)) drop-shadow(0 0 25px rgba(0,180,255,.6));}
-    #btnStop .icon{filter:none;opacity:0.6}
+  /* ===== Ambient glow blobs ===== */
+  .city{position:absolute;inset:-10% -10% 0 -10%;background:
+      radial-gradient(800px 420px at 10% 38%, rgba(0,255,255,.12), transparent 60%),
+      radial-gradient(900px 520px at 88% 26%, rgba(160,200,255,.10), transparent 60%),
+      linear-gradient(180deg, rgba(255,255,255,.04) 0%, rgba(255,255,255,0) 60%);
+    filter:saturate(115%);
+  }
+  .scanlines::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg, rgba(255,255,255,.03) 0 2px, transparent 2px 4px);mix-blend-mode:overlay;pointer-events:none}
 
-    /* プレイ中（start押下→stop有効）: stop赤く光り、start消灯 */
-    body.playing #btnStart .icon{filter:none;opacity:0.6}
-    body.playing #btnStop .icon{filter:drop-shadow(0 0 10px rgba(255,60,60,.9)) drop-shadow(0 0 25px rgba(255,0,0,.6));opacity:1}
+  /* ===== 3‑point perspective signboards ===== */
+  .signWrap{position:absolute;transform-style:preserve-3d}
+  /* Keep them away from edges */
+  .signWrap.left{left:10vw; top:60vh; transform:rotateX(22deg) rotateY(26deg) rotateZ(-6deg) translateZ(120px)}
+  .signWrap.right{right:12vw; top:30vh; transform:rotateX(20deg) rotateY(-28deg) rotateZ(7deg) translateZ(160px)}
 
-    .card{background:#111;padding:10px;margin:12px 0}
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-    .big{font-weight:700;font-size:20px;line-height:1.1;font-family:'Press Start 2P',monospace}
+  .sign{--w: clamp(120px, 15vw, 260px); --h: clamp(280px, 52vh, 620px); position:relative; width:var(--w); height:var(--h);
+    border-radius:14px; background:
+      linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.01) 60%, rgba(0,0,0,.35)),
+      radial-gradient(120% 100% at 50% -10%, rgba(255,255,255,.08), rgba(0,0,0,.0));
+    border:1px solid rgba(40,80,120,.6);
+    box-shadow:0 0 30px rgba(0,0,0,.55) inset, 0 0 80px rgba(0,234,255,.25), 0 40px 120px rgba(0,0,0,.7);
+    overflow:visible; transform-style:preserve-3d;
+  }
+  .sign.h{--w: clamp(320px, 46vw, 760px); --h: clamp(80px, 16vh, 160px);} 
+  .sign.h .txt{position:absolute; inset:0; display:grid; place-items:center; padding:14px; text-align:center;}
+  /* fake thickness */
+  .sign::before{content:"";position:absolute;inset:0;border-radius:14px;box-shadow:0 0 22px var(--glow) inset, 0 0 60px var(--glow);
+    --glow: var(--ink);
+    filter:blur(.2px); mix-blend-mode:screen; opacity:.9;}
+.sign.silver::before{ --glow:#cfd8e6; } /* 冷たい銀のグロー */
+  .edge{position:absolute;inset:-2px;border-radius:16px;border:2px solid rgba(255,255,255,.12);mix-blend-mode:overlay}
+  .extrude{position:absolute;inset:0;background:linear-gradient(90deg, rgba(0,0,0,.5), rgba(0,0,0,.1));filter:brightness(.9);transform:translateZ(-22px);border-radius:14px;opacity:.8}
 
-    #pianoArea{display:flex;justify-content:center;align-items:center;margin:12px auto 18px;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:visible;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;}
-    #pianoArea svg{display:block;width:clamp(220px,72vw,420px);max-height:38vh;height:auto;margin:0 auto;}
-    @media (min-width:768px){#pianoArea svg{width:clamp(360px,70vw,560px);}}
-    .spacer-md{height:12px}
-    .key{display:flex;align-items:center;justify-content:center;transition:transform .06s ease, filter .06s ease}
-    .key.down{transform:translateY(2px) scaleY(.985); filter:brightness(1.15)}
-    .glow-black{filter:drop-shadow(0 0 10px rgba(0,0,0,.95)) drop-shadow(0 0 26px rgba(0,0,0,.85)) brightness(.85) contrast(1.1);} 
-    .key .label{opacity:.6; font-weight:700}
-    .key:active{filter:brightness(1.2)}
+  /* Logo block (SVG or IMG) */
+  .logo{position:absolute;inset:0;display:grid;place-items:center;padding:0;pointer-events:auto;animation:pulseGlow 2.8s ease-in-out infinite;will-change:transform,filter}
+  .logo a.link{display:grid;place-items:center;text-align:center;width:100%;height:100%;cursor:pointer;position:relative;z-index:5;pointer-events:auto;text-decoration:none;outline:0}
 
-    #overlay{position:fixed;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.5);color:#ff5050;font:700 clamp(40px,10vw,120px)/1 'Press Start 2P',monospace;opacity:0;pointer-events:none;transition:.15s;z-index:2147483647;will-change:opacity}
-    #overlay.show{opacity:1}
+  /* PV18 text logo (Jacquard 12 + glitch) */
+  .pv18{
+    font-family:'Jacquard12PV18',cursive;
+    font-size: clamp(36px, 6.4vw, 90px);
+    line-height: 1;
+    letter-spacing: .06em;
+    color: #ffc800;
+    text-shadow: 0 0 16px var(--ink), 0 0 36px var(--ink);
+    position: relative;
+    display: grid;                /* 中央寄せのため */
+    place-items: center;          /* ここで縦横センター */
+    height: 100%;                 /* 親の看板内でフルに使う */
+    animation: pulseGlow 2.8s ease-in-out infinite;
+  }
+  .pv18::before, .pv18::after{
+    content: attr(data-text);
+    position:absolute; inset:0; pointer-events:none;
+    display:grid; place-items:center;   /* 疑似要素側も中央寄せ */
+  }
+  .pv18::before{
+    color:#0ff; text-shadow:0 0 10px #0ff;
+    clip-path: inset(0 0 55% 0);
+    mix-blend-mode: screen;
+    animation: glitchTextA 2.1s steps(36) infinite, glitchFlash 4.4s steps(30) infinite;
+    transform: translateX(0);
+  }
+  .pv18::after{
+    color:#b8c7d8; text-shadow:0 0 10px #b8c7d8;
+    clip-path: inset(45% 0 0 0);
+    mix-blend-mode: screen;
+    animation: glitchTextB 2.0s steps(34) infinite, glitchFlash 4.4s steps(30) infinite;
+    transform: translateX(0);
+  }
 
-    :root{
-      --btn-gap: 10px;
-      --btn-icon-min: 220px;
-      --btn-icon-vw: 36vw;
-      --btn-icon-max: 300px;
-    }
-  </style>
+  /* Text glitch for right sign */
+  .txt.glitch{animation:pulseGlow 3s ease-in-out infinite}
+  .txt.glitch::before,
+  .txt.glitch::after{content:attr(data-text);position:absolute;inset:0;padding:inherit;pointer-events:none;font-family:inherit;font-weight:inherit;letter-spacing:inherit;}
+  .txt.glitch::before{color:#0ff;text-shadow:0 0 8px #0ff;transform:translateX(0);clip-path:inset(0 0 55% 0);mix-blend-mode:screen;animation:glitchTextA 2.2s steps(36) infinite, glitchFlash 4.2s steps(30) infinite}
+  .txt.glitch::after{color:#b8c7d8;text-shadow:0 0 8px #b8c7d8;transform:translateX(0);clip-path:inset(45% 0 0 0);mix-blend-mode:screen;animation:glitchTextB 2.0s steps(34) infinite, glitchFlash 4.2s steps(30) infinite}
+
+
+/* 1) 看板内の本文を確実に中央 */
+.logo,
+.sign.h .txt{
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  padding:12px;           /* 余白は少なめに */
+  text-align:center;
+}
+
+/* 2) 疑似要素も中央に揃える（ここが肝） */
+.pv18::before,
+.pv18::after,
+.txt.glitch::before,
+.txt.glitch::after{
+  display:flex; align-items:center; justify-content:center;
+  inset:0;                /* すでに書いてあるならOK */
+}
+
+/* 3) ベースライン微調整（上ズレ対策の微下げ） */
+.dim-font{ transform: translateY(6%); }   /* DIMP の方を少し下へ */
+.pv18{      transform: translateY(2%); }   /* PV18 も少しだけ下へ */
+
+/* モバイル時はやや強めに下げる */
+@media (max-width:900px), (pointer:coarse){
+  .dim-font{ transform: translateY(8%); }
+  .pv18{      transform: translateY(3%); }
+}
+
+  /* Animations */
+  @keyframes pulseGlow{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
+  @keyframes glitchFlash{0%,92%{opacity:0}93%{opacity:.8}96%{opacity:.2}97%{opacity:.9}100%{opacity:0}}
+@keyframes glitchTextA{0%{transform:translateX(0)} 25%{transform:translateX(-2px)} 50%{transform:translateX(1px)} 75%{transform:translateX(-1px)} 100%{transform:translateX(0)}}
+  @keyframes glitchTextB{0%{transform:translateX(0)} 25%{transform:translateX(2px)} 50%{transform:translateX(-1px)} 75%{transform:translateX(1px)} 100%{transform:translateX(0)}}
+
+.logo a.link{display:block;width:100%;height:100%;text-decoration:none;outline:0}
+.sign a{ text-decoration:none }
+.pv18{ text-decoration:none }
+  /* Language-specific fonts */
+  
+  .dim-font {
+  font-family: 'DIMProductions', sans-serif !important;
+  font-size:6.5em; /* 調整可 */
+  font-weight: 400 !important; /* 合成ボールド抑止で字間の乱れ防止 */
+  line-height: 1;
+  letter-spacing: .02em !important; /* すき間を詰める */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-kerning: normal;
+  font-variant-ligatures: none;
+}
+.txt{display:grid; place-items:center; line-height:1; font-family:'Tektur-VariableFont_wdth,wght',monospace; letter-spacing:.04em; color:#e6eef7; text-shadow:0 0 10px rgba(200,220,240,.45);}
+
+.glitch-silver{ color:#eaf2ff !important; text-shadow:0 0 10px #d7e6ff,0 0 28px #d7e6ff !important }
+.glitch-silver::before{ color:#f6fbff !important; text-shadow:0 0 10px #eef7ff !important }
+.glitch-silver::after{ color:#b8c7d8 !important; text-shadow:0 0 10px #b8c7d8 !important }
+
+.site-footer{
+  position:fixed;left:0;right:0;bottom:10px;
+  display:flex;justify-content:center;z-index:6;pointer-events:none;
+}
+.site-footer .inner{
+  pointer-events:auto;display:flex;gap:.6rem;align-items:center;
+  padding:.35rem .6rem;border-radius:10px;border:1px solid #1a2a3a;
+  background:rgba(0,0,0,.35);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  box-shadow:0 0 0 1px rgba(255,255,255,.04) inset;
+  font-family:'Tektur-VariableFont_wdth,wght',monospace;font-size:14px;letter-spacing:.04em;color:#cfd8e6;
+}
+.site-footer .brand{font-family:'DIMProductions',sans-serif;letter-spacing:.02em;font-size:14px}
+.site-footer .sep{opacity:.5}
+
+/* Footer brand only: a bit higher */
+.site-footer .brand.dim-font{
+  display:inline-block;     /* 変形を素直に効かせる */
+  line-height:1;
+  transform: translateY(-6%);  /* 上へ持ち上げる（-4%〜-8%で微調整） */
+}
+
+/* モバイルは少し弱めに */
+@media (max-width:900px), (pointer:coarse){
+  .site-footer .brand.dim-font{ transform: translateY(-4%); }
+}
+
+/* === Mobile layout (same HTML, CSS switch) === */
+@media (max-width: 900px), (pointer: coarse){
+  .scene{perspective:900px;perspective-origin:50% 74%}
+  .sign{--w: clamp(280px, 86vw, 560px); --h: clamp(56px, 12vh, 100px)}
+  .sign.h .txt{padding:14px}
+  /* stack center */
+  .signWrap.left{left:50vw; right:auto; top:42vh; transform:rotateX(16deg) rotateY(0deg) rotateZ(0deg) translateZ(100px) translateX(-50%)}
+  .signWrap.right{left:50vw; right:auto; top:16vh; transform:rotateX(14deg) rotateY(0deg) rotateZ(0deg) translateZ(90px) translateX(-50%)}
+  /* brand text size */
+  .dim-font{font-size:clamp(18px,8.8vw,40px)}
+  .site-footer .inner{font-size:11px}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "DIMProductions",
+  "url": "https://dim.productions/",
+  "logo": "https://dim.productions/logo.png",
+  "description": "Plugin & game SFX studio in Tokyo. Featured work: Piano Virtuoso 18.",
+  "foundingLocation": "Tokyo, Japan"
+}
+</script>
+
 </head>
 <body>
-  <!-- Inline SVG symbols so <use> works locally -->
-  <svg  style="position:absolute;width:0;height:0;overflow:hidden">
-    <symbol id="btn-start" viewBox="0 0 195.83154 45.981833">
-      <g transform="translate(-184.87527,-0.433794)">
-        <path fill="#1a1a1a" d="m 214.36793,41.837793 -4.12,0.002 -0.0238,-4.14196 -4.12004,-9.8e-4 -0.1418,-28.970979 4.11808,-0.008 -0.0238,-4.14 h 4.12016 l -0.024,-4.14 h 33.2002 l 0.0238,4.14 h 4.07204 l 0.0238,4.1439 h 4.144 l -0.0238,28.972159 h -4.144 l 0.0238,4.1439 h -4.14358 l 0.024,4.144 h -32.9612 z"/>
-        <path fill="#000055" d="m 214.34407,37.693753 -4.12,0.002 -0.0238,-4.14196 -4.12004,-9.8e-4 -0.1418,-24.831019 4.11808,-0.008 -0.0238,-4.14 h 4.12016 l -0.024,-4.14 h 33.1999 l 0.0238,4.14 h 4.1442 l 0.0238,4.1439 h 4.096 l -0.0238,24.832199 h -4.096 l 0.0238,4.1439 h -4.1919 l 0.024,4.144 h -32.98474 z"/>
-        <path fill="#0000aa" d="m 214.32037,33.553753 h -4.12016 l -0.1438,-24.839999 h 4.12016 l -0.0238,-4.14 h 33.2002 l 0.0238,4.14 h 4.12014 l -0.0954,24.839999 h -4.12014 l 0.0238,4.14 h -32.9612 z"/>
-        <path fill="#0000ff" d="m 214.32037,33.553753 -0.1438,-24.839999 h 33.2002 l -0.0954,24.839999 z"/>
-        <path fill="#00ccff" d="m 218.32104,25.269853 h -4.09615 l -0.0483,-16.556099 4.12007,-2e-5 v -4.13998 h 24.91201 v 4.13998 l 4.16774,-3.4e-4 v 16.560359 h -4.17964 l 0.0238,4.14 -24.87589,-0.004 z"/>
-        <path fill="#000" d="m 226.51306,14.933357 h 12.384 v 4.144397 h -4.12016 l 0.012,2.072 h -4.12016 l -0.0358,2.072 h -4.12016 z"/>
-        <path fill="#0000ff" d="m 226.51267,8.717754 h 4.13231 l -0.012,2.072 h 4.12016 l 0.0119,2.072 h 4.13202 v 4.144 h -4.10811 l 0.012,2.072 h -4.12016 l -0.0358,2.072 h -4.13231 z"/>
-      </g>
-    </symbol>
-    <symbol id="btn-stop" viewBox="0 0 195.83154 45.981833">
-      <g transform="translate(-286.97479,90.724357)">
-        <path fill="#1a1a1a" d="m 417.06275,-49.320358 -4.12,0.002 -0.0238,-4.14196 -4.12004,-9.8e-4 -0.1418,-28.970979 4.11808,-0.008 -0.0238,-4.14 h 4.12016 l -0.024,-4.14 h 33.20052 l 0.0238,4.14 h 4.09623 l 0.0238,4.1439 h 4.144 l -0.0238,28.972159 h -4.144 l 0.0238,4.1439 h -4.16777 l 0.024,4.144 h -32.96152 z"/>
-        <path fill="#550000" d="m 417.03889,-53.464398 -4.12,0.002 -0.0238,-4.14196 -4.12004,-9.8e-4 -0.1418,-24.831019 4.11808,-0.008 -0.0238,-4.14 h 4.12016 l -0.024,-4.14 h 33.2002 l 0.0238,4.14 h 4.12041 l 0.0238,4.1439 h 4.144 l -0.0238,24.832199 h -4.144 l 0.0238,4.1439 h -4.19195 l 0.024,4.144 h -32.9612 z"/>
-        <path fill="#aa0000" d="m 417.01519,-57.604398 h -4.12016 l -0.1438,-24.839999 h 4.12016 l -0.0238,-4.14 h 33.2002 l 0.0238,4.14 h 4.15611 l -0.0954,24.839999 h -4.15611 l 0.0238,4.14 h -32.9612 z"/>
-        <path fill="#d40000" d="m 417.01519,-57.604398 -0.1438,-24.839999 h 33.2002 l -0.0954,24.839999 z"/>
-        <path fill="#ff8080" d="m 421.03987,-65.888298 h -4.12016 l -0.0483,-16.556099 4.1678,-2e-5 -0.0238,-4.13998 h 24.8646 l 0.0238,4.13998 4.16742,-3.4e-4 v 16.560359 h -4.31042 l 0.0238,4.14 -24.7211,-0.004 z"/>
-        <path fill="#000" d="m 312.75358,22.78496 v -2.072 h 12.36215 l -3e-4,2.072 z" transform="translate(114.60833,-90.724357)"/>
-        <path fill="#aa0000" d="m 312.75354,20.71296 -0.071,-12.433 h 12.36124 l 0.0718,12.433 z" transform="translate(114.60833,-90.724357)"/>
-      </g>
-    </symbol>
-  </svg>
-
-  <div class="wrap">
-    <h1></h1>
-    <div class="controls">
-      <div class="segments">
-        <input id="modeE" type="radio" name="mode" value="E" checked>
-        <label for="modeE">Erlkönig</label>
-        <input id="modeD" type="radio" name="mode" value="D">
-        <label for="modeD">Diavolo</label>
+  <div class="scene scanlines">
+    <div class="city"></div>
+    <div class="stage">
+      <div class="signWrap left">
+        <div class="sign h">
+          <div class="edge"></div>
+          <div class="extrude"></div>
+          <div class="logo" data-kind="pv18">
+            <a class="link" href="https://dim.productions/pianovirtuoso18" target="_blank" rel="noopener">
+              
+              <span class="pv18" data-text="Piano Virtuoso 18">Piano Virtuoso 18</span>
+            </a>
+          </div>
+        </div>
       </div>
-      <div class="btnRow">
-        <button id="btnStart" class="svgBtn" aria-label="Start">
-          <svg class="icon" viewBox="0 0 195.83154 45.981833"><use href="#btn-start"></use></svg>
-        </button>
-        <button id="btnStop" class="svgBtn" aria-label="Stop" disabled>
-          <svg class="icon" viewBox="0 0 195.83154 45.981833"><use href="#btn-stop"></use></svg>
-        </button>
+      <div class="signWrap right">
+        <div class="sign h silver">
+          <div class="edge"></div>
+          <div class="extrude"></div>
+          <div class="txt glitch dim-font glitch-silver" lang="en" data-text="DIMP">DIMP</div>
+        </div>
       </div>
     </div>
-
-    <div class="card">
-      <div>TIME LEFT (s)</div>
-      <div class="big" id="timeLeft">10.00</div>
-    </div>
-
-    <div id="pianoArea">
-      <!-- === Light, precise SVG (IDs preserved; positions unchanged) === -->
-<?xml version="1.0" encoding="UTF-8"?>
-<svg id="piano" shape-rendering="crispEdges" version="1.1" viewBox="0 0 73.131 76.755" xmlns="http://www.w3.org/2000/svg">
- <!-- SAFE-TRIM: removed editors' metadata/defs; keeps required IDs for JS -->
- <!-- === Background frame (non-interactive) === -->
- <g id="bg" transform="matrix(1.5,0,0,1.5,-115,-6)" pointer-events="none" aria-hidden="true">
-  <path d="m76.744 4.2647 48.754-0.0016566v51.168l-48.754 0.0019z"/>
-  <path d="m80.398 51.775 41.454-0.0019v2.436l-41.454 0.0019zm43.882-46.294 8e-3 49.948h-1.2181l-4.9e-4 -48.731-43.889 3e-3 9.3e-5 48.73-1.2181-2.65e-4v-49.948zm-2.4281 43.858-4.873 2.65e-4 2e-4 -32.895-31.708 0.0026-5.3e-4 32.894h-4.8726l-1.3e-4 -41.422 41.453-0.00186z" fill="#1a1a1a"/>
-  <path d="m80.403 40.812 3.6547-6.65e-4v2.4364l-3.6547 6.65e-4zm37.786-0.0017 3.6547-6.51e-4v2.4364l-3.6547 6.51e-4z" fill="#4d4d4d"/>
-  <path d="m80.403 38.374h3.6547v2.4375l-3.6547 6.65e-4zm37.786-1.5e-5 3.6547 1.5e-5v2.4358l-3.6547 6.51e-4z" fill="#666"/>
-  <path d="m107.2 43.248 9.7632 0.0013v2.4364l-9.7632-0.0013z" fill="#e6e6e6"/>
-  <path d="m107.2 45.686 9.7632-8.28e-4v4.8699l-9.7632 8.28e-4z" fill="#f4eed7"/>
-  <path d="m107.2 18.883 10.986-0.0014 7e-5 24.365-10.986 0.0019z" fill="#fff"/>
-  <path d="m125.5 4.2627h-2.436v1.218h1.218v1.218h1.218zm-48.754 0.00194h2.4362v1.218h-1.218v1.218h-1.218zm3.6589 6.0909 41.439-1e-3v2.4364l-41.439 1e-3zm2.4e-5 32.893 3.6547-6.58e-4v2.4364l-3.6547 6.58e-4zm37.786-0.0017 3.6547-6.58e-4v2.4364l-3.655 6.58e-4zm-37.786-7.3077 3.6547-6.58e-4v2.4355h-3.6547zm37.786-0.0017 3.6547-6.58e-4v2.4372l-3.6547-6.4e-5z" fill="#333"/>
-  <path d="m85.275 17.664 31.691-6.02e-4 -2.9e-4 1.2182-31.691 6.02e-4z" fill="#800000"/>
-  <path d="m79.199 15.228h43.871v2.436l-43.871 4e-4zm37.767 2.436h1.22v32.892h-1.2189zm-32.909 4.97e-4h1.2181l3.64e-4 9.5455v23.346h-1.2181z"/>
- </g>
- <!-- === Keys (interactive: C & D only) === -->
- <g id="keys" transform="matrix(1.5,0,0,1.5,-115,-6)">
-  <!-- C (UP: visible) -->
-  <g id="C1up" transform="matrix(.64972 0 0 .42232 .81216 -8.3245)">
-   <path d="m130 64.423h14.997l-4.3e-4 57.697h-14.997z" fill="#fff"/>
-   <path d="m130 122.12h14.997v5.7692h-14.997z" fill="#e6e6e6"/>
-   <path d="m130 127.89 14.997 1e-3v11.532h-14.997z" fill="#f4eed7"/>
-   <path d="m139.37 101.92 5.7215-3e-4v2.8841l-5.7215-1e-3z"/>
-  </g>
-  <!-- C (DOWN: hidden) -->
-  <g id="C1down" transform="matrix(.64972 0 0 .42232 .81307 -8.2495)" display="none">
-   <path d="m130 64.244 14.999 0.0015 3.7e-4 66.347h-14.997z" fill="#fff"/>
-   <path d="m130 130.59h14.998l3.2e-4 5.7692-14.997-2e-3z" fill="#e6e6e6"/>
-   <path d="m130 136.36 14.996 2e-3 3.4e-4 2.8825h-14.997z" fill="#e9ddaf"/>
-   <path d="m139.38 101.75h5.6244v5.7682h-5.6244z"/>
-   <path d="m141.25 101.74 3.7493 1e-3v2.8831l-3.7493-1e-3z" fill="#333"/>
-  </g>
-  <!-- D (UP: visible) -->
-  <g id="D1up" transform="matrix(.64972 0 0 .42232 11.776 -8.5682)">
-   <path d="m130 65h15v57.698h-15z" fill="#fff"/>
-   <path d="m130 122.7h15v5.7692h-15z" fill="#e6e6e6"/>
-   <path d="m130 128.47h15v11.532h-15z" fill="#f4eed7"/>
-   <path d="m130 102.5 1.8734-1e-3v2.8841l-1.8738 1e-3z"/>
-   <path d="m143.13 102.49h3.7446v2.8934h-3.7446z"/>
-  </g>
-  <!-- D (DOWN: hidden) -->
-  <g id="D1down" transform="matrix(-.65075 0 0 .42232 190.6 -8.323)" display="none">
-   <path d="m130.02 64.426 14.976-0.0029v66.348h-14.976z" fill="#fff"/>
-   <path d="m130.02 130.77 14.976-2e-3v5.7692l-14.976 2e-3z" fill="#e6e6e6"/>
-   <path d="m130.02 136.54 14.976-2e-3v2.8846l-14.976 2e-3z" fill="#e9ddaf"/>
-   <path d="m143.14 101.92 1.8664 9.4e-4 -2.5e-4 5.7757-1.8661-5e-3z"/>
-   <path d="m130.02 101.91 1.8693 1.1e-4 -2e-3 5.7868-1.8717-2e-3z"/>
-   <path d="m128.16 101.91 1.8649 0.0152 4e-4 2.8818-1.8673 1.6e-4z" fill="#333"/>
-   <path d="m145 101.92 1.8655-5e-3v2.8789l-1.8655 5e-3z" fill="#333"/>
-  </g>
- </g>
- <!-- === Black keys (visual only) === -->
- <g id="bk-top" transform="matrix(1.5,0,0,1.5,-115,-6)" pointer-events="none" aria-hidden="true">
-  <g transform="matrix(.60911 0 0 .37263 15.262 -5.3387)">
-   <path d="m124.94 65 9.9974-3.1e-4 4.5e-4 42.501h-9.9985z"/>
-   <path d="m126.95 65.001 5.9937 1.7e-5 2.1e-4 42.5h-5.9939z" fill="#333"/>
-   <path d="m126.95 65.001h1.9998l1e-5 32.692 3.9939 2.15e-4v3.269l-5.9937-2.1e-4z" fill="#4d4d4d"/>
-  </g>
-  <g transform="matrix(.60911 0 0 .37263 28.662 -5.3376)">
-   <path d="m124.95 64.996 9.9981 0.0041v45.767l-6.0036-5.7e-4v-3.2602l-3.9945 5.7e-4z"/>
-   <path d="m126.95 65 5.9989 1.7e-5v42.51h-5.9973z" fill="#333"/>
-   <path d="m126.95 65.001h1.9889v32.692l4.0001 2.15e-4v3.269l-5.989-2.1e-4z" fill="#4d4d4d"/>
-  </g>
- </g>
- <!-- === Fingers (hidden by default) === -->
- <g display="none" fill="#1a1a1a" pointer-events="none">
-  <path d="m107.2 10.964h-1.2182v-1.2182h-3.6547v1.2182h-2.4364v1.2182h-4.8729v-1.2182h-1.2182v-1.2182h-1.2182v-1.2182h-1.2182v-1.2182l-1.2415-0.00482 0.02339-1.2134 1.2182 2.4e-6v-3.6547h-1.2182l-2.2e-5 -1.2182h-2.4366v-1.2182h-7.3094v1.2182h-2.4365v1.2182l-2.4364 2.4e-6 -2e-5 4.8729h-1.2182l-2e-5 1.2182h-1.2182l-0.0049 2.451-1.2134-0.01455v2.4364h-1.2182v9.7458h1.2182l4e-6 1.2182h1.2182v1.2182h1.2182v1.2182h1.2182l1e-5 1.2182 3.6547-2e-6v-1.2182h1.2182v1.2182l1.2182 2e-6v1.2182h3.6547v-1.2182l1.2182-9e-6 5.6e-5 9.7458h1.2182v1.2182h1.2182l-2.7e-5 1.2182h2.4365v-1.2182h1.2182v-1.2182h1.2182l-3.2e-5 -7.3094h-1.2182v-6.0911h-1.2182l2.7e-5 -4.8729h1.2182v-1.2182h3.6547v1.2182h6.0911v-1.2182h2.4364v-1.2182h1.2182l3e-5 -1.2182 1.2182 2e-6z"/>
-  <path d="m84.058 10.964h1.2182v-1.2182h3.6547v1.2182h2.4364v1.2182h4.8729v-1.2182h1.2182v-1.2182h1.2182v-1.2182h1.2182v-1.2182l1.2415-0.00482-0.0234-1.2134-1.2182 2.5e-6v-3.6547h1.2182l2e-5 -1.2182h2.4366v-1.2182h7.3094v1.2182h2.4364v1.2182l2.4364 2.4e-6 2e-5 4.8729h1.2182l1e-5 1.2182h1.2182l5e-3 2.451 1.2134-0.01455v2.4365h1.2182v9.7458h-1.2182v1.2182h-1.2182v1.2182h-1.2182v1.2182h-1.2182l-1e-5 1.2182-3.6547-3e-6v-1.2182h-1.2182v1.2182l-1.2182 3e-6v1.2182h-3.6547v-1.2182l-1.2182-1e-5 -5e-5 9.7458h-1.2182v1.2182h-1.2182l2e-5 1.2182h-2.4364v-1.2182h-1.2182v-1.2182h-1.2182l3.2e-5 -7.3094h1.2182v-6.0911h1.2182l-2.6e-5 -4.8729h-1.2183v-1.2182h-3.6547v1.2182h-6.0911v-1.2182h-2.4365v-1.2182h-1.2182l-3.2e-5 -1.2182-1.2182 3e-6z"/>
- </g>
-</svg>
-
-
-
-    </div>
-
-    <div class="grid">
-      <div class="card"><div>HITS</div><div id="hits" class="big">0</div></div>
-      <div class="card"><div>STABILITY</div><div id="stability" class="big">0.000</div></div>
-      <div class="card"><div>SCORE</div><div id="score" class="big">0</div></div>
-    </div>
+    <canvas id="fx"></canvas>
   </div>
-  <div id="overlay"></div>
+<script>
+(()=>{
+  // Rain-only FX (no audio, no UI)
+  const c = document.getElementById('fx');
+  const x = c.getContext('2d');
+  const DPR = devicePixelRatio||1;
+  function fit(){ c.width=innerWidth*DPR; c.height=innerHeight*DPR; c.style.width=innerWidth+'px'; c.style.height=innerHeight+'px'; }
+  fit(); addEventListener('resize',fit);
 
-  <script>
-  // ===== Tap-only minimal engine (no modules; browser-safe) =====
-  const btnStart=document.getElementById('btnStart');
-  const btnStop=document.getElementById('btnStop');
-  const body=document.body;
-  const elHits=document.getElementById('hits');
-  const elStab=document.getElementById('stability');
-  const elScore=document.getElementById('score');
-  const elTime=document.getElementById('timeLeft');
-  const area=document.getElementById('pianoArea');
+  const drops=[]; const N=240;
+  for(let i=0;i<N;i++) drops.push({x:Math.random()*c.width,y:Math.random()*c.height,vy:5+Math.random()*9,len:10+Math.random()*22});
 
-  function swapSvgVisibility(upId, downId, isDown){
-    const up = document.getElementById(upId);
-    const dn = document.getElementById(downId);
-    if(!up && !dn) return;
-    if(up)  up.style.display = isDown ? 'none'  : 'inline';
-    if(dn)  dn.style.display = isDown ? 'inline': 'none';
-  }
-  function pressPath(note){
-  return document.querySelector(note===60 ? '#C1down path' : '#D1down path');
-}
-function setKeyVisual(note, isDown){
-    if(note===60){
-      swapSvgVisibility('C1up','C1down',!!isDown);
-      const p = pressPath(60);
-      if(p) p.classList.toggle('glow-black', !!isDown);
+  function loop(){
+    const W=c.width,H=c.height;
+    x.clearRect(0,0,W,H);
+    x.globalCompositeOperation='lighter';
+    x.strokeStyle='rgba(0,220,255,0.25)';
+    x.lineWidth=1.2*DPR;
+    x.beginPath();
+    for(const d of drops){
+      x.moveTo(d.x,d.y);
+      x.lineTo(d.x-2*DPR,d.y+d.len*DPR);
+      d.y+=d.vy*DPR; d.x-=0.8*DPR;
+      if(d.y>H+40*DPR){ d.y=-20*DPR; d.x=Math.random()*W; }
     }
-    if(note===62){
-      swapSvgVisibility('D1up','D1down',!!isDown);
-      const p = pressPath(62);
-      if(p) p.classList.toggle('glow-black', !!isDown);
+    x.stroke();
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+</script>
+<script>
+  // Footer year auto-fill (robust: runs after DOM ready)
+  (function(){
+    function setYear(){
+      var el=document.getElementById('year');
+      if(el) el.textContent = new Date().getFullYear();
     }
-  }
-  function resetKeyVisuals(){
-  swapSvgVisibility('C1up','C1down',false);
-  swapSvgVisibility('D1up','D1down',false);
-  const pC = pressPath(60); if(pC) pC.classList.remove('glow-black');
-  const pD = pressPath(62); if(pD) pD.classList.remove('glow-black');
-}
-
-  let running=false,counting=false,ts=[]; let scoreNum=0; // timestamps (ms)
-  let mode='E';
-  let lastAccepted=null;
-  Array.from(document.querySelectorAll('input[name="mode"]')).forEach(r=>{
-    r.onchange = async (e)=>{
-      mode=r.value; lastAccepted=null; resetKeyVisuals();
-      if (e && e.isTrusted) { try{ await ensureAudio(); }catch(_){ }
-        const noteMap = { E:60, D:62 };
-        const midi = noteMap[r.value] || 60; beep(midi, 110);
-      }
-    };
-  });
-
-  function flash(btn){ btn.classList.add('pressed'); setTimeout(()=>btn.classList.remove('pressed'),120); }
-  btnStart.addEventListener('pointerdown', ()=> flash(btnStart));
-  btnStop .addEventListener('pointerdown', ()=> flash(btnStop));
-
-  function renderScore(){ elScore.textContent = String(scoreNum).padStart(4,'0'); }
-function renderScore(){ elScore.textContent = String(scoreNum).padStart(4,'0'); }
-function calcIntervals(arr){
-  if (!arr || arr.length < 2) return [];
-  const out=[]; for(let i=1;i<arr.length;i++) out.push(arr[i]-arr[i-1]);
-  return out;
-}
-function calcStability(){
-  const iv = calcIntervals(ts);
-  if (iv.length < 2) return 0;
-  const mu = iv.reduce((a,b)=>a+b,0)/iv.length;
-  const sd = Math.sqrt(iv.reduce((s,x)=>s+(x-mu)*(x-mu),0)/iv.length);
-  // original-style stability: 1 - sd/mu, clamped to 0..1
-  const stab = Math.max(0, Math.min(1, 1 - (sd/(mu||1))));
-  return stab; // 0..1 (higher is better)
-}
-function updateStability(){
-  const stab = calcStability();
-  elStab.textContent = stab.toFixed(3);
-}
-function resetStats(){
-  ts.length=0; scoreNum=0;
-  elHits.textContent='0';
-  elStab.textContent='0.000';
-  renderScore();
-  elTime.textContent='10.00';
-}
-
-  // ===== Audio =====
-  const AC = window.AudioContext || window.webkitAudioContext;
-  let audio = null;
-  let audioUnlocked = false;
-
-  async function ensureAudio(){
-    if (!AC) return null;
-    if (!audio || audio.state === 'closed'){
-      audio = new AC({ latencyHint: 'interactive' });
-      try{
-        const g = audio.createGain(); g.gain.value = 1; g.connect(audio.destination);
-        const buf = audio.createBuffer(1, 32, audio.sampleRate);
-        const src = audio.createBufferSource(); src.buffer = buf; src.connect(g);
-        src.start(audio.currentTime + 0.002);
-      }catch(e){}
-    }
-    if (audio.state === 'suspended'){
-      try{ await audio.resume(); }catch(e){ console.warn('resume failed', e); }
-    }
-    audioUnlocked = !!(audio && audio.state === 'running');
-    return audio;
-  }
-
-  window.addEventListener('click', async () => {
-    await ensureAudio();
-    audioUnlocked = true;
-  }, { once: true });
-
-  window.addEventListener('keydown', async () => {
-    if (!audioUnlocked) { await ensureAudio(); audioUnlocked = true; }
-  }, { once:true });
-
-  let muted = false;  // テスト用ミュート
-  function setMuted(on){
-    muted = !!on; document.body.classList.toggle('muted', muted);
-  }
-  function toggleMuted(){ setMuted(!muted); }
-  if (location.search.includes('mute=1')) setMuted(true);
-
-  function beep(midi, vel = 100){
-    if (!audioUnlocked || !audio || muted) return;
-    const t0 = audio.currentTime, len = 0.08;
-    const osc = audio.createOscillator();
-    const g = audio.createGain();
-    osc.type = 'square';
-    osc.frequency.value = 440 * Math.pow(2,(midi-69)/12);
-    const v = Math.max(0.08, Math.min(1, vel/127));
-    g.gain.setValueAtTime(0.0001, t0);
-    g.gain.linearRampToValueAtTime(0.25*v, t0+0.003);
-    g.gain.linearRampToValueAtTime(0.0001, t0+len);
-    osc.connect(g).connect(audio.destination);
-    osc.start(t0);
-    osc.stop(t0+len);
-  }
-
-  // ========= Speech (female voice + Excellent >= 7000) =========
-  async function getVoicesAsync(){
-    if (!('speechSynthesis' in window)) return [];
-    const have = speechSynthesis.getVoices();
-    if (have && have.length) return have;
-    return new Promise(res=>{
-      const onv = ()=>{ speechSynthesis.removeEventListener('voiceschanged', onv); res(speechSynthesis.getVoices()||[]); };
-      speechSynthesis.addEventListener('voiceschanged', onv);
-      setTimeout(()=>res(speechSynthesis.getVoices()||[]), 500);
-    });
-  }
-  function pickPreferredEnFemale(voices){
-    if (!voices || !voices.length) return null;
-    const femaleHints = /(samantha|victoria|karen|zira|aria|ana|female|google.*english.*female)/i;
-    const enUS = voices.filter(v => /en[-_]US/i.test(v.lang||''));
-    const hit = enUS.find(v => femaleHints.test(`${v.name} ${v.voiceURI}`));
-    if (hit) return hit;
-    if (enUS[0]) return enUS[0];
-    const enAny = voices.find(v => /^en[-_]/i.test(v.lang||''));
-    return enAny || voices[0] || null;
-  }
-  let speechReady = false;
-  let lastUtter = null;
-  async function unlockSpeech(){
-    if (!('speechSynthesis' in window) || speechReady) return;
-    await getVoicesAsync();
-    try{
-      speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance('');
-      u.lang = 'en-US';
-      u.volume = 0; // 無音
-      u.onend = ()=>{ speechReady = true; };
-      speechSynthesis.speak(u);
-    }catch(e){}
-  }
-  window.addEventListener('pointerdown', unlockSpeech, { once:true });
-  window.addEventListener('keydown',     unlockSpeech, { once:true });
-  document.addEventListener('visibilitychange', ()=>{
-    if (document.visibilityState === 'visible' && 'speechSynthesis' in window){
-      try{ speechSynthesis.resume(); }catch(e){}
-    }
-  });
-
-  function formatScoreTwoDigits(score){
-    const n = Math.max(0, Number(score)|0);
-    const W2 = {
-      '00':'zero','01':'one','02':'two','03':'three','04':'four','05':'five','06':'six','07':'seven','08':'eight','09':'nine',
-      '10':'ten','11':'eleven','12':'twelve','13':'thirteen','14':'fourteen','15':'fifteen','16':'sixteen','17':'seventeen','18':'eighteen','19':'nineteen',
-      '20':'twenty','21':'twenty-one','22':'twenty-two','23':'twenty-three','24':'twenty-four','25':'twenty-five','26':'twenty-six','27':'twenty-seven','28':'twenty-eight','29':'twenty-nine',
-      '30':'thirty','31':'thirty-one','32':'thirty-two','33':'thirty-three','34':'thirty-four','35':'thirty-five','36':'thirty-six','37':'thirty-seven','38':'thirty-eight','39':'thirty-nine',
-      '40':'forty','41':'forty-one','42':'forty-two','43':'forty-three','44':'forty-four','45':'forty-five','46':'forty-six','47':'forty-seven','48':'forty-eight','49':'forty-nine',
-      '50':'fifty','51':'fifty-one','52':'fifty-two','53':'fifty-three','54':'fifty-four','55':'fifty-five','56':'fifty-six','57':'fifty-seven','58':'fifty-eight','59':'fifty-nine',
-      '60':'sixty','61':'sixty-one','62':'sixty-two','63':'sixty-three','64':'sixty-four','65':'sixty-five','66':'sixty-six','67':'sixty-seven','68':'sixty-eight','69':'sixty-nine',
-      '70':'seventy','71':'seventy-one','72':'seventy-two','73':'seventy-three','74':'seventy-four','75':'seventy-five','76':'seventy-six','77':'seventy-seven','78':'seventy-eight','79':'seventy-nine',
-      '80':'eighty','81':'eighty-one','82':'eighty-two','83':'eighty-three','84':'eighty-four','85':'eighty-five','86':'eighty-six','87':'eighty-seven','88':'eighty-eight','89':'eighty-nine',
-      '90':'ninety','91':'ninety-one','92':'ninety-two','93':'ninety-three','94':'ninety-four','95':'ninety-five','96':'ninety-six','97':'ninety-seven','98':'ninety-eight','99':'ninety-nine'
-    };
-    const W1 = ['zero','one','two','three','four','five','six','seven','eight','nine'];
-    if (n < 10) return `${W1[n]} points.`;
-    if (n < 100) return `${W2[String(n).padStart(2,'0')]} points.`;
-    const s4 = String(n).padStart(4,'0');
-    const a = s4.slice(0,2);
-    const b = s4.slice(2);
-    const partA = (a === '00') ? '' : W2[a];
-    const partB = (b === '00') ? '' : W2[b];
-    const phrase = [partA, partB].filter(Boolean).join(' ');
-    return `${phrase || 'zero'} points.`;
-  }
-  async function speakResult(score, {lang='en-US'}={}){
-    if (!('speechSynthesis' in window)) return;
-    if (!speechReady) {
-      await unlockSpeech();
-      if (!speechReady) { setTimeout(()=>{ if (speechReady) speakResult(score,{lang}); }, 80); return; }
-    }
-    const voices = await getVoicesAsync();
-    const v = pickPreferredEnFemale(voices);
-    const isExcellent = Number(score) >= 7000;
-    const formatted = formatScoreTwoDigits(Number(score));
-    const text = isExcellent ? `Excellent! ${formatted}` : formatted;
-    try{
-      if (lastUtter) { try{ speechSynthesis.cancel(); }catch(e){} }
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.lang   = 'en-US';
-      utter.rate   = 1.0;
-      utter.pitch  = 2;
-      utter.volume = 1.0;
-      if (v) utter.voice = v;
-      lastUtter = utter;
-      speechSynthesis.speak(utter);
-    }catch(e){ console.warn('TTS failed:', e); }
-  }
-
-  // === Voice (or beep) countdown ===
-  const USE_VOICE_COUNTDOWN = true; // ビープに戻す場合は false
-  const FAST_DIGITS = false; // digits not used now         // 3/2/1 を早口＆短尺に
-
-// BURST の喋る速さ（1.0=標準。早くしたいなら 1.15〜1.35 あたり）
-const BURST_RATE = 1.15;
-
-// === Settings: real-time stability display ===
-// 練習用は true、本番/大会用は false（終了後のみ表示）
-const LIVE_STABILITY = false;
-
-
-// 音声で言えたら true、ダメならビープにフォールバックして false を返す
-function speakCountdown(label){
-  return new Promise(async (resolve)=>{
-    const fallback = ()=>{
-      // フォールバックは短いビープ
-      const tone = (label==='BURST!') ? 72 : 60;
-      ensureAudio().then(()=>{ try{ beep(tone, label==='BURST!'?127:110); }catch(_){} });
-      resolve(false);
-    };
-
-    if (!USE_VOICE_COUNTDOWN || !('speechSynthesis' in window)) { fallback(); return; }
-
-    try{
-      await unlockSpeech(); // iOS 対策：ユーザー操作後にアンロック
-      const voices = await getVoicesAsync();
-      const v = pickPreferredEnFemale(voices);
-
-      const u = new SpeechSynthesisUtterance(String(label).replace('BURST!','Burst'));
-      u.lang   = 'en-US';
-      u.rate   = (label==='BURST!') ? BURST_RATE : 1.0;  // ← ここで速さ
-      u.pitch  = 2;
-      u.volume = 1.0;
-      if (v) u.voice = v;
-
-      let started = false;
-      u.onstart = ()=>{ started = true; };
-      u.onerror = ()=>{ fallback(); };
-      u.onend   = ()=>{ resolve(true); };
-
-      // 直前に話していたらだけ cancel（無闇に cancel すると失敗する端末がある）
-      try{ if (speechSynthesis.speaking) speechSynthesis.cancel(); }catch(_){}
-      speechSynthesis.speak(u);
-
-      // iOS/Safari で start が来なかったときの保険（声が出なければビープへ）
-      setTimeout(()=>{ if (!started) fallback(); }, 450);
-    }catch(e){
-      fallback();
-    }
-  });
-}
-
-// READY→BURST! だけ。BURST 言い終わり（onend）で startRun()
-function startCountdown(){
-  if (running || counting) return;
-  counting = true;
-  resetStats();
-  document.body.classList.add('playing');
-
-  const overlay = document.getElementById('overlay');
-  overlay.classList.add('show');
-
-  (async ()=>{
-    overlay.textContent = 'READY';
-    await speakCountdown('READY');     // READY は onend 待ち
-
-    overlay.textContent = 'BURST!';
-    await speakCountdown('BURST!');    // BURST 言い終わりで開始
-    if (!counting) return;
-
-    overlay.classList.remove('show');
-    overlay.textContent = '';
-    counting = false;
-    startRun();
+    if(document.readyState==='loading'){
+      document.addEventListener('DOMContentLoaded', setYear);
+    }else{ setYear(); }
   })();
-}
-
-
-  // ===== Game loop =====
-  let timerId=null, endAt=0;
-const DUR_MS = 10000;                 // 10s window (for scoring calc)
-const TARGET_HITS_10S = 200;          // target hits in 10s -> 100% speed (tweakable)
-  function startRun(){
-    running=true; btnStop.disabled=false; btnStart.disabled=true; ts.length=0; lastAccepted=null; ensureAudio();
-    const DURATION=DUR_MS; // 10s
-    const t0=performance.now(); endAt=t0+DURATION;
-    const tick=()=>{
-      const now=performance.now();
-      const left=Math.max(0, endAt-now);
-      elTime.textContent=(left/1000).toFixed(2);
-      if (left<=0){ finish(); return; }
-      timerId=requestAnimationFrame(tick);
-    };
-    timerId=requestAnimationFrame(tick);
-  }
-  // ===== Scoring (Hits + Stability bonus) =====
-const SC_HITS_W = 1.0;      // weight for raw hits
-const SC_STAB_W = 1.0;      // weight for stability bonus (relative to hits)
-const SC_STAB_REF = 0.12;   // reference CV (lower is better). 0.12 ≈ very安定
-function calcScore(){
-  const hits = Number(elHits.textContent)|0;
-  const effectiveHits = (mode==='E') ? hits : Math.floor(hits/2)*2; // trill counts by pairs
-  // CV → bonus: if CV <= SC_STAB_REF, full bonus; if larger, bonus shrinks to 0
-  const cv = calcStability();
-  const stabFactor = Math.max(0, (SC_STAB_REF - cv)) / SC_STAB_REF; // 0..1
-  const stabBonus = Math.round(effectiveHits * stabFactor * SC_STAB_W);
-  const base = Math.round(effectiveHits * SC_HITS_W);
-  return Math.max(0, base + stabBonus);
-}
-  function finish(){
-    if(timerId){ cancelAnimationFrame(timerId); timerId=null; }
-    running=false; counting=false; btnStop.disabled=true; btnStart.disabled=false; body.classList.remove('playing');
-
-    // === Original-style scoring ===
-    const N = ts.length;
-    const dur = (ts.length>=1? (Math.max(1, (ts.at(-1) - ts[0]))/1000) : 0);
-    const sec = Math.min(DUR_MS/1000, Math.max(0.001, dur));
-    const hps = N / sec; // hits per second over effective duration
-
-    // update SPEED if element exists (some builds removed it)
-    const elSpeed = document.getElementById('speed');
-    if (elSpeed) elSpeed.textContent = hps.toFixed(2);
-
-    if(N>=2){
-      const dt=[]; for(let i=1;i<N;i++) dt.push(ts[i]-ts[i-1]);
-      const mu = dt.reduce((a,b)=>a+b,0)/dt.length;
-      const sd = Math.sqrt(dt.reduce((s,x)=>s+(x-mu)*(x-mu),0)/dt.length);
-      const stab = Math.max(0, Math.min(1, 1 - (sd/(mu||1))));
-      elStab.textContent = stab.toFixed(3);
-
-      const speedScore = Math.max(0, Math.min(100, (N / TARGET_HITS_10S) * 100));
-      const stabScore  = stab * 100;
-      scoreNum = Math.round(speedScore * stabScore);
-      renderScore();
-    }else{
-      elStab.textContent = '0.000';
-      scoreNum = 0; renderScore();
-    }
-
-    speakResult(scoreNum||0);
-    resetKeyVisuals();
-  }
-
-  // ===== Tap logic =====
-  function noteFromPos(evt){
-    const r = area.getBoundingClientRect();
-    const x = (evt.clientX ?? (evt.touches && evt.touches[0] && evt.touches[0].clientX) ?? r.left);
-    const ratio = (x - r.left) / Math.max(1, r.width);
-    return (ratio < 0.5) ? 60 : 62; // left:C(60), right:D(62)
-  }
-  function tapToNote(evt){
-    const n = noteFromPos(evt);
-    if (mode==='E'){
-      if (n!==60) return null; // C のみ
-    } else if (mode==='D'){
-      if (lastAccepted===n) return null; // トリル（交互）
-    }
-    return { note:n };
-  }
-
-  function onDown(evt){
-    if(!running) return;
-    const res = tapToNote(evt);
-    if(!res) return;
-    lastAccepted = res.note;
-    ts.push(performance.now());
-    // HITS only; score is computed at finish
-    elHits.textContent = String(Number(elHits.textContent)+1);
-    if (LIVE_STABILITY) updateStability();
-    // Visual & beep
-    setKeyVisual(res.note, true);
-    ensureAudio().then(()=>beep(res.note, 115));
-  }
-  function onUp(evt){
-    if(!running) return;
-    // どちらのキーか再判定して戻す（左右どちらでもOK）
-    const n = noteFromPos(evt);
-    setKeyVisual(n, false);
-  }
-  area.addEventListener('pointerdown', onDown);
-  window.addEventListener('pointerup', onUp);
-
-  // Buttons
-  btnStart.addEventListener('click', ()=> startCountdown());
-  btnStop .addEventListener('click', ()=> finish());
-
-
-  // ==== iOS Safari: prevent tap-zoom & dblclick zoom ====
-  (function preventIOSZoom(){
-    const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-    if(!isiOS) return;
-
-    // 連続タップの二発目でのズームを抑止
-    let lastTouchEnd = 0;
-    document.addEventListener('touchend', (e)=>{
-      const now = Date.now();
-      if (now - lastTouchEnd <= 350) { e.preventDefault(); }
-      lastTouchEnd = now;
-    }, {passive:false});
-
-    // dblclick ズームも殺す
-    document.addEventListener('dblclick', (e)=>{ e.preventDefault(); }, {capture:true});
-
-    // フォーカス時の自動ズームを避けるため、念のため 16px 未満の label/button に上書き
-    document.querySelectorAll('label, button').forEach(el=>{
-      const fs = parseFloat(getComputedStyle(el).fontSize);
-      if (fs && fs < 16) el.style.fontSize = '16px';
-    });
-  })();
-
-
-  // ===== Developer tests =====
-  (function runDevTests(){
-    if(!/[?&]test=1\b/.test(location.search)) return;
-    console.log('[tests] start');
-    const r = area.getBoundingClientRect ? area.getBoundingClientRect() : {left:0,width:100};
-    // E mode: only C accepted
-    mode='E'; lastAccepted=null;
-    console.assert((tapToNote({clientX:r.left+0.1*r.width, pressure:1})||{}).note===60, 'E:C left ok');
-    console.assert(tapToNote({clientX:r.left+0.9*r.width, pressure:1})===null, 'E:D right ignored');
-    // D mode: alternate required
-    mode='D'; lastAccepted=60;
-    console.assert(tapToNote({clientX:r.left+0.1*r.width, pressure:1})===null, 'D:C repeat ignored');
-    lastAccepted=60; console.assert((tapToNote({clientX:r.left+0.9*r.width, pressure:1})||{}).note===62, 'D:D accepted after C');
-    // noteFromPos helper
-    const nn = noteFromPos({clientX:r.left+0.75*r.width});
-    console.assert(nn===62, 'noteFromPos right→D');
-    console.log('[tests] ok');
-  })();
-  </script>
+</script>
+<footer class="site-footer">
+  <div class="inner">
+    <span class="legal">© <span id="year"></span> <span class="brand dim-font">DIMP</span> All Rights Reserved</span>
+  </div>
+</footer>
 </body>
 </html>
