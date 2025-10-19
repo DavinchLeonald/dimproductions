@@ -20,7 +20,7 @@
 .wrap{max-width:100%;margin:0 auto;padding:16px var(--padR) 16px var(--padL);min-height:100vh;display:grid;grid-template-rows:auto auto 1fr auto;justify-items:center}
 /* ステージ幅：ピアノに合わせて中央に */
 .controls,
-#pianoArea{ width:min(100%, var(--stage-w)); }
+#pianoArea{position:relative;display:flex;justify-content:center;align-items:stretch;margin:6px auto 0;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:visible;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;flex:1}
 #pianoArea{
   width: min(100%, 480px);           /* 420/480などSVG側に合わせる */
 }
@@ -28,7 +28,7 @@
     #overlay,.big,.segments label{font-family:'Press Start 2P',monospace}
     .card>div:first-child{font-family:'Press Start 2P',monospace;font-weight:700;letter-spacing:.3px}
 
-    .controls{display:flex;flex-direction:column;gap:12px;align-items:center}
+    .controls{display:flex;flex-direction:column;gap:8px;align-items:center}
     .segments{display:flex;gap:10px}
     .segments label{ padding:8px 12px; cursor:pointer; background:transparent; font-size:16px; line-height:1.2; }
     .segments input{display:none}
@@ -38,12 +38,11 @@
     @media (max-width:480px){
   .btnRow{ flex-wrap:nowrap; } /* 幅はアイコン側で自動縮小 */
 }
-@media (min-width:768px){
-  .btnRow{ gap:max(var(--btn-gap), 14px); }
-}
-    button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0; line-height:0; }
-    .svgBtn{display:grid;place-items:center;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;min-width:0;flex:0 0 calc((100% - var(--btn-gap)) / 2);}
-    .svgBtn .icon{width:100%;height:auto;transition:filter .25s ease, transform .06s;overflow:visible}
+@media (min-width:768px){.controls{gap:12px}#pianoArea{margin:10px auto 0}.btnRow{ gap:max(var(--btn-gap), 14px); }}
+
+    button{ padding:0; border:none; background:transparent; cursor:pointer; margin:0; line-height:0; -webkit-appearance:none; appearance:none; box-shadow:none; }
+    .svgBtn{display:grid;place-items:center;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;min-width:0;flex:0 0 calc((100% - var(--btn-gap)) / 2);background:transparent !important;border:0;}
+    .svgBtn .icon{display:block;width:100%;height:auto;transition:filter .25s ease, transform .06s;overflow:visible}
     .svgBtn .icon use{transition:filter .25s ease}
     .svgBtn.pressed .icon{transform:translateY(3px) scale(.98)}
 
@@ -59,8 +58,8 @@
     .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
     .big{font-weight:700;font-size:20px;line-height:1.1;font-family:'Press Start 2P',monospace}
 
-    #pianoArea{display:flex;justify-content:center;align-items:stretch;margin-inline:auto;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:hidden;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;flex:1}
-    #pianoArea svg{display:block;width:100%;height:auto;max-height:100%;margin:0 auto;}
+    #pianoArea{position:relative;display:flex;justify-content:center;align-items:stretch;margin:6px auto 0;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:visible;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;flex:1}
+    #pianoArea svg{display:block;width:100%;height:auto;max-height:100%;margin:0 auto;overflow:visible}
     
     .spacer-md{height:12px}
 
@@ -69,7 +68,7 @@
     #resultModal.show{display:flex}
     #resultModal .panel{background:#0b0b0b;border:1px solid #222;padding:18px clamp(14px,4vw,20px);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.6);width:min(480px,calc(100vw - var(--padL) - var(--padR) - 16px));margin-inline:auto;box-sizing:border-box;overflow-wrap:anywhere;text-align:center}
     #resultModal h2{margin:0 0 14px;font:700 16px/1.2 'Press Start 2P',monospace;letter-spacing:.4px}
-    #resultModal .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+    #resultModal .grid{display:grid;grid-template-columns:1fr;gap:10px}
     #resultModal .card{background:#111;padding:10px}
     #resultModal .big{font:700 20px/1.1 'Press Start 2P',monospace}
     #resultModal .actions{display:flex;justify-content:center;margin-top:14px;padding-inline: clamp(8px, 4vw, 16px)}
@@ -116,8 +115,8 @@ body.running #timeCard{ display: block; }
 #splash .inner{background:#0b0b0b;border:1px solid #222;border-radius:14px;padding:22px clamp(16px,5vw,28px);box-shadow:0 10px 30px rgba(0,0,0,.6);text-align:center;width:min(520px,calc(100vw - var(--padL) - var(--padR) - 20px))}
 #splash .logo{font:700 clamp(20px,8vw,28px)/1.15 'Press Start 2P',monospace;letter-spacing:.5px;margin:0 0 14px}
 #splash .sub{opacity:.8;font:700 clamp(12px,3.8vw,14px)/1.2 'Press Start 2P',monospace;margin:0 0 12px}
-#splash .actions{display:flex;justify-content:center;gap:12px;margin-top:8px}
-#splash .actions button{padding:12px 16px;background:#151515;border:1px solid #444;border-radius:12px;color:#fff;cursor:pointer;font:700 14px 'Press Start 2P',monospace}
+#splash .actions{display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:12px;margin-top:8px}
+#splash .actions button{width:min(100%, 320px);align-self:center;padding:12px 16px;background:#151515;border:1px solid #444;border-radius:12px;color:#fff;cursor:pointer;font:700 14px 'Press Start 2P',monospace}
 #splash .actions button:active{transform:translateY(2px)}
 body.state-splash #splash{display:grid}
 /* hide main UI while on splash */
@@ -190,22 +189,22 @@ body.state-splash #resultModal{display:none !important}
 <svg id="piano" width="420" height="480" shape-rendering="crispEdges" version="1.1" viewBox="0 0 420 480" xmlns="http://www.w3.org/2000/svg">
  <!-- SAFE-TRIM: removed editors' metadata/defs; keeps required IDs for JS -->
  <!-- === Background frame (non-interactive) === -->
- <g id="bg" transform="matrix(8.6114 0 0 8.6214 -660.72 -126.02)" pointer-events="none" aria-hidden="true">
-  <path d="m76.728 15.836h48.77l1e-3 54.457h-48.772z"/>
-  <path d="m125.5 14.617-9.4e-4 1.8279h-24.386l-0.14099 40.681-0.0228 7.2164h14.363v-7.304h10.188v7.304l-48.772-4e-6 0.0014-7.304h7.3125l-0.0022 7.304h31.273-14.363l0.1639-47.897-24.386-4e-5 9.35e-4 -1.8279z" fill="#1a1a1a" stroke-width=".69471"/>
+ <g id="bg" transform="matrix(8.6114 0 0 8.6214 -660.71 -110.27)" pointer-events="none" aria-hidden="true">
+  <path d="m76.728 15.836h48.77l-4.1e-4 52.629h-48.772z"/>
+  <path d="m125.5 12.79 9.1e-4 3.655h-24.386l-0.14099 40.681-0.0228 7.2164h14.363v-7.304h10.188v7.304l-48.772-4e-6 0.0014-7.304h7.3125l-0.0022 7.304h31.273-14.363l0.1639-47.897-24.386-4e-5 -9.17e-4 -3.655z" fill="#1a1a1a" stroke-width=".69471"/>
   <path d="m107.2 57.037 9.7662 0.0013v2.4331h-9.7662z" fill="#e6e6e6"/>
   <path d="m107.2 59.471h9.7662l-5e-5 4.8706-9.7662 7.9e-4z" fill="#f4eed7"/>
   <path d="m110.86 43.241v-24.358l6.1062-0.0014v38.156l-9.7662 4.2e-5v-13.793z" fill="#fff"/>
-  <path d="m125.5 57.038h-7.3125l-0.0187-38.155h7.3329zm-41.438-5.15e-4h-7.3125l-0.022025-38.155h7.3141zm32.905 13.255h-31.691v-5.9515l31.691 9.13e-4z" fill="#1a1a1a" stroke-width=".14835"/>
+  <path d="m125.5 57.038h-7.3125l-0.0187-38.155h7.3329zm-41.438-5.15e-4h-7.3125l-0.02202-38.155h7.3141zm32.905 11.428h-31.691v-4.1244l31.691 9.13e-4z" fill="#1a1a1a" stroke-width=".14835"/>
   <path d="m85.275 17.664 31.691-6.27e-4 -3.2e-4 1.2182-31.691 6.02e-4z" fill="#800000"/>
   <path d="m116.97 16.444h1.1992l4.3e-4 49.116h-1.1992zm-32.929 5.32e-4h1.238l-0.01946 49.115-1.2181 2e-6z"/>
  </g>
  <!-- === Keys (interactive: C & D only) === -->
- <g id="keys" transform="matrix(8.6116 0 0 8.6214 -660.75 -126.02)">
+ <g id="keys" transform="matrix(8.6116 0 0 8.6214 -660.74 -110.27)">
   <!-- C (UP: visible) -->
   <g id="C1up" transform="matrix(.64972 0 0 .42232 .81216 -8.3245)">
    <path d="m130 64.423 9.3709-8.79e-4 -8.7e-4 57.682h5.627l-5e-5 32.662h-14.997z" fill="#fff"/>
-   <path d="m130 154.77 14.997 1.6e-4 -5e-5 5.7692-14.997 1.5e-4z" fill="#e6e6e6"/>
+   <path d="m130 154.77 14.997 1.6e-4 -3e-5 5.7732-14.997 1.5e-4z" fill="#e6e6e6"/>
    <path d="m130 160.53 14.997 1e-3 5e-5 11.532h-14.997z" fill="#f4eed7"/>
   </g>
   <!-- C (DOWN: hidden) -->
@@ -213,8 +212,8 @@ body.state-splash #resultModal{display:none !important}
    <path d="m130 64.244 9.3695 5.3e-4 -6.1e-4 57.682h5.6262v41.298h-14.997z" fill="#fff"/>
    <path d="m130 163.24 14.998-0.0126 3.2e-4 5.7692-14.997 0.0106z" fill="#e6e6e6"/>
    <path d="m130 168.99 14.996 1.3e-4v2.8957l-14.997-0.0113z" fill="#e9ddaf"/>
-   <path d="m139.38 121.93h5.6244v5.7681l-5.6244 1.1e-4z"/>
-   <path d="m141.25 119.05 3.7493 1e-3v5.7672l-3.7493-1e-3z" fill="#333"/>
+   <path d="m139.37 121.93h5.6349v5.7681l-5.6349 1.1e-4z"/>
+   <path d="m141.25 119.05 3.7455 1e-3v5.7672l-3.7455-1e-3z" fill="#333"/>
   </g>
   <!-- D (UP: visible) -->
   <g id="D1up" transform="matrix(.64972 0 0 .42232 11.776 -8.5682)">
@@ -234,10 +233,10 @@ body.state-splash #resultModal{display:none !important}
   </g>
  </g>
  <!-- === Black keys (visual only) === -->
- <g id="bk-top" transform="matrix(8.6116 0 0 8.6214 -660.75 -126.02)" pointer-events="none" aria-hidden="true">
+ <g id="bk-top" transform="matrix(8.6116 0 0 8.6214 -660.74 -110.27)" pointer-events="none" aria-hidden="true">
   <g transform="matrix(.60911 0 0 .37263 15.262 -5.3387)">
-   <path d="m124.94 65 9.9974-3.1e-4 4.5e-4 62.111h-9.9985z"/>
-   <path d="m126.95 65.001 5.9937 1.7e-5 2.1e-4 62.111h-5.9939zm-26.041-6.5416h12.005v6.5416h-12.003zm3e-3 113.84h12.002v4.9068h-12.002zm68.028 1e-5h12.036l3e-3 4.9068h-12.039zm4e-3 -113.84h12.031l7e-3 6.5416h-12.038z" fill="#333"/>
+   <path d="m124.94 65 9.9974-3.1e-4 4.5e-4 62.111h-9.9978z"/>
+   <path d="m126.95 65.001 5.9937 1.7e-5 2.1e-4 62.111h-5.994zm-26.041-6.5416h12.005v6.5416h-12.003zm3e-3 113.84h12.002v4.9068h-12.002zm68.028 1e-5h12.036l3e-3 4.9068h-12.039zm4e-3 -113.84h12.031l7e-3 6.5416h-12.038zm-53.997 128.53 52.026 2e-3v4.9068l-52.026-2e-3z" fill="#333"/>
    <path d="m126.95 65.001 1.9998 4e-6 1e-5 55.554 3.9939 2.1e-4v3.2783l-5.9937-1.1e-4zm-26.039-11.447h12.004v4.9052h-12.005zm3e-3 113.84h12.001v4.9052h-12.002zm68.032-113.84h12.035l-4e-3 4.9052h-12.031zm-4e-3 113.84h12.041l-4e-3 4.9052h-12.037z" fill="#4d4d4d"/>
   </g>
   <g transform="matrix(.60911 0 0 .37263 28.662 -5.3376)">
@@ -271,7 +270,7 @@ body.state-splash #resultModal{display:none !important}
     <p class="sub">Tap START to enter</p>
     <div class="actions">
       <button id="enterGame" aria-label="Start Game">START</button>
-      <button id="openManual" aria-label="Open Game Manual">MANUAL</button>
+      <button id="openManual" aria-label="Open Game Manual">GAME MANUAL</button>
     </div>
     <div class="footer">&copy; DIMProductions</div>
   </div>
@@ -432,10 +431,15 @@ body.state-splash #resultModal{display:none !important}
     if (!audio || audio.state === 'closed'){
       audio = new AC({ latencyHint: 'interactive' });
       try{
-        const g = audio.createGain(); g.gain.value = 1; g.connect(audio.destination);
-        const buf = audio.createBuffer(1, 32, audio.sampleRate);
+        // persistent master gain to stabilize initial level and avoid early attenuation
+        master = audio.createGain();
+        master.gain.value = 1;
+        master.connect(audio.destination);
+        // silent prewarm (iOS AGC warm-up)
+        const g = audio.createGain(); g.gain.value = 0; g.connect(master);
+        const buf = audio.createBuffer(1, 256, audio.sampleRate);
         const src = audio.createBufferSource(); src.buffer = buf; src.connect(g);
-        src.start(audio.currentTime + 0.002);
+        src.start(audio.currentTime + 0.001);
       }catch(e){}
     }
     if (audio.state === 'suspended'){
@@ -478,7 +482,7 @@ body.state-splash #resultModal{display:none !important}
       g.gain.setValueAtTime(0.0001, startAt);
       g.gain.linearRampToValueAtTime(0.25*v, startAt+0.006);
       g.gain.linearRampToValueAtTime(0.0001, startAt+len);
-      osc.connect(g).connect(audio.destination);
+      osc.connect(g).connect(master || audio.destination);
       osc.start(startAt);
       osc.stop(startAt+len);
     }catch(e){ /* noop */ }
@@ -635,6 +639,8 @@ body.state-splash #resultModal{display:none !important}
       overlay.textContent = 'BURST!';
       await speakCountdown('BURST!');
       if (!counting) return;
+
+      await new Promise(r=>setTimeout(r,120));
 
       overlay.classList.remove('show');
       overlay.textContent = '';
