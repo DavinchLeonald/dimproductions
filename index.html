@@ -20,17 +20,17 @@
 @font-face{
   font-family:'Jacquard12PV18';
   src:url('/assets/fonts/Jacquard12-pv18.woff2') format('woff2');
-  font-display:swap;
+  font-display:block;
 }
 @font-face{
   font-family:'DIMProductions';
   src:url('/assets/fonts/DIMProductions.woff2') format('woff2');
-  font-display:swap;
+  font-display:block;
 }
 @font-face{
   font-family:'Tektur-VariableFont_wdth,wght';
   src:url('/assets/fonts/Tektur-VariableFont_wdth,wght.woff2') format('woff2');
-  font-display:swap;
+  font-display:block;
 }
   :root{
     --ink:#00eaff;
@@ -214,6 +214,7 @@
 
 /* === Mobile layout (same HTML, CSS switch) === */
 @media (max-width: 900px), (pointer: coarse){
+  canvas#fx { display: none; } /* ← これを追加 */
   .scene{perspective:900px;perspective-origin:50% 74%}
   .sign{--w: clamp(280px, 86vw, 560px); --h: clamp(56px, 12vh, 100px)}
   .sign.h .txt{padding:14px}
