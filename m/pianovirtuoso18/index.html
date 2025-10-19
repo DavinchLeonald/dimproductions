@@ -584,7 +584,7 @@ function beep(midi, vel = 100){
       const utter = new SpeechSynthesisUtterance(text);
       utter.lang   = 'en-US';
       utter.rate   = 1.0;
-      utter.pitch  = 1;
+      utter.pitch  = 1.0;
       utter.volume = 1.0;
       if (v) utter.voice = v;
       lastUtter = utter;
@@ -616,7 +616,7 @@ function beep(midi, vel = 100){
         const u = new SpeechSynthesisUtterance(String(label).replace('BURST!','Burst'));
         u.lang   = 'en-US';
         u.rate   = (label==='BURST!') ? BURST_RATE : 1.0;
-        u.pitch  = 2;
+        u.pitch  = 1.0;
         u.volume = 1.0;
         if (v) u.voice = v;
 
