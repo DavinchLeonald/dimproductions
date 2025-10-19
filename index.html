@@ -213,6 +213,13 @@
   .dim-font{font-size:clamp(18px,8.8vw,40px)}
   .site-footer .inner{font-size:11px}
 }
+/* === Motion & low-power safeguards === */
+@media (prefers-reduced-motion: reduce){
+  .pv18, .txt.glitch { animation:none !important; text-shadow:none !important; }
+  .scanlines::after{ display:none !important; }
+}
+.low-power .pv18, .low-power .txt.glitch { animation:none !important; text-shadow:none !important; }
+.low-power .scanlines::after{ display:none !important; }
 </style>
 <script type="application/ld+json">
 {
@@ -255,33 +262,48 @@
   </div>
 <script>
 (()=>{
-  // Rain-only FX (no audio, no UI)
-  const c = document.getElementById('fx');
-  const x = c.getContext('2d');
-  const DPR = devicePixelRatio||1;
+  // Low-power heuristics & toggle (no regex for safety)
+  var ua = navigator.userAgent || '';
+  var ix = ua.indexOf('Firefox/');
+  var oldFF = false; if(ix>=0){ var ver = parseInt(ua.slice(ix+8).split('.')[0],10); oldFF = (ver||0) < 70; }
+  var weakCPU = (navigator.hardwareConcurrency||2) <= 2;
+  var url = new URL(location.href);
+  var forceLow = url.searchParams.get('low')==='1';
+  if(forceLow || oldFF || weakCPU || matchMedia('(prefers-reduced-motion: reduce)').matches){
+    document.documentElement.classList.add('low-power');
+  }
+
+  // Rain-only FX (no audio, no UI) — DPR capped & frame-skipped
+  var c = document.getElementById('fx');
+  var x = c.getContext('2d');
+  var DPR = Math.min((window.devicePixelRatio||1), 2);
   function fit(){ c.width=innerWidth*DPR; c.height=innerHeight*DPR; c.style.width=innerWidth+'px'; c.style.height=innerHeight+'px'; }
   fit(); addEventListener('resize',fit);
 
-  const drops=[]; const N=240;
-  for(let i=0;i<N;i++) drops.push({x:Math.random()*c.width,y:Math.random()*c.height,vy:5+Math.random()*9,len:10+Math.random()*22});
+  var low = document.documentElement.classList.contains('low-power');
+  var N = low ? 60 : 240;
+  var drops=[]; for(var i=0;i<N;i++){ drops.push({x:Math.random()*c.width,y:Math.random()*c.height,vy:(low?3:5)+Math.random()*(low?5:9),len:(low?8:10)+Math.random()*(low?14:22)}); }
 
+  var acc=0;
   function loop(){
-    const W=c.width,H=c.height;
+    var W=c.width,H=c.height;
+    if(low){ acc++; if(acc%2){ requestAnimationFrame(loop); return; } }
     x.clearRect(0,0,W,H);
     x.globalCompositeOperation='lighter';
-    x.strokeStyle='rgba(0,220,255,0.25)';
-    x.lineWidth=1.2*DPR;
+    x.strokeStyle= low ? 'rgba(0,220,255,0.18)' : 'rgba(0,220,255,0.25)';
+    x.lineWidth=(low?0.9:1.2)*DPR;
     x.beginPath();
-    for(const d of drops){
+    for(var j=0;j<drops.length;j++){
+      var d=drops[j];
       x.moveTo(d.x,d.y);
-      x.lineTo(d.x-2*DPR,d.y+d.len*DPR);
-      d.y+=d.vy*DPR; d.x-=0.8*DPR;
+      x.lineTo(d.x-0.8*DPR,d.y+d.len*DPR);
+      d.y+=d.vy*DPR; d.x-=0.5*DPR;
       if(d.y>H+40*DPR){ d.y=-20*DPR; d.x=Math.random()*W; }
     }
     x.stroke();
     requestAnimationFrame(loop);
   }
-  loop();
+  requestAnimationFrame(loop);
 })();
 </script>
 <script>
