@@ -107,7 +107,7 @@ body.running #timeCard{ display: block; }
 
 #timeCard{ background: rgba(17,17,17,.9); }
 
-    #overlay{position:fixed;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.5);color:#ff5050;font:700 clamp(40px,10vw,120px)/1 'Press Start 2P',monospace;opacity:0;pointer-events:none;transition:.15s;z-index:2147483647;will-change:opacity}
+    #overlay{position:fixed;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.5);color:#b51010;font:700 clamp(40px,10vw,120px)/1 'Press Start 2P',monospace;opacity:0;pointer-events:none;transition:.15s;z-index:2147483647;will-change:opacity}
     #overlay.show{opacity:1}
 
 :root{
@@ -170,7 +170,6 @@ body.state-splash #resultModal{display:none !important}
   </svg>
 
   <div class="wrap">
-    <h1></h1>
     <div class="controls">
       <div class="segments">
         <input id="modeE" type="radio" name="mode" value="E" checked>
@@ -199,32 +198,32 @@ body.state-splash #resultModal{display:none !important}
  <g id="bg" transform="matrix(8.6114 0 0 8.6214 -660.71 -110.27)" pointer-events="none" aria-hidden="true">
   <path d="m76.728 15.836h48.77l-4.1e-4 52.629h-48.772z"/>
   <path d="m125.5 12.79 9.1e-4 3.655h-24.386l-0.14099 40.681-0.0228 7.2164h14.363v-7.304h10.188v7.304l-48.772-4e-6 0.0014-7.304h7.3125l-0.0022 7.304h31.273-14.363l0.1639-47.897-24.386-4e-5 -9.17e-4 -3.655z" fill="#1a1a1a" stroke-width=".69471"/>
-  <path d="m107.2 57.037 9.7662 0.0013v2.4331h-9.7662z" fill="#e6e6e6"/>
-  <path d="m107.2 59.471h9.7662l-5e-5 4.8706-9.7662 7.9e-4z" fill="#f4eed7"/>
-  <path d="m110.86 43.241v-24.358l6.1062-0.0014v38.156l-9.7662 4.2e-5v-13.793z" fill="#fff"/>
-  <path d="m125.5 57.038h-7.3125l-0.0187-38.155h7.3329zm-41.438-5.15e-4h-7.3125l-0.02202-38.155h7.3141zm32.905 11.428h-31.691v-4.1244l31.691 9.13e-4z" fill="#1a1a1a" stroke-width=".14835"/>
+  <path d="m107.2 57.038 9.7868 6.58e-4v2.4331h-9.7868z" fill="#e6e6e6"/>
+  <path d="m107.2 59.471h9.7868v4.8706l-9.7868 7.9e-4z" fill="#f4eed7"/>
+  <path d="m110.86 43.245v-24.362l6.1268-0.0014v38.156l-9.7868 4.2e-5v-13.793z" fill="#fff"/>
+  <path d="m125.5 57.038h-7.3125l-0.0187-38.155h7.3329zm-41.438-5.15e-4h-7.3125l-0.02202-38.155h7.3141zm32.925 11.428h-31.711v-4.1244l31.711 9.13e-4z" fill="#1a1a1a" stroke-width=".14835"/>
   <path d="m85.275 17.664 31.691-6.27e-4 -3.2e-4 1.2182-31.691 6.02e-4z" fill="#800000"/>
-  <path d="m116.97 16.444h1.1992l4.3e-4 49.116h-1.1992zm-32.929 5.32e-4h1.238l-0.01946 49.115-1.2181 2e-6z"/>
+  <path d="m116.99 16.444h1.1824l0.0168 47.896h-1.1992zm-32.946 5.32e-4h1.238l-0.0031 47.895-1.2181 2e-6z"/>
  </g>
  <!-- === Keys (interactive: C & D only) === -->
- <g id="keys" transform="matrix(8.6116 0 0 8.6214 -660.74 -110.27)">
+ <g id="keys" transform="matrix(8.6116,0,0,8.6214,-660.74,-110.27)">
   <!-- C (UP: visible) -->
   <g id="C1up" transform="matrix(.64972 0 0 .42232 .81216 -8.3245)">
-   <path d="m130 64.423 9.3709-8.79e-4 -8.7e-4 57.682h5.627l-5e-5 32.662h-14.997z" fill="#fff"/>
-   <path d="m130 154.77 14.997 1.6e-4 -3e-5 5.7732-14.997 1.5e-4z" fill="#e6e6e6"/>
+   <path d="m130 64.423 9.3709-8.79e-4 -8.7e-4 57.687h5.627l-5e-5 32.657h-14.997z" fill="#fff"/>
+   <path d="m130 154.77 14.997 1.6e-4 -1e-5 5.7771-14.997 4e-5z" fill="#e6e6e6"/>
    <path d="m130 160.53 14.997 1e-3 5e-5 11.532h-14.997z" fill="#f4eed7"/>
   </g>
   <!-- C (DOWN: hidden) -->
   <g id="C1down" transform="matrix(.64972 0 0 .42232 .81307 -8.2495)" display="none">
-   <path d="m130 64.244 9.3695 5.3e-4 -6.1e-4 57.682h5.6262v41.298h-14.997z" fill="#fff"/>
+   <path d="m130 64.244 9.3695 5.3e-4 -6.1e-4 57.682h5.6262l1e-5 41.298h-14.997z" fill="#fff"/>
    <path d="m130 163.24 14.998-0.0126 3.2e-4 5.7692-14.997 0.0106z" fill="#e6e6e6"/>
    <path d="m130 168.99 14.996 1.3e-4v2.8957l-14.997-0.0113z" fill="#e9ddaf"/>
-   <path d="m139.37 121.93h5.6349v5.7681l-5.6349 1.1e-4z"/>
-   <path d="m141.25 119.05 3.7455 1e-3v5.7672l-3.7455-1e-3z" fill="#333"/>
+   <path d="m139.37 64.245 9.369 1e-3 5.3e-4 63.454-9.369-9.9e-4z"/>
+   <path d="m141.25 116.16 3.7412 1e-3v8.6616l-3.7413-1e-3z" fill="#333"/>
   </g>
   <!-- D (UP: visible) -->
   <g id="D1up" transform="matrix(.64972 0 0 .42232 11.776 -8.5682)">
-   <path d="m131.87 122.68-4.2e-4 -57.683 11.261-6.51e-4v57.684h1.8704v32.661h-15v-32.662z" fill="#fff"/>
+   <path d="m131.87 122.68-4.2e-4 -57.683 11.261-6.51e-4 -4e-5 57.684h1.8704v32.661h-15v-32.662z" fill="#fff"/>
    <path d="m130 155.34h15.001v5.7692l-15-1e-5z" fill="#e6e6e6"/>
    <path d="m130 161.11h15v11.532l-15 1.3e-4z" fill="#f4eed7"/>
   </g>
@@ -233,27 +232,29 @@ body.state-splash #resultModal{display:none !important}
    <path d="m130.02 64.426 14.976-0.0029v98.976h-14.976z" fill="#fff"/>
    <path d="m130.02 163.4 14.976-2e-3v5.7692l-14.976 2e-3z" fill="#e6e6e6"/>
    <path d="m130.02 169.17h14.976v2.8958h-14.976z" fill="#e9ddaf"/>
-   <path d="m143.14 119.22 1.8664 9.4e-4 -2.5e-4 8.6523h-1.8661z"/>
-   <path d="m130.02 119.22 1.8736 1.1e-4v8.6552h-1.878z"/>
-   <path d="m128.16 119.2 1.8615 0.0152v5.7714h-1.8635z" fill="#333"/>
-   <path d="m145 119.22 1.8655-5e-3v5.7733h-1.8655z" fill="#333"/>
+   <path d="m143.14 64.419 1.8664 9.4e-4 3e-3 63.454h-1.8661z"/>
+   <path d="m130.02 64.418 1.8729 1.1e-4v63.458h-1.8772z"/>
+   <path d="m128.16 116.31 1.8615 0.0152 1e-5 8.6571h-1.8635z" fill="#333"/>
+   <path d="m145 116.33 1.8655-5e-3 -3e-3 8.6636h-1.8654z" fill="#333"/>
   </g>
  </g>
  <!-- === Black keys (visual only) === -->
  <g id="bk-top" transform="matrix(8.6116 0 0 8.6214 -660.74 -110.27)" pointer-events="none" aria-hidden="true">
   <g transform="matrix(.60911 0 0 .37263 15.262 -5.3387)">
    <path d="m124.94 65 9.9974-3.1e-4 4.5e-4 62.111h-9.9978z"/>
-   <path d="m126.95 65.001 5.9937 1.7e-5 2.1e-4 62.111h-5.994zm-26.041-6.5416h12.005v6.5416h-12.003zm3e-3 113.84h12.002v4.9068h-12.002zm68.028 1e-5h12.036l3e-3 4.9068h-12.039zm4e-3 -113.84h12.031l7e-3 6.5416h-12.038zm-53.997 128.53 52.026 2e-3v4.9068l-52.026-2e-3z" fill="#333"/>
-   <path d="m126.95 65.001 1.9998 4e-6 1e-5 55.554 3.9939 2.1e-4v3.2783l-5.9937-1.1e-4zm-26.039-11.447h12.004v4.9052h-12.005zm3e-3 113.84h12.001v4.9052h-12.002zm68.032-113.84h12.035l-4e-3 4.9052h-12.031zm-4e-3 113.84h12.041l-4e-3 4.9052h-12.037z" fill="#4d4d4d"/>
+   <path d="m126.95 65.001 5.9937 1.7e-5 2.1e-4 62.111h-5.994zm-26.041-6.5416h12.005v6.5416h-12.003zm4e-3 115.48h12.002v6.5449h-12.002zm68.027 0h12.036l3e-3 6.5449h-12.039zm4e-3 -115.48h12.031l7e-3 6.5416h-12.038zm-53.997 128.53 52.026 2e-3z" fill="#333"/>
+   <path d="m126.95 65.001 1.9998 4e-6 1e-5 55.554 3.9939 2.1e-4v3.2783l-5.9938-1.1e-4zm-26.039-11.447h12.004v4.9052h-12.005zm3e-3 113.84h12.001v6.545h-12.002zm68.032-113.84h12.035l-4e-3 4.9052h-12.031zm-4e-3 113.84h12.041l-4e-3 6.545h-12.037z" fill="#4d4d4d"/>
   </g>
   <g transform="matrix(.60911 0 0 .37263 28.662 -5.3376)">
-   <path d="m124.95 64.996 9.9982 0.0041v65.369l-6.0085 8e-3v-3.2688l-3.9898 2.5e-4z"/>
+   <path d="m124.95 64.996 9.9974 0.0041v65.369l-6.0085 8e-3v-3.2688l-3.9889 2.5e-4z"/>
    <path d="m126.95 65 5.9989 1.7e-5v62.109h-5.9989z" fill="#333"/>
    <path d="m126.95 65.001h1.9889v55.551l4.0001 2.2e-4v3.2783l-5.989-2.1e-4z" fill="#4d4d4d"/>
   </g>
  </g>
  <!-- === Fingers (hidden by default) === -->
 </svg>
+
+
 
       </div>
 
@@ -274,7 +275,13 @@ body.state-splash #resultModal{display:none !important}
   </div>
   <div id="splash" role="dialog" aria-modal="true">
   <div class="inner">
-    <div class="logo">Piano Virtuoso 18</div>
+    <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 211.67 26.46" role="img" aria-label="Piano Virtuoso 18 logo">
+  <g transform="translate(74.122 -23.225) scale(.31127)">
+    <path fill="#800000" d="M287.15-1430.72h3.68v3.68h-3.68zm7.36 36.83h7.37v-11.05h-7.37v-3.68h7.37v-3.69h-7.37v-3.68h7.37v-7.36h-11.05v-3.69h3.68v-3.68h11.05v3.68h3.68v3.68h3.68v3.69h-3.68v29.46h3.68v-29.46h3.69v25.78h3.68v-29.46h-7.36v-3.69h14.73v33.14h-3.69v3.69h-7.36v3.68h-7.37v7.37h-3.68v3.68h-3.68v-14.73h-7.37zm33.15-36.83h3.68v3.68h-3.69zm-36.83 40.5h3.68v3.69h-3.68zm47.87-40.5h7.37v7.37h-7.37zm-3.68 36.83h3.68v-14.73h-3.68v-3.69h3.68v-3.68h7.37v3.68h3.68v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-7.37v-3.68h-3.68zm18.41 0h3.68v-14.73h3.69v-3.69h3.68v18.41h7.37v-18.4h-7.37v-3.69h11.05v3.68h7.36v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-7.36v-3.68h-3.69v3.68h-7.36v-3.68h-7.37zm36.83 0h3.68v-14.73h-7.36v-3.69h3.68v-3.68h7.36v3.68H405v-3.68h7.36v3.68h7.37v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-3.69v-3.68h-3.68v-18.41h-7.36v14.72H405v3.69h-3.68v3.68h-7.37v-3.68h-3.68zm33.14 0h3.68v-14.73h3.69v-3.69h3.68v18.41h7.36v-14.72h-3.68v-3.69h-3.68v-3.68h11.05v3.68h7.36v3.68h-3.68v14.74h-3.68v3.68h-7.37v3.68h-7.36v-3.68h-7.37zm51.56-36.83h3.68v3.68h-3.68zm29.46 3.68h3.68v-3.68h7.36v3.68h7.37v3.68h-3.68v25.78h-3.69v3.68h-3.68v-29.45h-7.36Zm18.41-3.68h3.68v3.68h-3.68zm-36.83 22.1h7.37v-3.69H486v-3.68h7.37v-7.36h-14.73v-3.69H486v-3.68h11.05v3.68h3.68v3.68h3.69v3.69h-3.69v22.1h-7.36v-7.37H486zm-3.68 14.72h22.1v-25.77h3.68v25.78h3.68v3.68h-3.68v3.68h-11.05v-3.68h-14.73zm-3.68 3.69h3.68v3.68h-3.68zm51.55-40.51h7.37v7.37h-7.36zm-3.68 36.83h3.68v-14.73h-3.68v-3.69h3.68v-3.68h7.37v3.68h3.68v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-7.36v-3.68h-3.69zm22.1 0h3.68v-14.73h-7.36v-3.69h3.68v-3.68h7.36v3.68h3.68v18.41h3.69v3.69h-3.69v3.68h-7.36v-3.68h-3.68zm14.73-18.42h-3.69v-3.68h11.05v7.37h-7.36zm11.04 18.41h3.69v-18.4h-3.69v-3.69h3.69v-7.36h3.68v-3.69h3.68v11.05h7.37v3.68h-7.37v18.41h7.37v3.69h-3.68v3.68h-7.37v-3.68h-7.36zm25.78 0h3.69v-14.72h-7.37v-3.69h3.68v-3.68h7.37v3.68h3.68v18.41h7.37v-14.72h-3.69v-3.69h3.69v-3.68h7.36v3.68h3.68v3.68h-3.68v14.74h7.37v3.68h-3.69v3.68h-7.36v-3.68h-7.37v3.68h-7.36v-3.68h-7.37zm36.83 0h3.68v-14.72h3.68v-3.69h3.69v18.41h7.36v-14.72h-3.68v-3.69h-3.68v-3.68h11.04v3.68h7.37v3.68h-3.68v14.74h-3.69v3.68h-7.36v3.68h-7.37v-3.68H637zm55.24-25.77h3.68v7.36h-3.68zm0 11.05h3.68v3.68h-3.68zm-18.42 14.72h3.69v-3.68h-3.69v-11.05h3.69v-3.68h3.68v-3.68h7.36v3.68h3.69v3.68h-11.05v7.37h3.68v3.68h-3.68v3.68h7.37v-7.36h-3.69v-3.68h7.37v3.68h3.68v7.37h-3.68v3.68h-3.69v3.68h-7.36v-3.68h-7.36zm-3.68 3.69h3.68v3.68h-3.68zm29.46-3.68h3.68v-14.73h3.69v-3.69h3.68v18.41H718v-14.72h-3.68v-3.69h-3.68v-3.68h11.05v3.68h7.36v3.68h-3.68v14.74h-3.68v3.68h-7.37v3.68h-7.36v-3.68h-7.37zm51.56-18.42h3.68v-3.68h7.37v25.78h-3.69v3.68h-3.68v-22.1h-3.68zm22.1-3.68h3.68v3.68h3.68v-7.36h-7.37zm7.36 14.73h-3.68v-3.68h-3.69v11.05h7.37zm-14.73-3.68h3.68v-7.37h-3.68v-7.36h3.68v-3.68h3.68v-3.69h7.37v3.68h3.68v3.69h3.68v7.36h-3.68v7.37h3.68v11.05h-3.68v3.68h-3.68v3.68h-7.37v-3.68h-3.68v-3.68h-3.68z" transform="matrix(1.35775 0 0 1.35776 -627.998 2027.187)"/>
+    <path fill="#f00" d="M287.15-1430.72h3.68v3.68h-3.68zm7.36 36.83h7.37v-11.05h-7.37v-3.68h7.37v-3.69h-7.37v-3.68h7.37v-7.36h-11.05v-3.69h3.68v-3.68h11.05v3.68h3.68v3.68h3.68v3.69h-3.68v29.46h3.68v-29.46h3.69v25.78h3.68v-29.46h-7.36v-3.69h14.73v33.14h-3.69v3.69h-7.36v3.68h-7.37v7.37h-3.68v3.68h-3.68v-14.73h-7.37zm33.15-36.83h3.68v3.68h-3.69zm-36.83 40.5h3.68v3.69h-3.68zm47.87-40.5h7.37v7.37h-7.37zm-3.68 36.83h3.68v-14.73h-3.68v-3.69h3.68v-3.68h7.37v3.68h3.68v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-7.37v-3.68h-3.68zm18.41 0h3.68v-14.73h3.69v-3.69h3.68v18.41h7.37v-18.4h-7.37v-3.69h11.05v3.68h7.36v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-7.36v-3.68h-3.69v3.68h-7.36v-3.68h-7.37zm36.83 0h3.68v-14.73h-7.36v-3.69h3.68v-3.68h7.36v3.68H405v-3.68h7.36v3.68h7.37v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-3.69v-3.68h-3.68v-18.41h-7.36v14.72H405v3.69h-3.68v3.68h-7.37v-3.68h-3.68zm33.14 0h3.68v-14.73h3.69v-3.69h3.68v18.41h7.36v-14.72h-3.68v-3.69h-3.68v-3.68h11.05v3.68h7.36v3.68h-3.68v14.74h-3.68v3.68h-7.37v3.68h-7.36v-3.68h-7.37zm51.56-36.83h3.68v3.68h-3.68zm29.46 3.68h3.68v-3.68h7.36v3.68h7.37v3.68h-3.68v25.78h-3.69v3.68h-3.68v-29.45h-7.36Zm18.41-3.68h3.68v3.68h-3.68zm-36.83 22.1h7.37v-3.69H486v-3.68h7.37v-7.36h-14.73v-3.69H486v-3.68h11.05v3.68h3.68v3.68h3.69v3.69h-3.69v22.1h-7.36v-7.37H486zm-3.68 14.72h22.1v-25.77h3.68v25.78h3.68v3.68h-3.68v3.68h-11.05v-3.68h-14.73zm-3.68 3.69h3.68v3.68h-3.68zm51.55-40.51h7.37v7.37h-7.36zm-3.68 36.83h3.68v-14.73h-3.68v-3.69h3.68v-3.68h7.37v3.68h3.68v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-7.36v-3.68h-3.69zm22.1 0h3.68v-14.73h-7.36v-3.69h3.68v-3.68h7.36v3.68h3.68v18.41h3.69v3.69h-3.69v3.68h-7.36v-3.68h-3.68zm14.73-18.42h-3.69v-3.68h11.05v7.37h-7.36zm11.04 18.41h3.69v-18.4h-3.69v-3.69h3.69v-7.36h3.68v-3.69h3.68v11.05h7.37v3.68h-7.37v18.41h7.37v3.69h-3.68v3.68h-7.37v-3.68h-7.36zm25.78 0h3.69v-14.72h-7.37v-3.69h3.68v-3.68h7.37v3.68h3.68v18.41h7.37v-14.72h-3.69v-3.69h3.69v-3.68h7.36v3.68h3.68v3.68h-3.68v14.74h7.37v3.68h-3.69v3.68h-7.36v-3.68h-7.37v3.68h-7.36v-3.68h-7.37zm36.83 0h3.68v-14.72h3.68v-3.69h3.69v18.41h7.36v-14.72h-3.68v-3.69h-3.68v-3.68h11.04v3.68h7.37v3.68h-3.68v14.74h-3.69v3.68h-7.36v3.68h-7.37v-3.68H637zm55.24-25.77h3.68v7.36h-3.68zm0 11.05h3.68v3.68h-3.68zm-18.42 14.72h3.69v-3.68h-3.69v-11.05h3.69v-3.68h3.68v-3.68h7.36v3.68h3.69v3.68h-11.05v7.37h3.68v3.68h-3.68v3.68h7.37v-7.36h-3.69v-3.68h7.37v3.68h3.68v7.37h-3.68v3.68h-3.69v3.68h-7.36v-3.68h-7.36zm-3.68 3.69h3.68v3.68h-3.68zm29.46-3.68h3.68v-14.73h3.69v-3.69h3.68v18.41H718v-14.72h-3.68v-3.69h-3.68v-3.68h11.05v3.68h7.36v3.68h-3.68v14.74h-3.68v3.68h-7.37v3.68h-7.36v-3.68h-7.37zm51.56-18.42h3.68v-3.68h7.37v25.78h-3.69v3.68h-3.68v-22.1h-3.68zm22.1-3.68h3.68v3.68h3.68v-7.36h-7.37zm7.36 14.73h-3.68v-3.68h-3.69v11.05h7.37zm-14.73-3.68h3.68v-7.37h-3.68v-7.36h3.68v-3.68h3.68v-3.69h7.37v3.68h3.68v3.69h3.68v7.36h-3.68v7.37h3.68v11.05h-3.68v3.68h-3.68v3.68h-7.37v-3.68h-3.68v-3.68h-3.68z" transform="translate(-628.002 2022.187) scale(1.35776)"/>
+    <path fill="#fc0" d="M287.15-1430.72h3.68v3.68h-3.68zm7.36 36.83h7.37v-11.05h-7.37v-3.68h7.37v-3.69h-7.37v-3.68h7.37v-7.36h-11.05v-3.69h3.68v-3.68h11.05v3.68h3.68v3.68h3.68v3.69h-3.68v29.46h3.68v-29.46h3.69v25.78h3.68v-29.46h-7.36v-3.69h14.73v33.14h-3.69v3.69h-7.36v3.68h-7.37v7.37h-3.68v3.68h-3.68v-14.73h-7.37zm33.15-36.83h3.68v3.68h-3.69zm-36.83 40.5h3.68v3.69h-3.68zm47.87-40.5h7.37v7.37h-7.37zm-3.68 36.83h3.68v-14.73h-3.68v-3.69h3.68v-3.68h7.37v3.68h3.68v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-7.37v-3.68h-3.68zm18.41 0h3.68v-14.73h3.69v-3.69h3.68v18.41h7.37v-18.4h-7.37v-3.69h11.05v3.68h7.36v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-7.36v-3.68h-3.69v3.68h-7.36v-3.68h-7.37zm36.83 0h3.68v-14.73h-7.36v-3.69h3.68v-3.68h7.36v3.68H405v-3.68h7.36v3.68h7.37v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-3.69v-3.68h-3.68v-18.41h-7.36v14.72H405v3.69h-3.68v3.68h-7.37v-3.68h-3.68zm33.14 0h3.68v-14.73h3.69v-3.69h3.68v18.41h7.36v-14.72h-3.68v-3.69h-3.68v-3.68h11.05v3.68h7.36v3.68h-3.68v14.74h-3.68v3.68h-7.37v3.68h-7.36v-3.68h-7.37zm51.56-36.83h3.68v3.68h-3.68zm29.46 3.68h3.68v-3.68h7.36v3.68h7.37v3.68h-3.68v25.78h-3.69v3.68h-3.68v-29.45h-7.36Zm18.41-3.68h3.68v3.68h-3.68zm-36.83 22.1h7.37v-3.69H486v-3.68h7.37v-7.36h-14.73v-3.69H486v-3.68h11.05v3.68h3.68v3.68h3.69v3.69h-3.69v22.1h-7.36v-7.37H486zm-3.68 14.72h22.1v-25.77h3.68v25.78h3.68v3.68h-3.68v3.68h-11.05v-3.68h-14.73zm-3.68 3.69h3.68v3.68h-3.68zm51.55-40.51h7.37v7.37h-7.36zm-3.68 36.83h3.68v-14.73h-3.68v-3.69h3.68v-3.68h7.37v3.68h3.68v3.68h-3.68v14.74h3.68v3.68h-3.68v3.68h-7.36v-3.68h-3.69zm22.1 0h3.68v-14.73h-7.36v-3.69h3.68v-3.68h7.36v3.68h3.68v18.41h3.69v3.69h-3.69v3.68h-7.36v-3.68h-3.68zm14.73-18.42h-3.69v-3.68h11.05v7.37h-7.36zm11.04 18.41h3.69v-18.4h-3.69v-3.69h3.69v-7.36h3.68v-3.69h3.68v11.05h7.37v3.68h-7.37v18.41h7.37v3.69h-3.68v3.68h-7.37v-3.68h-7.36zm25.78 0h3.69v-14.72h-7.37v-3.69h3.68v-3.68h7.37v3.68h3.68v18.41h7.37v-14.72h-3.69v-3.69h3.69v-3.68h7.36v3.68h3.68v3.68h-3.68v14.74h7.37v3.68h-3.69v3.68h-7.36v-3.68h-7.37v3.68h-7.36v-3.68h-7.37zm36.83 0h3.68v-14.72h3.68v-3.69h3.69v18.41h7.36v-14.72h-3.68v-3.69h-3.68v-3.68h11.04v3.68h7.37v3.68h-3.68v14.74h-3.69v3.68h-7.36v3.68h-7.37v-3.68H637zm55.24-25.77h3.68v7.36h-3.68zm0 11.05h3.68v3.68h-3.68zm-18.42 14.72h3.69v-3.68h-3.69v-11.05h3.69v-3.68h3.68v-3.68h7.36v3.68h3.69v3.68h-11.05v7.37h3.68v3.68h-3.68v3.68h7.37v-7.36h-3.69v-3.68h7.37v3.68h3.68v7.37h-3.68v3.68h-3.69v3.68h-7.36v-3.68h-7.36zm-3.68 3.69h3.68v3.68h-3.68zm29.46-3.68h3.68v-14.73h3.69v-3.69h3.68v18.41H718v-14.72h-3.68v-3.69h-3.68v-3.68h11.05v3.68h7.36v3.68h-3.68v14.74h-3.68v3.68h-7.37v3.68h-7.36v-3.68h-7.37zm51.56-18.42h3.68v-3.68h7.37v25.78h-3.69v3.68h-3.68v-22.1h-3.68zm22.1-3.68h3.68v3.68h3.68v-7.36h-7.37zm7.36 14.73h-3.68v-3.68h-3.69v11.05h7.37zm-14.73-3.68h3.68v-7.37h-3.68v-7.36h3.68v-3.68h3.68v-3.69h7.37v3.68h3.68v3.69h3.68v7.36h-3.68v7.37h3.68v11.05h-3.68v3.68h-3.68v3.68h-7.37v-3.68h-3.68v-3.68h-3.68z" transform="matrix(1.35775 0 0 1.35776 -627.998 2017.187)"/>
+  </g>
+</svg></div>
     <p class="sub">Tap START to enter</p>
     <div class="actions">
       <button id="enterGame" aria-label="Start Game">START</button>
@@ -399,73 +406,92 @@ let running=false,counting=false,ts=[]; let scoreNum=0; // timestamps (ms)
     elTime.textContent='10.00';
   }
 
-  // ===== Audio =====
-  const AC = window.AudioContext || window.webkitAudioContext;
-  let audio = null;
-  let master = null;
-  let audioUnlocked = false;
+ // ===== Audio =====
+const AC = window.AudioContext || window.webkitAudioContext;
+let audio = null;
+let master = null;
+let audioUnlocked = false;
 
-  async function ensureAudio(){
-    if (!AC) return null;
-    if (!audio || audio.state === 'closed'){
-      audio = new AC({ latencyHint: 'interactive' });
-      try{
-        // persistent master gain to stabilize initial level and avoid early attenuation
-        master = audio.createGain();
-        master.gain.value = 1;
-        master.connect(audio.destination);
-        // silent prewarm (iOS AGC warm-up)
-        const g = audio.createGain(); g.gain.value = 0; g.connect(master);
-        const buf = audio.createBuffer(1, 256, audio.sampleRate);
-        const src = audio.createBufferSource(); src.buffer = buf; src.connect(g);
-        src.start(audio.currentTime + 0.001);
-      }catch(e){}
-    }
-    if (audio.state === 'suspended'){
-      try{ await audio.resume(); }catch(e){ console.warn('resume failed', e); }
-    }
-    audioUnlocked = !!(audio && audio.state === 'running');
-    return audio;
-  }
-
-  window.addEventListener('pointerdown', async () => {
-    await ensureAudio();
-    audioUnlocked = true;
-  }, { once: true });
-
-  window.addEventListener('keydown', async () => {
-    if (!audioUnlocked) { await ensureAudio(); audioUnlocked = true; }
-  }, { once:true });
-
-  let muted = false;  // テスト用ミュート
-  function setMuted(on){
-    muted = !!on; document.body.classList.toggle('muted', muted);
-  }
-  function toggleMuted(){ setMuted(!muted); }
-  if (location.search.includes('mute=1')) setMuted(true);
-
-  function beep(midi, vel = 100){
-    if (!audio || muted) return;
-    if (audio.state === 'suspended') { audio.resume().catch(()=>{}); }
-
-    const now = audio.currentTime || 0;
-    const startAt = now + 0.008; // iOS 初回落ち防止オフセット
-    const len = 0.09;
-
+async function ensureAudio(){
+  if (!AC) return null;
+  if (!audio || audio.state === 'closed'){
+    audio = new AC({ 
+      latencyHint: 'interactive',
+      sampleRate: 48000  // iOS推奨サンプルレート
+    });
     try{
-      const osc = audio.createOscillator();
+      master = audio.createGain();
+      master.gain.value = 1;
+      master.connect(audio.destination);
+      
+      // AGC対策：より長いウォームアップ音
+      const warmupDuration = 0.5; // 0.5秒のウォームアップ
       const g = audio.createGain();
-      osc.type = 'square';
-      osc.frequency.value = 440 * Math.pow(2,(midi-69)/12);
-      const v = Math.max(0.08, Math.min(1, vel/127));
-      g.gain.setValueAtTime(0.0001, startAt);
-      g.gain.linearRampToValueAtTime(0.25*v, startAt+0.006);
-      g.gain.linearRampToValueAtTime(0.0001, startAt+len);
-      osc.connect(g).connect(master || audio.destination);
-      osc.start(startAt);
-      osc.stop(startAt+len);
-    }catch(e){ /* noop */ }
+      g.gain.value = 0.0001; // 完全に無音ではなく極小音量
+      g.connect(master);
+      
+      const buf = audio.createBuffer(1, audio.sampleRate * warmupDuration, audio.sampleRate);
+      const data = buf.getChannelData(0);
+      // 微小なホワイトノイズでAGCを起動
+      for (let i = 0; i < data.length; i++) {
+        data[i] = (Math.random() - 0.5) * 0.0001;
+      }
+      
+      const src = audio.createBufferSource();
+      src.buffer = buf;
+      src.connect(g);
+      src.start(audio.currentTime + 0.001);
+    }catch(e){}
   }
+  if (audio.state === 'suspended'){
+    try{ await audio.resume(); }catch(e){ console.warn('resume failed', e); }
+  }
+  audioUnlocked = !!(audio && audio.state === 'running');
+  return audio;
+}
+
+// より積極的なアンロック
+window.addEventListener('pointerdown', async () => {
+  await ensureAudio();
+  audioUnlocked = true;
+}, { once: true });
+
+window.addEventListener('keydown', async () => {
+  if (!audioUnlocked) { await ensureAudio(); audioUnlocked = true; }
+}, { once:true });
+
+// ページロード時にも準備（ユーザー操作後に発火）
+window.addEventListener('touchstart', async () => {
+  if (!audioUnlocked) { await ensureAudio(); audioUnlocked = true; }
+}, { once: true, passive: true });
+
+let muted = false;
+function setMuted(on){
+  muted = !!on; document.body.classList.toggle('muted', muted);
+}
+function toggleMuted(){ setMuted(!muted); }
+if (location.search.includes('mute=1')) setMuted(true);
+
+function beep(midi, vel = 100){
+  if (!audio || muted) return;
+  if (audio.state === 'suspended') { audio.resume().catch(()=>{}); }
+  const now = audio.currentTime || 0;
+  const startAt = now + 0.01; // 少し余裕を持たせる
+  const len = 0.09;
+  try{
+    const osc = audio.createOscillator();
+    const g = audio.createGain();
+    osc.type = 'square';
+    osc.frequency.value = 440 * Math.pow(2,(midi-69)/12);
+    const v = Math.max(0.15, Math.min(1, vel/127)); // 最小音量を上げる
+    g.gain.setValueAtTime(0.0001, startAt);
+    g.gain.linearRampToValueAtTime(0.3*v, startAt+0.006); // 音量を少し上げる
+    g.gain.linearRampToValueAtTime(0.0001, startAt+len);
+    osc.connect(g).connect(master || audio.destination);
+    osc.start(startAt);
+    osc.stop(startAt+len);
+  }catch(e){ /* noop */ }
+}
 
   // ========= Speech (female voice + Excellent >= 7000) =========
   async function getVoicesAsync(){
