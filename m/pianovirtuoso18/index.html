@@ -406,6 +406,7 @@ let running=false,counting=false,ts=[]; let scoreNum=0; // timestamps (ms)
   // ===== Audio =====
   const AC = window.AudioContext || window.webkitAudioContext;
   let audio = null;
+  let master = null;
   let audioUnlocked = false;
 
   async function ensureAudio(){
@@ -701,11 +702,29 @@ let running=false,counting=false,ts=[]; let scoreNum=0; // timestamps (ms)
     rStab.textContent = (typeof stab==='number'? stab.toFixed(3) : '0.000');
     rScore.textContent = String(scoreNum).padStart(4,'0');
     resultModal.classList.add('show');
-
+resetKeyVisuals();
     speakResult(scoreNum||0);
   }
 
   // ===== Tap logic =====
+function swapSvgVisibility(upId, downId, isDown){
+  const up = document.getElementById(upId);
+  const dn = document.getElementById(downId);
+  if(!up || !dn) return;
+  up.style.display = isDown ? 'none'  : 'inline';
+  dn.style.display = isDown ? 'inline': 'none';
+}
+
+function setKeyVisual(note, isDown){
+  // C=60, D=62。SVG に C1up/C1down, D1up/D1down がある前提
+  if (note === 60) swapSvgVisibility('C1up','C1down', !!isDown);
+  if (note === 62) swapSvgVisibility('D1up','D1down', !!isDown);
+}
+
+function resetKeyVisuals(){
+  setKeyVisual(60, false);
+  setKeyVisual(62, false);
+}
   function noteFromPos(evt){
     const r = area.getBoundingClientRect();
     const x = (evt.clientX ?? (evt.touches && evt.touches[0] && evt.touches[0].clientX) ?? r.left);
@@ -732,23 +751,38 @@ let running=false,counting=false,ts=[]; let scoreNum=0; // timestamps (ms)
     return { note:n, now };
   }
 
-  function onDown(evt){
-    if(!running) return;
-    const res = tapToNote(evt);
-    if(!res) return;
-    lastAccepted = res.note;
-    lastTimeByNote[res.note] = res.now || performance.now();
-    ts.push(performance.now());
-    elHits.textContent = String(Number(elHits.textContent)+1);
-    if (LIVE_STABILITY) updateStability();
-    ensureAudio().then(()=>{
-      audioUnlocked = !!(audio && audio.state === 'running');
-      beep(res.note, 115);
-    });
+function onDown(evt){
+  // どの鍵を視覚的に動かすか（E は C のみ）
+  const nAnim = noteFromPos(evt);
+  const allowAnim = (mode === 'E') ? (nAnim === 60) : (nAnim === 60 || nAnim === 62);
+  if (allowAnim) setKeyVisual(nAnim, true);
+
+  // スコア計測・発音はゲーム中のみ
+  if (!running) return;
+
+  const res = tapToNote(evt);
+  if (!res) return; // Erlkönig: C 以外は無視
+
+  lastAccepted = res.note;
+  lastTimeByNote[res.note] = res.now || performance.now();
+  ts.push(performance.now());
+  elHits.textContent = String(Number(elHits.textContent) + 1);
+  if (LIVE_STABILITY) updateStability();
+
+  ensureAudio().then(()=>{ beep(res.note, 115); });
+}
+
+function onUp(evt){
+  const n = noteFromPos(evt);
+  const allowAnim = (mode === 'E') ? (n === 60) : (n === 60 || n === 62);
+  if (allowAnim) setKeyVisual(n, false);
+}
+  // Wire piano area events (was missing)
+  if (area){
+    area.addEventListener('pointerdown', onDown, {passive:true});
   }
-  function onUp(evt){ /* visual feedback removed */ }
-  document.getElementById('pianoArea').addEventListener('pointerdown', onDown);
-  window.addEventListener('pointerup', onUp);
+  window.addEventListener('pointerup', onUp, {passive:true});
+  window.addEventListener('pointercancel', onUp, {passive:true});
 
   // Buttons
   btnStart.addEventListener('click', ()=> startCountdown());
