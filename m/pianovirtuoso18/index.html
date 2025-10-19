@@ -22,7 +22,16 @@
 .controls,
 #pianoArea{position:relative;display:flex;justify-content:center;align-items:stretch;margin:6px auto 0;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:visible;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;flex:1}
 #pianoArea{
-  width: min(100%, 480px);           /* 420/480などSVG側に合わせる */
+  width: var(--stage-w);
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  gap:6px;
+  margin:6px auto 0;
+  max-width:100%;
+  user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:visible;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;flex:1
 }
     h1{font:700 18px/1.2 'Press Start 2P',monospace;margin:6px 0 12px;letter-spacing:.5px}
     #overlay,.big,.segments label{font-family:'Press Start 2P',monospace}
@@ -82,13 +91,7 @@
     body.playing #resultModal{display:none}
     /* Hide inline grid when using modal */
     .grid.inlineScore{display:none}
-    .key{display:flex;align-items:center;justify-content:center;transition:transform .06s ease, filter .06s ease}
-    .key.down{transform:translateY(2px) scaleY(.985); filter:brightness(1.15)}
-    .glow-black{filter:drop-shadow(0 0 10px rgba(0,0,0,.95)) drop-shadow(0 0 26px rgba(0,0,0,.85)) brightness(.85) contrast(1.1);} 
-    .key .label{opacity:.6; font-weight:700}
-    .key:active{filter:brightness(1.2)}
-
-/* Show Time Left only during actual gameplay (after BURST) */
+    .key{display:flex;align-items:center;justify-content:center;transition:transform .06s ease, filter .06s ease}/* Show Time Left only during actual gameplay (after BURST) */
 #pianoArea{ position: relative; }  /* ← 追加（基準にする） */
 
 #timeCard{
@@ -140,6 +143,7 @@ body.state-splash #resultModal{display:none !important}
 #manualModal .actions{display:flex;justify-content:center;margin-top:14px}
 #manualModal .actions button{padding:10px 14px;background:#222;border:1px solid #444;border-radius:10px;color:#fff;cursor:pointer;font:700 12px 'Press Start 2P',monospace}
 #splash .footer{opacity:.7;margin-top:12px;font:700 11px/1.2 'Press Start 2P',monospace;letter-spacing:.3px}
+.stageStack{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}
 </style>
 </head>
 <body>
@@ -178,19 +182,20 @@ body.state-splash #resultModal{display:none !important}
         <input id="modeD" type="radio" name="mode" value="D">
         <label for="modeD">Diavolo</label>
       </div>
-      <div class="btnRow">
-        <button id="btnStart" class="svgBtn" aria-label="Start">
-          <svg class="icon" viewBox="0 0 195.83154 45.981833"><use href="#btn-start"></use></svg>
-        </button>
-        <button id="btnStop" class="svgBtn" aria-label="Stop" disabled>
-          <svg class="icon" viewBox="0 0 195.83154 45.981833"><use href="#btn-stop"></use></svg>
-        </button>
-      </div>
     </div>
 
     <!-- PIANO AREA (was missing) -->
     <div id="pianoArea" aria-label="Piano Keys">
-      <!-- You will paste the real SVG here. Placeholder below keeps layout & event targets alive. -->
+      <div class="stageStack">
+        <div class="btnRow">
+          <button id="btnStart" class="svgBtn" aria-label="Start">
+            <svg class="icon" viewBox="0 0 195.83154 45.981833"><use href="#btn-start"></use></svg>
+          </button>
+          <button id="btnStop" class="svgBtn" aria-label="Stop" disabled>
+            <svg class="icon" viewBox="0 0 195.83154 45.981833"><use href="#btn-stop"></use></svg>
+          </button>
+        </div>
+        <!-- Paste Piano SVG here (keeps in same stacking context as buttons) -->
 <?xml version="1.0" encoding="UTF-8"?>
 <svg id="piano" width="420" height="480" shape-rendering="crispEdges" version="1.1" viewBox="0 0 420 480" xmlns="http://www.w3.org/2000/svg">
  <!-- SAFE-TRIM: removed editors' metadata/defs; keeps required IDs for JS -->
@@ -254,6 +259,7 @@ body.state-splash #resultModal{display:none !important}
  <!-- === Fingers (hidden by default) === -->
 </svg>
 
+      </div>
 
 
     <div class="card" id="timeCard" aria-live="polite" aria-hidden="true">
@@ -350,46 +356,16 @@ body.state-splash #resultModal{display:none !important}
     fallback.style.minHeight='320px';
     document.querySelector('.wrap').insertBefore(fallback, document.querySelector('.wrap').children[2]);
   }
-
-  function swapSvgVisibility(upId, downId, isDown){
-    const up = document.getElementById(upId);
-    const dn = document.getElementById(downId);
-    if(!up && !dn) return;
-    if(up)  up.style.display = isDown ? 'none'  : 'inline';
-    if(dn)  dn.style.display = isDown ? 'inline': 'none';
-  }
-  function pressPath(note){
-    return document.querySelector(note===60 ? '#C1down path' : '#D1down path');
-  }
-  function setKeyVisual(note, isDown){
-    if(note===60){
-      swapSvgVisibility('C1up','C1down',!!isDown);
-      const p = pressPath(60);
-      if(p) p.classList.toggle('glow-black', !!isDown);
-    }
-    if(note===62){
-      swapSvgVisibility('D1up','D1down',!!isDown);
-      const p = pressPath(62);
-      if(p) p.classList.toggle('glow-black', !!isDown);
-    }
-  }
-  function resetKeyVisuals(){
-    swapSvgVisibility('C1up','C1down',false);
-    swapSvgVisibility('D1up','D1down',false);
-    const pC = pressPath(60); if(pC) pC.classList.remove('glow-black');
-    const pD = pressPath(62); if(pD) pD.classList.remove('glow-black');
-  }
-
-  let running=false,counting=false,ts=[]; let scoreNum=0; // timestamps (ms)
+let running=false,counting=false,ts=[]; let scoreNum=0; // timestamps (ms)
   let mode='E';
   let lastAccepted=null;
   // === NEW: per-note last accepted time for Diavolo sensitivity ===
   const lastTimeByNote = {60:0, 62:0};
-  const DIAVOLO_REPEAT_BLOCK_MS = 60; // 60ms 未満の同キー連打は無視（感度UP） // 100ms 未満の同キー連打は無視
+  const DIAVOLO_REPEAT_BLOCK_MS = 60;
 
   Array.from(document.querySelectorAll('input[name="mode"]')).forEach(r=>{
     r.onchange = async (e)=>{
-      mode=r.value; lastAccepted=null; resetKeyVisuals();
+      mode=r.value; lastAccepted=null;
       if (e && e.isTrusted) { try{ await ensureAudio(); }catch(_){ }
         const noteMap = { E:60, D:62 };
         const midi = noteMap[r.value] || 60; beep(midi, 110);
@@ -727,7 +703,6 @@ body.state-splash #resultModal{display:none !important}
     resultModal.classList.add('show');
 
     speakResult(scoreNum||0);
-    resetKeyVisuals();
   }
 
   // ===== Tap logic =====
@@ -766,17 +741,12 @@ body.state-splash #resultModal{display:none !important}
     ts.push(performance.now());
     elHits.textContent = String(Number(elHits.textContent)+1);
     if (LIVE_STABILITY) updateStability();
-    setKeyVisual(res.note, true);
     ensureAudio().then(()=>{
       audioUnlocked = !!(audio && audio.state === 'running');
       beep(res.note, 115);
     });
   }
-  function onUp(evt){
-    if(!running) return;
-    const n = noteFromPos(evt);
-    setKeyVisual(n, false);
-  }
+  function onUp(evt){ /* visual feedback removed */ }
   document.getElementById('pianoArea').addEventListener('pointerdown', onDown);
   window.addEventListener('pointerup', onUp);
 
@@ -806,104 +776,7 @@ body.state-splash #resultModal{display:none !important}
     });
   })();
 
-  // ===== Developer tests =====
-  (function runDevTests(){
-    if(!/[?&]test=1\b/.test(location.search)) return;
-    console.log('[tests] start');
-    const r = document.getElementById('pianoArea').getBoundingClientRect ? document.getElementById('pianoArea').getBoundingClientRect() : {left:0,width:100};
-    // E mode: only C accepted
-    mode='E'; lastAccepted=null;
-    console.assert((tapToNote({clientX:r.left+0.1*r.width, pressure:1})||{}).note===60, 'E:C left ok');
-    console.assert(tapToNote({clientX:r.left+0.9*r.width, pressure:1})===null, 'E:D right ignored');
-    // D mode: alternate required (time-based relaxation still blocks within 100ms)
-    mode='D'; lastAccepted=60; lastTimeByNote[60]=performance.now();
-    console.assert(tapToNote({clientX:r.left+0.1*r.width, pressure:1})===null, 'D:C repeat <100ms ignored');
-    lastAccepted=60; // switch to D side should accept
-    console.assert((tapToNote({clientX:r.left+0.9*r.width, pressure:1})||{}).note===62, 'D:D accepted after C');
-    // noteFromPos helper
-    const nn = noteFromPos({clientX:r.left+0.75*r.width});
-    console.assert(nn===62, 'noteFromPos right→D');
-    console.log('[tests] ok');
-  })();
-  // === Manual modal handlers ===
-const manualModal=document.getElementById('manualModal');
-const btnOpenManual=document.getElementById('openManual');
-const btnCloseManual=document.getElementById('closeManual');
-if(btnOpenManual){ btnOpenManual.addEventListener('click',()=>{ manualModal.classList.add('show'); manualModal.removeAttribute('aria-hidden'); }); }
-if(btnCloseManual){ btnCloseManual.addEventListener('click',()=>{ manualModal.classList.remove('show'); manualModal.setAttribute('aria-hidden','true'); }); }
-if(manualModal){ manualModal.addEventListener('click',(e)=>{ if(e.target===manualModal){ manualModal.classList.remove('show'); manualModal.setAttribute('aria-hidden','true'); } }); }
-window.addEventListener('keydown',(e)=>{ if(e.key==='Escape'){ if(manualModal && manualModal.classList.contains('show')){ manualModal.classList.remove('show'); manualModal.setAttribute('aria-hidden','true'); } if(resultModal && resultModal.classList.contains('show')){ resultModal.classList.remove('show'); } } });
-
-/* ====== Mobile-safe piano tapping (ensures iOS pointer events) ====== */
-(function bindPiano(){
-  const area = document.getElementById('pianoArea');
-  if(!area) return;
-
-  let downNote = null;
-
-  function noteFromPos(evt){
-    const r = area.getBoundingClientRect();
-    const x = (evt.clientX ?? (evt.touches && evt.touches[0] && evt.touches[0].clientX) ?? r.left);
-    const ratio = (x - r.left) / Math.max(1, r.width);
-    const SPLIT = 0.5;    // 左右境界
-    const DEAD  = 0.015;  // 中央±1.5%（Diavoloの取りこぼし対策）
-    if (window.mode==='D' && Math.abs(ratio - SPLIT) <= DEAD){
-      return (window.lastAccepted === 60) ? 62 : 60;
-    }
-    return (ratio < SPLIT) ? 60 : 62;
-  }
-
-  function setDown(note, on){
-    if (typeof window.setKeyVisual === 'function') window.setKeyVisual(note, on);
-  }
-
-  function accept(note){
-    const now = performance.now();
-
-    // Diavolo: 連打ブロック（感度チューニング）
-    if (window.mode === 'D'){
-      window.lastTimeByNote = window.lastTimeByNote || {60:0,62:0};
-      const blk = (typeof window.DIAVOLO_REPEAT_BLOCK_MS==='number') ? window.DIAVOLO_REPEAT_BLOCK_MS : 60;
-      if (now - (window.lastTimeByNote[note]||0) < blk) return false;
-      window.lastTimeByNote[note] = now;
-    }
-
-    // Erlkönig: Cのみ有効
-    if (window.mode === 'E' && note !== 60) return false;
-
-    setDown(note, true);
-    if (Array.isArray(window.ts)) window.ts.push(now);
-    const elHits = document.getElementById('hits');
-    if (elHits && Array.isArray(window.ts)) elHits.textContent = String(window.ts.length);
-    if (window.LIVE_STABILITY && typeof window.updateStability==='function') window.updateStability();
-    if (typeof window.beep === 'function') window.beep(note, 110);
-    window.lastAccepted = note;
-    return true;
-  }
-
-  function release(note){
-    setDown(note, false);
-  }
-
-  area.addEventListener('pointerdown', (e)=>{
-    try{ area.setPointerCapture?.(e.pointerId); }catch(_){}
-    const n = noteFromPos(e);
-    downNote = n; accept(n);
-    e.preventDefault();
-  }, {passive:false});
-
-  area.addEventListener('pointermove', (e)=>{
-    if (downNote==null) return;
-    const n = noteFromPos(e);
-    if (n !== downNote){ release(downNote); downNote = n; accept(n); }
-    e.preventDefault();
-  }, {passive:false});
-
-  const end = ()=>{ if (downNote!=null){ release(downNote); downNote=null; } };
-  area.addEventListener('pointerup', end, {passive:true});
-  area.addEventListener('pointercancel', end, {passive:true});
-  area.addEventListener('pointerleave', end, {passive:true});
-})();
+  
 </script>
 </body>
 </html>
