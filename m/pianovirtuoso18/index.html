@@ -125,7 +125,17 @@ body.state-splash .controls,
 body.state-splash #pianoArea,
 body.state-splash .inlineScore,
 body.state-splash #resultModal{display:none !important}
-  </style>
+  /* === Manual modal & splash footer === */
+#manualModal{position:fixed;inset:0;background:rgba(0,0,0,.78);display:none;align-items:center;justify-content:center;z-index:2147483648}
+#manualModal.show{display:flex}
+#manualModal .panel{background:#0b0b0b;border:1px solid #222;padding:18px clamp(14px,4vw,20px);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.6);width:min(520px,calc(100vw - var(--padL) - var(--padR) - 16px));margin-inline:auto;box-sizing:border-box;overflow-wrap:anywhere;text-align:left}
+#manualModal h2{margin:0 0 12px;font:700 16px/1.2 'Press Start 2P',monospace;letter-spacing:.4px;text-align:center}
+#manualModal .content{font:12px/1.5 'Press Start 2P',monospace;color:#ddd;letter-spacing:.3px}
+#manualModal .content p{margin:0 0 10px}
+#manualModal .actions{display:flex;justify-content:center;margin-top:14px}
+#manualModal .actions button{padding:10px 14px;background:#222;border:1px solid #444;border-radius:10px;color:#fff;cursor:pointer;font:700 12px 'Press Start 2P',monospace}
+#splash .footer{opacity:.7;margin-top:12px;font:700 11px/1.2 'Press Start 2P',monospace;letter-spacing:.3px}
+</style>
 </head>
 <body>
   <!-- Inline SVG symbols so <use> works locally -->
@@ -240,6 +250,7 @@ body.state-splash #resultModal{display:none !important}
 </svg>
 
 
+
     <div class="card" id="timeCard" aria-live="polite" aria-hidden="true">
       <div>TIME LEFT</div>
       <div class="big" id="timeLeft">10.00</div>
@@ -260,13 +271,30 @@ body.state-splash #resultModal{display:none !important}
     <p class="sub">Tap START to enter</p>
     <div class="actions">
       <button id="enterGame" aria-label="Start Game">START</button>
+      <button id="openManual" aria-label="Open Game Manual">MANUAL</button>
     </div>
+    <div class="footer">&copy; DIMProductions</div>
   </div>
 </div>
 
 <div id="overlay"></div>
+<!-- Result modal -->
+  <!-- Game Manual Modal -->
+  <div id="manualModal" aria-hidden="true">
+    <div class="panel" role="dialog" aria-modal="true">
+      <h2>GAME MANUAL</h2>
+      <div class="content">
+        <p><strong>How to Play</strong><br>
+        After you press <em>START</em>, a short countdown begins, then a <strong>10-second</strong> burst is measured.
+        Hit as fast and as accurately as you can within the time limit.</p>
 
-  <!-- Result modal -->
+        <p><strong>Results</strong><br>
+        You’ll see: <strong>HITS</strong> (total), <strong>SPEED</strong> (hits/s), <strong>STABILITY</strong> (timing consistency), and <strong>SCORE</strong> (speed × stability).</p>
+      </div>
+      <div class="actions"><button id="closeManual">CLOSE</button></div>
+    </div>
+  </div>
+
   <div id="resultModal" aria-hidden="true">
     <div class="panel" role="dialog" aria-modal="true">
       <h2>RESULT</h2>
@@ -785,6 +813,15 @@ body.state-splash #resultModal{display:none !important}
     console.assert(nn===62, 'noteFromPos right→D');
     console.log('[tests] ok');
   })();
-  </script>
+  // === Manual modal handlers ===
+const manualModal=document.getElementById('manualModal');
+const btnOpenManual=document.getElementById('openManual');
+const btnCloseManual=document.getElementById('closeManual');
+if(btnOpenManual){ btnOpenManual.addEventListener('click',()=>{ manualModal.classList.add('show'); manualModal.removeAttribute('aria-hidden'); }); }
+if(btnCloseManual){ btnCloseManual.addEventListener('click',()=>{ manualModal.classList.remove('show'); manualModal.setAttribute('aria-hidden','true'); }); }
+if(manualModal){ manualModal.addEventListener('click',(e)=>{ if(e.target===manualModal){ manualModal.classList.remove('show'); manualModal.setAttribute('aria-hidden','true'); } }); }
+window.addEventListener('keydown',(e)=>{ if(e.key==='Escape'){ if(manualModal && manualModal.classList.contains('show')){ manualModal.classList.remove('show'); manualModal.setAttribute('aria-hidden','true'); } if(resultModal && resultModal.classList.contains('show')){ resultModal.classList.remove('show'); } } });
+
+</script>
 </body>
 </html>
