@@ -17,10 +17,10 @@
       font-style:normal;font-weight:400;font-display:swap;
     }
     body{margin:0;background:#000;color:#fff;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans JP",sans-serif;text-align:center;font-synthesis:none}
-.wrap{max-width:100%;margin:0 auto;padding:16px var(--padR) 16px var(--padL);min-height:100vh;display:grid;grid-template-rows:auto auto 1fr auto;justify-items:center}
+.wrap{max-width:100%;margin:0 auto;padding:8px var(--padR) 12px var(--padL);min-height:100vh;display:grid;grid-template-rows:auto auto 1fr auto;justify-items:center}
 /* ステージ幅：ピアノに合わせて中央に */
 .controls,
-#pianoArea{position:relative;display:flex;justify-content:center;align-items:stretch;margin:6px auto 0;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:visible;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;flex:1}
+#pianoArea{position:relative;display:flex;justify-content:center;align-items:stretch;margin:2px auto 0;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:visible;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;flex:1}
 #pianoArea{
   width: var(--stage-w);
   position:relative;
@@ -29,11 +29,12 @@
   align-items:center;
   justify-content:flex-start;
   gap:6px;
-  margin:6px auto 0;
+  margin:2px auto 0;
   max-width:100%;
   user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:visible;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;flex:1
 }
-    h1{font:700 18px/1.2 'Press Start 2P',monospace;margin:6px 0 12px;letter-spacing:.5px}
+    h1{font:700 18px/1.2 'Press Start 2P',monospace;margin:4px 0 6px;letter-spacing:.5px}
+    h1:empty{margin:0;height:0;padding:0}
     #overlay,.big,.segments label{font-family:'Press Start 2P',monospace}
     .card>div:first-child{font-family:'Press Start 2P',monospace;font-weight:700;letter-spacing:.3px}
 
@@ -45,7 +46,7 @@
 
     .btnRow{display:flex;gap:var(--btn-gap);justify-content:center;align-items:center;flex-wrap:nowrap;padding:2px 0;min-width:0;width:100%}
     @media (max-width:480px){
-  .btnRow{ flex-wrap:nowrap; } /* 幅はアイコン側で自動縮小 */
+  .btnRow{ flex-wrap:nowrap; }
 }
 @media (min-width:768px){.controls{gap:12px}#pianoArea{margin:10px auto 0}.btnRow{ gap:max(var(--btn-gap), 14px); }}
 
@@ -67,13 +68,12 @@
     .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
     .big{font-weight:700;font-size:20px;line-height:1.1;font-family:'Press Start 2P',monospace}
 
-    #pianoArea{position:relative;display:flex;justify-content:center;align-items:stretch;margin:6px auto 0;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:visible;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;flex:1}
+    #pianoArea{position:relative;display:flex;justify-content:center;align-items:stretch;margin:2px auto 0;max-width:100%;user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:contain;overflow:visible;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;flex:1}
     #pianoArea svg{
   display:block;width:100%;height:auto;max-height:100%;
   margin:0 auto;overflow:visible;
-  pointer-events:auto;             /* ← 追加 */
+  pointer-events:auto;
 }
-/* C/D キーのグループが確実にイベントを受けるように */
 #C1up,#C1down,#D1up,#D1down,#keys{ pointer-events:auto; }
     
     .spacer-md{height:12px}
@@ -89,19 +89,17 @@
     #resultModal .actions{display:flex;justify-content:center;margin-top:14px;padding-inline: clamp(8px, 4vw, 16px)}
     #resultModal .actions button{padding:10px 14px;background:#222;border:1px solid #444;border-radius:10px;color:#fff;cursor:pointer;font:700 12px 'Press Start 2P',monospace}
     body.playing #resultModal{display:none}
-    /* Hide inline grid when using modal */
     .grid.inlineScore{display:none}
-    .key{display:flex;align-items:center;justify-content:center;transition:transform .06s ease, filter .06s ease}/* Show Time Left only during actual gameplay (after BURST) */
-#pianoArea{ position: relative; }  /* ← 追加（基準にする） */
+    .key{display:flex;align-items:center;justify-content:center;transition:transform .06s ease, filter .06s ease}
+#pianoArea{ position: relative; }
 
 #timeCard{
   display: none;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  /* 上の余白から少し下へ食い込ませる（調整用の変数） */
   top: calc(-1 * var(--time-overlap, 10px));
-  pointer-events: none;  /* ← タップを貫通させる（鍵盤に干渉しない） */
+  pointer-events: none;
   z-index: 2;
 }
 body.running #timeCard{ display: block; }
@@ -116,7 +114,6 @@ body.running #timeCard{ display: block; }
   --btn-gap: 12px;
   --padL: max(16px, env(safe-area-inset-left));
   --padR: max(16px, env(safe-area-inset-right));
-  /* ピアノ/ボタン共通のステージ幅（最大480px） */
   --stage-w: clamp(320px, calc(100vw - var(--padL) - var(--padR) - 8px), 480px);
 }
 /* === Splash (Logo + START) state === */
@@ -128,7 +125,6 @@ body.running #timeCard{ display: block; }
 #splash .actions button{width:min(100%, 320px);align-self:center;padding:12px 16px;background:#151515;border:1px solid #444;border-radius:12px;color:#fff;cursor:pointer;font:700 14px 'Press Start 2P',monospace}
 #splash .actions button:active{transform:translateY(2px)}
 body.state-splash #splash{display:grid}
-/* hide main UI while on splash */
 body.state-splash .controls,
 body.state-splash #pianoArea,
 body.state-splash .inlineScore,
@@ -184,7 +180,7 @@ body.state-splash #resultModal{display:none !important}
       </div>
     </div>
 
-    <!-- PIANO AREA (was missing) -->
+    <!-- PIANO AREA -->
     <div id="pianoArea" aria-label="Piano Keys">
       <div class="stageStack">
         <div class="btnRow">
@@ -564,10 +560,10 @@ let running=false,counting=false,ts=[]; let scoreNum=0; // timestamps (ms)
   }
 
   // === Voice (or beep) countdown ===
-  const USE_VOICE_COUNTDOWN = true; // ビープに戻す場合は false
-  const FAST_DIGITS = false; // digits not used now
-  const BURST_RATE = 1.15;   // BURST の速さ
-  const LIVE_STABILITY = false; // 本番は false（終了後のみ）
+  const USE_VOICE_COUNTDOWN = true;
+  const FAST_DIGITS = false;
+  const BURST_RATE = 1.15;
+  const LIVE_STABILITY = false;
 
   function speakCountdown(label){
     return new Promise(async (resolve)=>{
@@ -607,7 +603,6 @@ let running=false,counting=false,ts=[]; let scoreNum=0; // timestamps (ms)
     if (running || counting) return;
     counting = true;
     resetStats();
-    // hide Time Left until BURST is spoken
     const tc=document.getElementById('timeCard'); if(tc) tc.setAttribute('aria-hidden','true');
     document.body.classList.add('playing');
     document.body.classList.add('countdown');
@@ -628,7 +623,6 @@ let running=false,counting=false,ts=[]; let scoreNum=0; // timestamps (ms)
       overlay.classList.remove('show');
       overlay.textContent = '';
       counting = false;
-      // show Time Left now that run starts
       const tc=document.getElementById('timeCard'); if(tc) tc.removeAttribute('aria-hidden');
       startRun();
     })();
@@ -702,7 +696,7 @@ let running=false,counting=false,ts=[]; let scoreNum=0; // timestamps (ms)
     rStab.textContent = (typeof stab==='number'? stab.toFixed(3) : '0.000');
     rScore.textContent = String(scoreNum).padStart(4,'0');
     resultModal.classList.add('show');
-resetKeyVisuals();
+    resetKeyVisuals();
     speakResult(scoreNum||0);
   }
 
@@ -716,7 +710,6 @@ function swapSvgVisibility(upId, downId, isDown){
 }
 
 function setKeyVisual(note, isDown){
-  // C=60, D=62。SVG に C1up/C1down, D1up/D1down がある前提
   if (note === 60) swapSvgVisibility('C1up','C1down', !!isDown);
   if (note === 62) swapSvgVisibility('D1up','D1down', !!isDown);
 }
@@ -732,7 +725,6 @@ function resetKeyVisuals(){
     const SPLIT = 0.5;       // 左右の境界（50%）
     const DEAD  = 0.015;     // ±1.5% のセンターデッドゾーン
 
-    // Diavolo ではセンター近辺で“直前と逆側”を優先して交互入力を取りこぼしにくくする
     if (mode==='D' && Math.abs(ratio - SPLIT) <= DEAD){
       return (lastAccepted === 60) ? 62 : 60;
     }
@@ -745,23 +737,20 @@ function resetKeyVisuals(){
       if (n!==60) return null; // C のみ
     } else if (mode==='D'){
       const lastT = lastTimeByNote[n] || 0;
-      // 同じキー連打は一定時間だけブロック（例: 100ms）。それ以降は許可して取りこぼしを減らす
       if (lastAccepted===n && (now - lastT) < DIAVOLO_REPEAT_BLOCK_MS) return null;
     }
     return { note:n, now };
   }
 
 function onDown(evt){
-  // どの鍵を視覚的に動かすか（E は C のみ）
+  if (!running) return;
+
   const nAnim = noteFromPos(evt);
   const allowAnim = (mode === 'E') ? (nAnim === 60) : (nAnim === 60 || nAnim === 62);
   if (allowAnim) setKeyVisual(nAnim, true);
 
-  // スコア計測・発音はゲーム中のみ
-  if (!running) return;
-
   const res = tapToNote(evt);
-  if (!res) return; // Erlkönig: C 以外は無視
+  if (!res) return;
 
   lastAccepted = res.note;
   lastTimeByNote[res.note] = res.now || performance.now();
@@ -773,11 +762,13 @@ function onDown(evt){
 }
 
 function onUp(evt){
+  if (!running) return;
   const n = noteFromPos(evt);
   const allowAnim = (mode === 'E') ? (n === 60) : (n === 60 || n === 62);
   if (allowAnim) setKeyVisual(n, false);
 }
-  // Wire piano area events (was missing)
+
+  // Wire piano area events
   if (area){
     area.addEventListener('pointerdown', onDown, {passive:true});
   }
@@ -789,6 +780,43 @@ function onUp(evt){
   btnStop.addEventListener('click', ()=> finish());
   btnCloseResult.addEventListener('click', ()=>{ resultModal.classList.remove('show'); });
   resultModal.addEventListener('click', (e)=>{ if(e.target===resultModal) resultModal.classList.remove('show'); });
+
+  // ==== Manual modal wiring ====
+  const manualModal = document.getElementById('manualModal');
+  const btnOpenManual = document.getElementById('openManual');
+  const btnCloseManual = document.getElementById('closeManual');
+  if (btnOpenManual && manualModal){
+    btnOpenManual.addEventListener('click', ()=>{
+      manualModal.classList.add('show');
+      manualModal.removeAttribute('aria-hidden');
+    });
+  }
+  if (btnCloseManual && manualModal){
+    btnCloseManual.addEventListener('click', ()=>{
+      manualModal.classList.remove('show');
+      manualModal.setAttribute('aria-hidden','true');
+    });
+  }
+  if (manualModal){
+    manualModal.addEventListener('click', (e)=>{
+      if (e.target === manualModal){
+        manualModal.classList.remove('show');
+        manualModal.setAttribute('aria-hidden','true');
+      }
+    });
+  }
+  // ESC to close manual/result
+  window.addEventListener('keydown', (e)=>{
+    if (e.key === 'Escape'){
+      if (manualModal && manualModal.classList.contains('show')){
+        manualModal.classList.remove('show');
+        manualModal.setAttribute('aria-hidden','true');
+      }
+      if (resultModal && resultModal.classList.contains('show')){
+        resultModal.classList.remove('show');
+      }
+    }
+  });
 
   // ==== iOS Safari: prevent tap-zoom & dblclick zoom ====
   (function preventIOSZoom(){
