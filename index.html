@@ -17,8 +17,8 @@
 <meta name="twitter:card" content="summary_large_image" />
 <title>DIMProductions</title>
 <style>
-@font-face {font-family:'DIMProductions';src:url('assets/fonts/DIMProductions.woff2') format('woff2');font-display: optional;}
-@font-face{font-family:'Jacquard12PV18';src:url('assets/fonts/Jacquard12-pv18.woff2') format('woff2');font-display:optional;}
+@font-face {font-family:'DIMProductions';src:url('assets/fonts/DIMProductions.woff2') format('woff2');font-display:swap;}
+@font-face{font-family:'Jacquard12PV18';src:url('assets/fonts/Jacquard12-pv18.woff2') format('woff2');font-display:swap;}
 @font-face{font-family:'Tektur-VariableFont_wdth,wght';src:url('assets/fonts/Tektur-VariableFont_wdth,wght.woff2') format('woff2');font-display:swap;}
   
   :root{
@@ -305,15 +305,14 @@
   }
   requestAnimationFrame(loop);
 })();
-</script>
-<script>
-(()=>{ 
-  const ready = Promise.all([
-    document.fonts.load('1em "Jacquard12PV18"'),
-    document.fonts.load('1em "DIMProductions"')
-  ]);
-  ready.then(()=>document.documentElement.classList.add('fonts-ready'));
-})();
+
+// Stop rain on mobile or via URL ?rain=0
+var mobile = matchMedia('(max-width: 900px), (pointer: coarse)').matches;
+if (mobile || url.searchParams.get('rain') === '0') {
+  var fxEl = document.getElementById('fx');
+  if (fxEl) fxEl.style.display = 'none';
+  return; // skip initializing rain loop
+}
 </script>
 <style>
 /* 初期はシステム系で描画 → 準備できたら本フォントに切替（無アニメ切替） */
