@@ -272,7 +272,13 @@
   if(forceLow || oldFF || weakCPU || matchMedia('(prefers-reduced-motion: reduce)').matches){
     document.documentElement.classList.add('low-power');
   }
-
+// Stop rain on mobile or via URL ?rain=0
+var mobile = matchMedia('(max-width: 900px), (pointer: coarse)').matches;
+if (mobile || url.searchParams.get('rain') === '0') {
+  var fxEl = document.getElementById('fx');
+  if (fxEl) fxEl.style.display = 'none';
+  return; // skip initializing rain loop
+}
   // Rain-only FX (no audio, no UI) — DPR capped & frame-skipped
   var c = document.getElementById('fx');
   var x = c.getContext('2d');
@@ -306,13 +312,6 @@
   requestAnimationFrame(loop);
 })();
 
-// Stop rain on mobile or via URL ?rain=0
-var mobile = matchMedia('(max-width: 900px), (pointer: coarse)').matches;
-if (mobile || url.searchParams.get('rain') === '0') {
-  var fxEl = document.getElementById('fx');
-  if (fxEl) fxEl.style.display = 'none';
-  return; // skip initializing rain loop
-}
 </script>
 <style>
 /* 初期はシステム系で描画 → 準備できたら本フォントに切替（無アニメ切替） */
