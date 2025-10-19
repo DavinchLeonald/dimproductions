@@ -17,10 +17,21 @@
 <meta name="twitter:card" content="summary_large_image" />
 <title>DIMProductions</title>
 <style>
-@font-face {font-family:'DIMProductions';src:url('assets/fonts/DIMProductions.woff2') format('woff2');font-display:swap;}
-@font-face{font-family:'Jacquard12PV18';src:url('assets/fonts/Jacquard12-pv18.woff2') format('woff2');font-display:swap;}
-@font-face{font-family:'Tektur-VariableFont_wdth,wght';src:url('assets/fonts/Tektur-VariableFont_wdth,wght.woff2') format('woff2');font-display:swap;}
-  
+@font-face{
+  font-family:'Jacquard12PV18';
+  src:url('/assets/fonts/Jacquard12-pv18.woff2') format('woff2');
+  font-display:swap;
+}
+@font-face{
+  font-family:'DIMProductions';
+  src:url('/assets/fonts/DIMProductions.woff2') format('woff2');
+  font-display:swap;
+}
+@font-face{
+  font-family:'Tektur-VariableFont_wdth,wght';
+  src:url('/assets/fonts/Tektur-VariableFont_wdth,wght.woff2') format('woff2');
+  font-display:swap;
+}
   :root{
     --ink:#00eaff;
     --bgA:#021019; --bgB:#0a0f1a;
@@ -260,47 +271,33 @@
     </div>
     <canvas id="fx"></canvas>
   </div>
+
 <script>
 (()=>{
-  // Low-power heuristics & toggle (no regex for safety)
-  var ua = navigator.userAgent || '';
-  var ix = ua.indexOf('Firefox/');
-  var oldFF = false; if(ix>=0){ var ver = parseInt(ua.slice(ix+8).split('.')[0],10); oldFF = (ver||0) < 70; }
-  var weakCPU = (navigator.hardwareConcurrency||2) <= 2;
-  var url = new URL(location.href);
-  var forceLow = url.searchParams.get('low')==='1';
-  if(forceLow || oldFF || weakCPU || matchMedia('(prefers-reduced-motion: reduce)').matches){
-    document.documentElement.classList.add('low-power');
-  }
-// Stop rain on mobile or via URL ?rain=0
-var mobile = matchMedia('(max-width: 900px), (pointer: coarse)').matches;
-if (mobile || url.searchParams.get('rain') === '0') {
-  var fxEl = document.getElementById('fx');
-  if (fxEl) fxEl.style.display = 'none';
-  return; // skip initializing rain loop
-}
-  // Rain-only FX (no audio, no UI) — DPR capped & frame-skipped
-  var c = document.getElementById('fx');
-  var x = c.getContext('2d');
-  var DPR = Math.min((window.devicePixelRatio||1), 2);
+// ==== Rain-only FX (no audio, no UI) ====
+  const c = document.getElementById('fx');
+  const x = c.getContext('2d');
+  const DPR = Math.min((window.devicePixelRatio||1), 2); // 上限2
   function fit(){ c.width=innerWidth*DPR; c.height=innerHeight*DPR; c.style.width=innerWidth+'px'; c.style.height=innerHeight+'px'; }
   fit(); addEventListener('resize',fit);
 
-  var low = document.documentElement.classList.contains('low-power');
-  var N = low ? 60 : 240;
-  var drops=[]; for(var i=0;i<N;i++){ drops.push({x:Math.random()*c.width,y:Math.random()*c.height,vy:(low?3:5)+Math.random()*(low?5:9),len:(low?8:10)+Math.random()*(low?14:22)}); }
+  const low = document.documentElement.classList.contains('low-power');
+  const N = low ? 60 : 160; // 軽量化（元240→160）
+  const drops=[];
+  for(let i=0;i<N;i++){
+    drops.push({x:Math.random()*c.width,y:Math.random()*c.height,vy:(low?3:5)+Math.random()*(low?5:9),len:(low?8:10)+Math.random()*(low?14:22)});
+  }
 
-  var acc=0;
+  let acc=0;
   function loop(){
-    var W=c.width,H=c.height;
-    if(low){ acc++; if(acc%2){ requestAnimationFrame(loop); return; } }
+    const W=c.width,H=c.height;
+    if(low){ acc++; if(acc%2){ requestAnimationFrame(loop); return; } } // 1/2フレーム
     x.clearRect(0,0,W,H);
     x.globalCompositeOperation='lighter';
     x.strokeStyle= low ? 'rgba(0,220,255,0.18)' : 'rgba(0,220,255,0.25)';
     x.lineWidth=(low?0.9:1.2)*DPR;
     x.beginPath();
-    for(var j=0;j<drops.length;j++){
-      var d=drops[j];
+    for(const d of drops){
       x.moveTo(d.x,d.y);
       x.lineTo(d.x-0.8*DPR,d.y+d.len*DPR);
       d.y+=d.vy*DPR; d.x-=0.5*DPR;
@@ -311,15 +308,7 @@ if (mobile || url.searchParams.get('rain') === '0') {
   }
   requestAnimationFrame(loop);
 })();
-
 </script>
-<style>
-/* 初期はシステム系で描画 → 準備できたら本フォントに切替（無アニメ切替） */
-.pv18{ font-family: ui-sans-serif, system-ui, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif; }
-.dim-font{ font-family: ui-sans-serif, system-ui, sans-serif; }
-.fonts-ready .pv18{ font-family: 'Jacquard12PV18', cursive; }
-.fonts-ready .dim-font{ font-family: 'DIMProductions', sans-serif; }
-</style>
 <script>
   // Footer year auto-fill (robust: runs after DOM ready)
   (function(){
