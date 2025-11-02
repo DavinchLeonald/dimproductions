@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>会社概要（About） — 合同会社DIMProductions</title>
   <meta name="description" content="合同会社DIMProductions（東京都港区南青山）の会社概要ページ。現在は販売準備中。" />
   <link rel="canonical" href="https://dim.productions/about" />
@@ -14,13 +14,13 @@
     :root{
       --ink:#cfe9ff; --bg:#04070c; --panel:#0b1220; --sub:#8fa7c3;
     }
-    html,body{height:100%}
+    html,body{height:100%;width:100%;overflow-x:hidden;}
     body{ margin:0; background:radial-gradient(1000px 70% at 50% 120%, #06101c 0%, #050a14 50%, #000 100%); color:#e8f1fb; font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans JP", Arial, sans-serif; }
-    .wrap{ min-height:100%; display:grid; place-items:center; padding:6vh 5vw; }
-    .card{ width:min(880px, 92vw); background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.2)); border:1px solid rgba(160,200,255,.18); border-radius:16px; box-shadow:0 20px 120px rgba(0,0,0,.6), inset 0 0 36px rgba(160,200,255,.08); padding:36px clamp(20px,4vw,48px); }
+    .wrap{ min-height:100%; display:flex; justify-content:center; align-items:center; padding:6vh 5vw; box-sizing:border-box; }
+    .card{ width:100%; max-width:880px; background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.2)); border:1px solid rgba(160,200,255,.18); border-radius:16px; box-shadow:0 20px 120px rgba(0,0,0,.6), inset 0 0 36px rgba(160,200,255,.08); padding:36px clamp(20px,4vw,48px); box-sizing:border-box; }
     .brand{
   font-family:'DIMProductions', sans-serif !important;
-  font-size: clamp(40px, 7vw, 48px);
+  font-size: clamp(40px, 7vw, 36px);
   font-weight:400 !important;
   line-height:1;
   letter-spacing:.02em !important;
@@ -32,33 +32,42 @@
 }
     .tag{ margin:0 0 28px; color:var(--sub); font-size:clamp(14px,2.4vw,16px); }
     .grid{ display:grid; gap:18px; }
-    .row{ display:grid; grid-template-columns:140px 1fr; gap:16px; align-items:start; }
-    .row dt{ color:#a9bfda; letter-spacing:.06em; text-transform:uppercase; font-size:12px; }
-    .row dd{ margin:0; font-size:clamp(15px,2.6vw,18px); }
-    a{ color:#cfe9ff; text-underline-offset:3px; }
-    footer{ margin-top:24px; color:#8aa4c4; font-size:13px; }
+    .row{ display:grid; grid-template-columns:minmax(100px,140px) 1fr; gap:12px; align-items:start; }
+    .row dt{ color:#a9bfda; letter-spacing:.06em; text-transform:uppercase; font-size:12px; white-space:nowrap; }
+    .row dd{ margin:0; font-size:clamp(15px,2.6vw,18px); word-break:break-word; }
+    a{ color:#cfe9ff; text-underline-offset:3px; overflow-wrap:break-word; }
+    footer{ margin-top:24px; color:#8aa4c4; font-size:13px; word-break:keep-all; }
+
+    @media (max-width:600px){
+      .card{padding:28px 18px;}
+      .row{grid-template-columns:1fr;}
+      .row dt{font-size:11px;}
+      .row dd{font-size:15px;}
+      .brand{font-size:clamp(22px,9vw,48px);}
+    }
   </style>
 </head>
 <body>
   <main class="wrap">
     <section class="card" aria-labelledby="brand">
       <h1 id="brand" class="brand">合同会社 DIMP</h1>
-      <p class="tag">This is the official About page for DIMProductions Godo Kaisha (Tokyo, Japan). The company is currently preparing for product and service launches.</p>
+      <p class="tag">This is the official About page for DIMProductions Godo Kaisha (Tokyo, Japan). The company is currently preparing for product and service launches.</p>
       <dl class="grid">
         <div class="row">
           <dt>会社名 / Company</dt>
-          <dd>合同会社DIMProductions（DIMProductions Godo Kaisha）</dd>
+          <dd>合同会社DIMProductions（DIMProductions Godo Kaisha）</dd>
         </div>
         <div class="row">
           <dt>所在地 / Address</dt>
-          <dd>6F, Aoyama Marutake Building, 3-1-36 Minami-Aoyama, Minato-ku, Tokyo, Japan</dd>
+          <dd>東京都港区南青山3丁目1番36号青山丸竹ビル6F</p>
+6F, Aoyama Marutake Building, 3-1-36 Minami-Aoyama, Minato-ku, Tokyo, Japan</dd>
         </div>
         <div class="row">
           <dt>メール / Email</dt>
           <dd><a href="mailto:info@dim.productions">info@dim.productions</a></dd>
         </div>
       </dl>
-      <p style="margin-top:2em;color:#9fb2ca;font-size:14px;">このページは販売準備中の会社概要です。正式な販売開始時に、特定商取引法に基づく表記ページ（/legal）およびプライバシーポリシー（/privacy）を追加予定です。</p>
+      <p style="margin-top:2em;color:#9fb2ca;font-size:14px;">このページは販売準備中の会社概要です。正式な販売開始時に、特定商取引法に基づく表記ページおよびプライバシーポリシーを追加予定です。</p>
       <footer>© <span id="y"></span> 合同会社DIMProductions</footer>
     </section>
   </main>
