@@ -180,7 +180,8 @@
   font-kerning: normal;
   font-variant-ligatures: none;
 }
-.txt{display:grid; place-items:center; line-height:1; font-family:'Tektur-VariableFont_wdth,wght',monospace; letter-spacing:.04em; color:#e6eef7; text-shadow:0 0 10px rgba(200,220,240,.45);}
+.txt{display:grid; place-items:center; line-height:1; font-family:'Tektur-VariableFont_wdth,wght',monospace; letter-spacing:.04em; color:#e6eef7; text-shadow:0 0 10px rgba(200,220,240,.45);} 
+.txt a.link{color:inherit;text-decoration:none;cursor:pointer;pointer-events:auto}
 
 .glitch-silver{ color:#eaf2ff !important; text-shadow:0 0 10px #d7e6ff,0 0 28px #d7e6ff !important }
 .glitch-silver::before{ color:#f6fbff !important; text-shadow:0 0 10px #eef7ff !important }
@@ -266,7 +267,9 @@
         <div class="sign h silver">
           <div class="edge"></div>
           <div class="extrude"></div>
-          <div class="txt glitch dim-font glitch-silver" lang="en" data-text="DIMP">DIMP</div>
+          <div class="txt glitch dim-font glitch-silver" lang="en" data-text="DIMP">
+            <a class="link" href="https://dim.productions/about" target="_blank" rel="noopener">DIMP</a>
+          </div>
         </div>
       </div>
     </div>
